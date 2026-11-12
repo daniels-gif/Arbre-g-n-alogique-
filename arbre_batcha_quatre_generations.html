@@ -247,6 +247,28 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 @media(max-width:620px){.sop-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:6px}.sop-tab{padding:8px 5px;font-size:11px;min-height:43px;border-radius:11px}.sop-tab span{line-height:1.2}.living-caption{padding:13px 14px}.living-scene{min-height:280px;aspect-ratio:1.25;}.living-svg{width:100%;height:100%}.living-portrait .living-person-name{display:none}.living-portrait[data-gen="1"] .living-person-name{display:block;font-size:7px;max-width:65px}.living-portrait .living-photo{width:calc(var(--diameter)*.72);height:calc(var(--diameter)*.72)}.sop-memory-controls{align-items:stretch}.sop-memory-controls label{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){.living-leaf,.living-portrait{animation:none!important;opacity:1!important;transform:translate(-50%,-50%) scale(1)}}
 @media print{.sop-tabs,.living-tree{display:none!important}.sop-page[hidden]{display:none!important}.sop-section-heading{padding:0!important}}
+
+/* Barre minimale : l'arbre est visible immédiatement, les réglages restent sur demande. */
+.tree-compact-actions{display:flex;align-items:flex-start;justify-content:center;gap:9px;flex-wrap:wrap;margin:6px auto 12px}
+.tree-compact-actions>.family-accordion{margin:0!important;max-width:none;border:1px solid #d2dbcd;border-radius:13px;background:#f7faf5;flex:0 1 auto;min-width:0}
+.tree-compact-actions>.family-accordion>summary{font:600 12px system-ui,sans-serif;min-height:37px;padding:7px 12px;gap:9px}
+.tree-compact-actions>.family-accordion>summary .accordion-chevron{font-size:17px}
+.tree-compact-actions>.tree-options-accordion{flex:0 0 auto}
+.tree-compact-actions>.explorer-accordion{flex:0 1 auto}
+.tree-compact-actions>.tree-options-accordion[open]{flex:1 1 100%;order:2}
+.tree-compact-actions>.explorer-accordion[open]{flex:1 1 100%;order:2}
+.tree-options-content{padding:9px 12px;border-top:1px solid #dee7d8}
+.tree-options-content .landscape-tools{margin:0 0 6px}
+.tree-options-content .landscape-tools .action{font-size:12px;padding:7px 12px;border-radius:10px}
+.tree-options-content .zoom-controls{margin:4px auto 0;padding:4px;gap:9px;justify-content:center}
+.tree-options-content .zoom-controls button{width:auto;min-width:35px;height:35px;font-size:16px;padding:5px 9px}
+.tree-options-content .zoom-controls input{max-width:180px}
+.tree-options-content .zoom-controls output{font-size:12px}
+#landscapeTree.landscape-active .tree-compact-actions{flex-shrink:0}
+#landscapeTree.landscape-active #treeDisplayOptions{order:0;flex:1 1 100%}
+#landscapeTree.landscape-active .tree-compact-actions>.explorer-accordion{display:none}
+@media(max-width:600px){.tree-compact-actions{gap:6px;margin:5px auto 9px}.tree-compact-actions>.family-accordion>summary{font-size:11px;padding:7px 9px;min-height:35px}.tree-compact-actions>.explorer-accordion{flex:0 1 auto}.tree-options-content{padding:8px}}
+@media print{.tree-compact-actions{display:none!important}}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji">
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🌳 <span>Arbre généalogique</span></button>
 <button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
@@ -273,14 +295,14 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 </svg>
 <div id="livingPortraits" class="living-portraits"></div>
 </div><p class="living-hint">🌿 Touchez une photo pour découvrir la personne.</p>
-</section><p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Voir en paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p><div class="tree-help">Zoom pour agrandir et cliquer pour enregistrer</div><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire">−</button><input id="treeZoom" aria-label="Zoom" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
+</section><p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><details id="treeDisplayOptions" class="family-accordion tree-options-accordion"><summary><span>⚙️ Affichage</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="tree-options-content"><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Voir en paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire">−</button><input id="treeZoom" aria-label="Zoom" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div></div></details><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
  <div class="heritage-line">
  <label>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
  <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
  </div><div id="searchResults" role="status" class="heritage-results" hidden></div>
- </div></details><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button class="action" onclick="print()">Imprimer / Enregistrer en PDF</button> <button class="action" onclick="load()">Actualiser l’arbre</button></div>
+ </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button class="action" onclick="print()">Imprimer / Enregistrer en PDF</button> <button class="action" onclick="load()">Actualiser l’arbre</button></div>
 </section>
 <section class="sop-page" id="sopEvents" data-sop-page="events" hidden>
 <header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les dates importantes pour nous retrouver et célébrer.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
@@ -391,6 +413,7 @@ async function toggleLandscape(){
  landscapeActive=true;
  const section=$('landscapeTree');
  section.classList.add('landscape-active');
+ $('treeDisplayOptions').open=true;
  $('landscapeToggle').hidden=true;$('landscapeExit').hidden=false;$('landscapeHint').hidden=false;
  try{
   if(!document.fullscreenElement&&section.requestFullscreen)await section.requestFullscreen();
