@@ -738,6 +738,7 @@ function openSopRegistration(){
  $('sopParentChoice').innerHTML='<option value="">Choisir mon parent</option>'+options.map(p=>'<option value="'+safe(p.id)+'">'+safe(familyName(p))+' · '+p.generation+'ᵉ génération</option>').join('');
  $('parent').value='';
  $('form').dataset.gen='';
+ prepareChildren(null,2);
  $('sopParentHelp').textContent='Sélectionnez votre parent pour que votre fiche apparaisse dans la bonne branche de l’arbre.';
  $('sopParentUnlock').hidden=true;
  $('sopParentCode').value='';
