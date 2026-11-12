@@ -326,12 +326,56 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 
 .sop-chat-member-preview{display:flex;align-items:center;justify-content:center;gap:12px;min-height:70px;background:#f1f6ec;border:1px solid #d9e7d1;border-radius:13px;padding:9px;color:#536e51;font-size:13px;text-align:center}
 .sop-chat-member-preview img{height:57px;width:57px;object-fit:cover;border-radius:50%;border:2px solid #c1d2b7}
-</style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji">
-<button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🌳 <span>Arbre généalogique</span></button>
+
+/* Page d’entrée : uniquement le grand arbre vivant animé. */
+#sopTabs[hidden]{display:none!important}
+#sopHome{max-width:1200px;margin:auto}
+#sopHome .family-intro{padding:12px 15px 2px;max-width:1000px;margin:0 auto}
+.sop-hero-kicker{font:700 12px system-ui,sans-serif;letter-spacing:2px;color:#7f926c;text-transform:uppercase;margin:4px 0 10px}
+#sopHome .invitation-line{font:700 clamp(18px,3vw,30px)/1.5 Georgia,serif;color:#a32734;min-height:3em;max-width:940px;margin:3px auto 11px}
+#sopHome #animatedInvite{color:#a32734}
+#sopHome .invitation-line #animatedInvite:not(.finished):after{color:#a32734}
+#sopHome .living-tree{max-width:1160px;margin:12px auto 25px}
+#sopHome .living-scene{max-height:680px}
+#sopHome .living-caption{padding:13px 20px 3px}
+.sop-hero-actions{display:flex;gap:11px;justify-content:center;align-items:center;flex-wrap:wrap;margin:2px auto 18px;padding:0 11px}
+.sop-hero-primary,.sop-hero-secondary{border-radius:25px;padding:13px 20px;font:700 14px system-ui,sans-serif;cursor:pointer;min-height:45px}
+.sop-hero-primary{background:#3a6647;color:white;border:1px solid #3a6647;box-shadow:0 4px 13px #30553a30}
+.sop-hero-secondary{background:#fffaf0;color:#3a6647;border:1px solid #b8cfb1}
+.living-leaf-add{position:absolute;z-index:7;pointer-events:auto;border-radius:45% 15% 45% 15%;background:#eff9e6e8;color:#315f39;border:2px solid #6e9f5e;box-shadow:0 4px 12px #31553155;font:700 clamp(10px,1.4vw,14px) system-ui,sans-serif;padding:9px 13px;cursor:pointer;transform:rotate(-7deg)}
+.living-leaf-add:hover{background:#d3edc9;filter:brightness(1.04)}
+.living-leaf-add-a{left:13%;top:42%}
+.living-leaf-add-b{left:70%;top:41%;transform:rotate(7deg)}
+.living-leaf-add-c{left:42%;top:13%;transform:rotate(-4deg)}
+#sopTree .family-counters{margin:10px auto 12px}
+.sop-tree-intro{text-align:center;max-width:850px;margin:10px auto 15px;padding:0 12px}
+.sop-tree-intro h1{font:600 clamp(22px,3vw,31px) Georgia,serif;margin:8px 0;color:#37563e}
+.sop-tree-intro p{font-size:13px;color:#70816a}
+.sop-back-home{background:transparent;border:none;color:#426947;text-decoration:underline;font:650 12px system-ui,sans-serif;padding:8px;cursor:pointer}
+.sop-member-gate[hidden]{display:none!important}
+.sop-member-gate{max-width:580px;margin:24px auto}
+.sop-gate-card{padding:25px 20px;border:1px solid #d7e3cf;border-radius:20px;background:#fbfdf8;text-align:center;box-shadow:0 7px 26px #35563c13}
+.sop-gate-card h2{font:600 24px Georgia,serif;color:#3c6547}
+.sop-gate-card p{color:#6e8069;font-size:13px;line-height:1.6}
+.sop-gate-card form{display:flex;flex-direction:column;gap:11px;margin:18px auto;max-width:360px;text-align:left}
+.sop-gate-card form>label{font:650 13px system-ui,sans-serif;color:#466648}
+.sop-gate-card select{min-height:44px;border:1px solid #b7cdb3;background:white;padding:9px;border-radius:9px}
+.sop-gate-card .sop-gate-note{font-size:11px}
+@media(max-width:600px){#sopHome .invitation-line{font-size:18px}.living-leaf-add{font-size:10px;padding:6px 7px}.living-leaf-add-a{left:9%;top:39%}.living-leaf-add-b{left:69%;top:39%}.living-leaf-add-c{left:40%;top:12%}.sop-hero-actions button{flex:1 1 180px;max-width:300px}}
+@media print{.living-leaf-add,.sop-hero-actions,.sop-member-gate,.sop-back-home{display:none!important}}
+</style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
+<button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
+<button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
 <button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
 <button type="button" class="sop-tab" data-sop-tab="memories">📷 <span>Souvenirs</span></button>
 <button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
-</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain"><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p><div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
+</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
+<section id="sopMemberGate" class="sop-member-gate" hidden>
+<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Sélectionnez votre fiche familiale déjà enregistrée avec votre nom et votre photo.</p>
+<form id="sopMemberGateForm"><label for="sopAccessMember">Votre nom</label><select id="sopAccessMember" required><option value="">Choisir une fiche</option></select>
+<div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Sélectionnez votre fiche.</div>
+<button type="submit" class="sop-hero-primary">Continuer</button></form>
+<p class="sop-gate-note">Cette sélection n’est pas une vérification d’identité. Aucune information privée n’est affichée ici.</p><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
 <div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
@@ -349,9 +393,15 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <path d="M273 332 Q238 283 186 256 M277 334 Q196 365 136 401 M740 320 Q769 265 806 239 M741 321 Q829 369 871 395 M265 202 Q265 155 221 111 M746 203 Q756 151 797 117 M479 165 Q414 121 389 91 M481 169 Q545 124 569 81" stroke="#95734c" stroke-width="11"/>
 </g><g id="livingLeaves"></g>
 </svg>
-<div id="livingPortraits" class="living-portraits"></div>
-</div><p class="living-hint">🌿 Touchez une photo pour découvrir la personne.</p>
-</section><p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
+<div id="livingPortraits" class="living-portraits"></div><button type="button" class="living-leaf-add living-leaf-add-a" onclick="openSopTree()" title="Ajouter à l’arbre généalogique">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-b" onclick="openSopTree()" title="Ajouter à l’arbre généalogique">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-c" onclick="openSopTree()" title="Ajouter à l’arbre généalogique">＋ Ajouter</button>
+</div><p class="living-hint">🌿 Touchez une feuille « Ajouter » pour ouvrir l’arbre généalogique. Touchez une photo pour voir la personne.</p>
+<div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()">＋ Ajouter un membre sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()">Voir l’arbre généalogique</button></div>
+</section>
+</section>
+<section class="sop-page" id="sopTree" data-sop-page="tree" hidden>
+<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’arbre animé</button><h1>Arbre généalogique · SOP Wandji</h1><p>Choisissez une branche, agrandissez l’arbre ou ajoutez votre fiche sur une feuille libre.</p></div>
+<div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
+<p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
  <div class="heritage-line">
  <label>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
@@ -661,18 +711,28 @@ renderFamilyEvents();
 
 /* Onglets et arbre vivant — lecture publique seulement, sans modifier les fiches Supabase. */
 let currentSopPage='home',livingRenderSerial=0;
+function openSopTree(){selectSopTab('tree')}
 function selectSopTab(page){
- if(!['home','events','memories','chat'].includes(page))page='home';
- if(page!=='home'&&!sopChatPerson){
+ if(!['home','tree','events','memories','chat'].includes(page))page='home';
+ // Événements et souvenirs doivent afficher la bonne rubrique, jamais le formulaire du chat.
+ if((page==='events'||page==='memories')&&!sopChatPerson){
    sopPendingTab=page;
-   page='chat';
- }
+   $('sopMemberGate').hidden=false;
+   $('sopMemberGateTitle').textContent=page==='events'?'Accéder aux événements familiaux':'Accéder aux souvenirs familiaux';
+   fillSopAccessMembers();
+ }else{$('sopMemberGate').hidden=true}
  currentSopPage=page;
- document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page});
+ const awaiting=(page==='events'||page==='memories')&&!sopChatPerson;
+ document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page||awaiting});
  document.querySelectorAll('[data-sop-tab]').forEach(btn=>{const active=btn.dataset.sopTab===page;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current')});
- if(page==='memories')refreshSopMemories();
- if(page==='chat'){if(!sopChatPerson)fillSopChatMembers();else refreshSopChat();}
- if(page==='home')requestAnimationFrame(()=>{drawFamilyLines()});
+ $('sopTabs').hidden=page==='home';
+ if(page==='memories'&&!awaiting)refreshSopMemories();
+ if(page==='events'&&!awaiting)renderFamilyEvents();
+ if(page==='chat'){
+   if(!sopChatPerson){$('sopChatGate').hidden=false;$('sopChatRoom').hidden=true;fillSopChatMembers()}
+   else{$('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;$('sopChatIdentity').textContent='Profil choisi : '+familyName(sopChatPerson);refreshSopChat()}
+ }
+ if(page==='tree')requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()});
  window.scrollTo({top:0,behavior:'instant'});
 }
 $('sopTabs').addEventListener('click',e=>{const tab=e.target.closest('[data-sop-tab]');if(tab)selectSopTab(tab.dataset.sopTab)});
@@ -745,6 +805,26 @@ function updateSopViews(){fillSopMemorySelect();renderLivingTree();if(currentSop
 /* Les rubriques familiales s’ouvrent après sélection d’une fiche avec nom et photo.
    Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
 let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
+function fillSopAccessMembers(){
+ const select=$('sopAccessMember'),old=select.value;
+ const eligible=people.filter(eligibleSopChatMember).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
+ select.innerHTML='<option value="">Choisir une fiche</option>'+eligible.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
+ if(eligible.some(p=>String(p.id)===old))select.value=old;
+ updateSopAccessPreview();
+}
+function updateSopAccessPreview(){
+ const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
+ $('sopAccessPreview').innerHTML=eligibleSopChatMember(m)?'<img src="'+familySafe(m.photo)+'" alt="Photo de la fiche"><strong>'+familySafe(familyName(m))+'</strong>':'<span>Sélectionnez votre nom pour afficher votre photo.</span>';
+}
+$('sopAccessMember').addEventListener('change',updateSopAccessPreview);
+$('sopMemberGateForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
+ if(!eligibleSopChatMember(m))return;
+ sopChatPerson=m;
+ const dest=sopPendingTab;sopPendingTab='chat';
+ selectSopTab(dest);
+});
 function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
 function fillSopChatMembers(){
  const select=$('sopChatMember');if(!select)return;
