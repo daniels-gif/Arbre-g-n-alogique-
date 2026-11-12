@@ -442,6 +442,42 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  body.tree-size-print-mode #founders{break-inside:avoid!important}
  body.tree-size-print-mode .person.add{visibility:hidden!important}
 }
+
+/* Finition haut contraste pour tirage grand format et JPEG haute définition. */
+@media print{
+ body.tree-size-print-mode{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+}
+@media print{
+ #sopTree #familyChart,#sopTree #landscapeTree,#sopTree .tree-scroll{background:#fff!important}
+ #sopTree #familyChart .person b,#sopTree #familyChart .person-view b{
+   color:#121212!important;font-weight:800!important;text-shadow:none!important;
+   background:#fff!important;opacity:1!important;
+ }
+ #sopTree #familyLines path{stroke:#151515!important;stroke-width:3.2!important;opacity:1!important;fill:none!important;vector-effect:non-scaling-stroke}
+ #sopTree #familyChart .person img,#sopTree #familyChart .person .round-avatar,
+ #sopTree #familyChart .person .memorial-avatar,
+ #sopTree #familyChart .person .memorial-bird{
+   border:3px solid #181818!important;border-radius:50%!important;
+   outline:none!important;box-shadow:none!important;background:#fff!important;
+   opacity:1!important;
+ }
+ #sopTree #familyChart .memorial-bird span{filter:grayscale(1) contrast(1.65)!important;opacity:1!important}
+ #sopTree #familyChart .generation-label{color:#171717!important;font-weight:800!important;background:#fff!important}
+}
+.tree-hd-export{background:#fff!important;color:#121212!important}
+.tree-hd-export #familyChart,.tree-hd-export .family-chart{background:#fff!important}
+.tree-hd-export .person b,.tree-hd-export .person-view b{
+ color:#111!important;font-weight:800!important;opacity:1!important;background:#fff!important;text-shadow:none!important;
+}
+.tree-hd-export #familyLines path{stroke:#151515!important;stroke-width:3.2!important;fill:none!important;opacity:1!important;vector-effect:non-scaling-stroke}
+.tree-hd-export .person img,.tree-hd-export .person .round-avatar,
+.tree-hd-export .person .memorial-avatar,.tree-hd-export .person .memorial-bird{
+ border:3px solid #161616!important;outline:none!important;box-shadow:none!important;
+ border-radius:50%!important;background:#fff!important;opacity:1!important;
+}
+.tree-hd-export .memorial-bird span{filter:grayscale(1) contrast(1.65)!important}
+.tree-hd-export .generation-label{color:#171717!important;background:#fff!important;font-weight:800!important}
+
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="400"><meta property="og:image:height" content="210"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -810,13 +846,14 @@ async function downloadTreeJpegHD(){
    const scale=Math.max(.1,ratio);
    holder=document.createElement('div');
    holder.setAttribute('aria-hidden','true');
-   holder.style.cssText='position:fixed;left:-100000px;top:0;pointer-events:none;background:#fffdf9;z-index:-1;';
+   holder.classList.add('tree-hd-export');
+   holder.style.cssText='position:fixed;left:-100000px;top:0;pointer-events:none;background:#fff;z-index:-1;';
    const frame=document.createElement('div');
-   frame.style.cssText='display:block;background:#fffdf9;box-sizing:content-box;padding:'+padding+'px;width:'+w+'px;height:'+h+'px;overflow:hidden;';
+   frame.style.cssText='display:block;background:#fff;box-sizing:content-box;padding:'+padding+'px;width:'+w+'px;height:'+h+'px;overflow:hidden;';
    clone.style.cssText='position:relative!important;zoom:1!important;transform:none!important;margin:0!important;width:'+w+'px!important;max-width:none!important;overflow:visible!important;';
    frame.appendChild(clone);holder.appendChild(frame);document.body.appendChild(holder);
    await new Promise(resolve=>requestAnimationFrame(resolve));
-   const url=await imageLib.toJpeg(frame,{quality:.97,pixelRatio:scale,backgroundColor:'#fffdf9',cacheBust:false,skipAutoScale:false,canvasWidth:Math.round((w+padding*2)*scale),canvasHeight:Math.round((h+padding*2)*scale)});
+   const url=await imageLib.toJpeg(frame,{quality:.97,pixelRatio:scale,backgroundColor:'#fff',cacheBust:false,skipAutoScale:false,canvasWidth:Math.round((w+padding*2)*scale),canvasHeight:Math.round((h+padding*2)*scale)});
    const anchor=document.createElement('a');
    anchor.href=url;
    anchor.download='Arbre_genealogique_SOP_WANDJI_HD.jpg';
