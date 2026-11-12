@@ -611,6 +611,28 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .sop-feed-comment-form input{flex:1;min-width:0;border:1px solid #c2d1bc;border-radius:11px;padding:10px;font:inherit}
 .sop-feed-comment-form button{flex-shrink:0}
 .issued-code [data-invite-mail]{margin:9px auto 3px;display:block;font-size:13px}
+
+/* Aperçu de l'arbre : contours neutres, sans effets colorés ni halos.
+   Les photos conservent leurs couleurs originales. */
+#livingPortraits .living-portrait .living-photo{
+  border:2px solid #c7cbbf!important;
+  outline:none!important;
+  box-shadow:0 2px 7px #23342622!important;
+  background:#fffdf7!important;
+}
+#livingPortraits .living-portrait.lineage-active{
+  filter:none!important;
+}
+#livingPortraits .living-portrait.lineage-active .living-photo{
+  box-shadow:0 2px 7px #23342622!important;
+}
+.living-lineage-svg path{
+  stroke:#9da99d!important;
+  filter:none!important;
+  animation:none!important;
+  stroke-dasharray:none!important;
+}
+.living-generation-legend{display:none!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -627,7 +649,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
 <p class="sop-gate-note">Pas encore inscrit ? Ajoutez votre fiche sur l’arbre généalogique pour obtenir un code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
-<div class="living-generation-legend" aria-label="Couleurs des générations"><span style="--legend:#a77b2f"><i aria-hidden="true"></i>1ʳᵉ génération · Or</span><span style="--legend:#794fa1"><i aria-hidden="true"></i>2ᵉ · Violet</span><span style="--legend:#176e83"><i aria-hidden="true"></i>3ᵉ · Bleu</span><span style="--legend:#397e4b"><i aria-hidden="true"></i>4ᵉ · Vert</span></div><div id="livingScene" class="living-scene">
+<div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
 <linearGradient id="livingTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#765239"/><stop offset=".5" stop-color="#aa865b"/><stop offset="1" stop-color="#5e422d"/></linearGradient>
 <radialGradient id="livingSky"><stop offset="0" stop-color="#fcfbec"/><stop offset="1" stop-color="#e8f0df"/></radialGradient>
