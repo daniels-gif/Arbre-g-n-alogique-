@@ -190,6 +190,63 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .events-accordion{max-width:1100px;margin:14px auto}
 @media(max-width:600px){.family-accordion>summary{padding:10px 12px;font-size:14px;min-height:42px}.family-accordion .accordion-preview{font-size:11px}}
 @media print{.family-accordion{border:none;overflow:visible}.family-accordion>summary{display:none!important}.family-accordion:not([open])>*:not(summary){display:none!important}}
+
+/* Navigation familiale : l'arbre, les compteurs et l'exploration occupent seuls l'accueil. */
+.sop-tabs{display:flex;gap:7px;justify-content:center;align-items:center;flex-wrap:wrap;max-width:1250px;margin:12px auto 4px;padding:7px 11px;position:relative;z-index:3}
+.sop-tab{display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid #c4d4bc;background:#fbfaf4;color:#3b5842;border-radius:24px;padding:11px 15px;min-height:42px;font:600 13px system-ui,sans-serif;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s}
+.sop-tab:hover{background:#e9f2e4;transform:translateY(-1px)}
+.sop-tab.active{background:#385b42;color:#fff;border-color:#385b42;box-shadow:0 4px 11px #35544030}
+.sop-page[hidden]{display:none!important}
+.sop-page{min-height:240px}
+.sop-section-heading{background:none!important;text-align:center;padding:19px 10px 12px!important}
+.sop-section-heading span{font-size:11px;letter-spacing:2px;color:#8c8666}
+.sop-section-heading h1{font:600 clamp(25px,4vw,35px) Georgia,serif;color:#3d5b42;margin:9px 0}
+.sop-section-heading p{color:#71816b;font-size:14px}
+#sopEvents .family-events{margin:12px auto 25px}
+.sop-memory-controls{display:flex;align-items:end;justify-content:center;gap:10px;flex-wrap:wrap;padding:15px;background:#f1f5ec;border:1px solid #d9e4d3;border-radius:14px;max-width:1050px;margin:12px auto}
+.sop-memory-controls label,.sop-protected label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:#536d56}
+.sop-memory-controls select,.sop-protected input{padding:10px;border-radius:9px;border:1px solid #bfcdbb;background:#fff;min-width:230px;max-width:100%;font:inherit}
+.sop-memory-controls .action{margin:0;min-height:40px}
+.sop-public-memories{max-width:1050px;margin:15px auto 30px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:13px}
+.sop-public-memories .sop-memory-card{background:#fffdf7;border:1px solid #dce5d6;border-radius:13px;padding:13px;box-shadow:0 4px 16px #385b4210}
+.sop-memory-card img{width:100%;height:146px;object-fit:cover;border-radius:9px}
+.sop-memory-card h3{font:600 17px Georgia,serif;color:#385b42;margin:8px 0}
+.sop-memory-card p{color:#647565;font-size:13px;white-space:pre-line;line-height:1.5;max-height:150px;overflow:auto}
+.sop-protected{max-width:650px;margin:10px auto 35px;border:1px solid #d4dfc9;background:#fbfcf5;border-radius:19px;text-align:center;padding:23px}
+.sop-protected-icon{font-size:39px}
+.sop-protected h2{font:600 22px Georgia,serif;color:#395f43}
+.sop-protected p{line-height:1.5;color:#637663}
+.sop-protected label{align-items:center;margin:15px auto}
+.sop-protected .action{margin-top:12px}
+.sop-birthdays{max-width:890px;margin:15px auto;padding:16px}
+.sop-birthday-card{background:#fffef9;border:1px solid #dfe9d6;border-radius:12px;padding:13px;margin-bottom:9px;display:flex;align-items:center;gap:14px}
+.sop-birthday-date{border-radius:10px;padding:9px 12px;background:#e6efe2;font-weight:700;color:#426b43;min-width:73px;text-align:center}
+/* Dessin feuillu animé qui précède l'arbre généalogique détaillé. */
+.living-tree{max-width:1090px;margin:17px auto 20px;border-radius:23px;border:1px solid #d0dfc4;overflow:hidden;background:#f5f7ec;box-shadow:0 10px 32px #426a3818}
+.living-caption{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:15px 22px 8px;flex-wrap:wrap}
+.living-caption h2{font:600 clamp(21px,3vw,29px) Georgia,serif;color:#426343;margin:3px 0 4px}
+.living-caption p{margin:0;color:#71836a;font-size:12px;line-height:1.5}
+.living-kicker{letter-spacing:2px;color:#9b926e;font-size:10px;font-weight:700}
+.living-replay{background:#fff9e9;border:1px solid #cdd9c1;border-radius:18px;color:#486747;padding:9px 13px;cursor:pointer}
+.living-scene{position:relative;width:100%;aspect-ratio:1000/600;max-height:560px;overflow:hidden}
+.living-svg{width:100%;height:100%;display:block}
+.living-portraits{position:absolute;inset:0;pointer-events:none}
+.living-portrait{pointer-events:auto;position:absolute;transform:translate(-50%,-50%) scale(.4);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;cursor:pointer;border:0;background:transparent;min-width:0;padding:0;animation:livingAppear .75s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--delay)}
+.living-portrait .living-photo{position:relative;display:flex;align-items:center;justify-content:center;width:var(--diameter);height:var(--diameter);border-radius:50%;background:linear-gradient(145deg,#e5ecda,#b1cda5);border:3px solid #fff8ec;box-shadow:0 2px 0 #bfa978,0 4px 15px #36563e50;overflow:hidden}
+.living-portrait img{width:100%;height:100%;object-fit:cover}
+.living-portrait .living-initial{font:700 15px Georgia,serif;color:#446443}
+.living-portrait .living-person-name{background:#fffdf7e8;border:1px solid #dfdac4;color:#3a513c;border-radius:8px;padding:2px 5px;font:600 9px system-ui,sans-serif;margin-top:3px;max-width:90px;text-align:center;line-height:1.2;overflow-wrap:anywhere}
+.living-portrait[data-gen="1"] .living-photo{border-color:#f6dfab;box-shadow:0 0 0 2px #b9a16e,0 6px 20px #5b5d3040}
+.living-portrait[data-gen="2"] .living-photo{border-color:#f8eacf}
+.living-portrait[data-gen="4"] .living-photo{border-color:#d1e5c5}
+.living-portrait:hover{z-index:10;filter:brightness(1.07)}
+.living-hint{text-align:center;font-size:12px;color:#657d5f;margin:3px 0 13px}
+.living-leaf{transform-box:fill-box;transform-origin:center;animation:leafSway 3.8s ease-in-out infinite alternate;animation-delay:var(--sway)}
+@keyframes leafSway{0%{transform:rotate(-4deg)}100%{transform:rotate(5deg)}}
+@keyframes livingAppear{0%{opacity:0;transform:translate(-50%,-40%) scale(.4)}65%{opacity:1}100%{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@media(max-width:620px){.sop-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:6px}.sop-tab{padding:8px 5px;font-size:11px;min-height:43px;border-radius:11px}.sop-tab span{line-height:1.2}.living-caption{padding:13px 14px}.living-scene{min-height:280px;aspect-ratio:1.25;}.living-svg{width:100%;height:100%}.living-portrait .living-person-name{display:none}.living-portrait[data-gen="1"] .living-person-name{display:block;font-size:7px;max-width:65px}.living-portrait .living-photo{width:calc(var(--diameter)*.72);height:calc(var(--diameter)*.72)}.sop-memory-controls{align-items:stretch}.sop-memory-controls label{flex:1 1 100%}}
+@media(prefers-reduced-motion:reduce){.living-leaf,.living-portrait{animation:none!important;opacity:1!important;transform:translate(-50%,-50%) scale(1)}}
+@media print{.sop-tabs,.living-tree{display:none!important}.sop-page[hidden]{display:none!important}.sop-section-heading{padding:0!important}}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji">
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🌳 <span>Arbre généalogique</span></button>
 <button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
@@ -308,7 +365,7 @@ function descendantsMarkup(p,gen,branchIndex,slot){
  virtualPeople.set(p.id,p);
  return '<div class="descendant">'+(p.emptyChild?(String(p.id).startsWith('ngankwa-child-')?'<div class="person empty-fourth"><span class="round-avatar" aria-hidden="true">🍃</span><b>Enfant à renseigner</b></div>':person(null,p.parent_id,gen)):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
 }
-function render(){virtualPeople=new Map();const roots=people.filter(p=>p.generation===1).sort((a,b)=>(a.position||0)-(b.position||0));$('founders').innerHTML=roots.map(p=>person(p,null,1)).join('');const branches=people.filter(p=>p.generation===2).sort((a,b)=>(a.position||0)-(b.position||0)),counts=[7,5,4,4,4,5,1,6];$('tree').innerHTML=branches.map((p,i)=>{const kids=children(p.id),slots=Math.max(counts[i],kids.length);const third=Array.from({length:slots},(_,j)=>{const k=kids[j]||virtualChild(p,i,j);return k?descendantsMarkup(k,3,i,j):'<div class="descendant">'+person(null,p.id,3)+'</div>'}).join('');return '<div class="branch">'+person(p,null,2)+'<div class="vertical-line"></div><div class="children">'+third+'</div></div>'}).join('');$('loading').hidden=true;updateCounters();initFamilyTools();requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()})}
+function render(){virtualPeople=new Map();const roots=people.filter(p=>p.generation===1).sort((a,b)=>(a.position||0)-(b.position||0));$('founders').innerHTML=roots.map(p=>person(p,null,1)).join('');const branches=people.filter(p=>p.generation===2).sort((a,b)=>(a.position||0)-(b.position||0)),counts=[7,5,4,4,4,5,1,6];$('tree').innerHTML=branches.map((p,i)=>{const kids=children(p.id),slots=Math.max(counts[i],kids.length);const third=Array.from({length:slots},(_,j)=>{const k=kids[j]||virtualChild(p,i,j);return k?descendantsMarkup(k,3,i,j):'<div class="descendant">'+person(null,p.id,3)+'</div>'}).join('');return '<div class="branch">'+person(p,null,2)+'<div class="vertical-line"></div><div class="children">'+third+'</div></div>'}).join('');$('loading').hidden=true;updateCounters();initFamilyTools();updateSopViews();requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()})}
 function updateCounters(){const online=document.body.dataset.offline!=='true';const unique=[...new Map([...people,...virtualPeople.values()].filter(p=>p.id&&[p.surname,p.firstname].some(name=>String(name||'').trim())).map(p=>[p.id,p])).values()];$('countTotal').textContent=online?unique.length:'—';for(const gen of [2,3,4])$('countGen'+gen).textContent=online?unique.filter(p=>p.generation===gen).length:'—'}
 function animateInvitation(){const target=$('animatedInvite'),message='Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.';if(!target)return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=message;return}let i=0;const letters=Array.from(message);function next(){target.textContent=letters.slice(0,++i).join('');if(i<letters.length)setTimeout(next,32);else target.classList.add('finished')}next()}
 function drawFamilyLines(){const chart=$('familyChart'),svg=$('familyLines');if(!chart||!svg)return;const w=chart.scrollWidth,h=chart.scrollHeight;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('width',w);svg.setAttribute('height',h);const box=chart.getBoundingClientRect(),scale=box.width/chart.offsetWidth,mid=el=>{const r=el.getBoundingClientRect();return {x:(r.left-box.left+r.width/2)/scale,y:(r.top-box.top)/scale,b:(r.bottom-box.top)/scale}};const segments=[];const line=(x1,y1,x2,y2)=>segments.push(`<path d="M${x1} ${y1} L${x2} ${y2}"/>`);const connect=(parents,children)=>{if(!parents.length||!children.length)return;const ps=parents.map(mid),cs=children.map(mid);const fromX=ps.reduce((n,p)=>n+p.x,0)/ps.length;const startY=Math.max(...ps.map(p=>p.b))+5;const endY=Math.min(...cs.map(c=>c.y))-5;const barY=(startY+endY)/2;ps.forEach(p=>line(p.x,p.b,p.x,barY));if(cs.length>1)line(Math.min(...cs.map(c=>c.x)),barY,Math.max(...cs.map(c=>c.x)),barY);line(fromX,barY,fromX,startY);cs.forEach(c=>line(c.x,barY,c.x,c.y));};const founders=[...$('founders').querySelectorAll('.person')];const branches=[...$('tree').querySelectorAll(':scope > .branch')].filter(b=>!b.hidden);if(!$('familyChart').classList.contains('branch-focused'))connect(founders,branches.map(b=>b.querySelector(':scope > .person')).filter(Boolean));branches.forEach(b=>{const parent=b.querySelector(':scope > .person');const third=[...b.querySelectorAll(':scope > .children > .descendant > .person')];connect([parent],third);b.querySelectorAll('.descendant').forEach(d=>{const p=d.querySelector(':scope > .person');const fourth=[...d.querySelectorAll(':scope > .grandchildren > .descendant > .person')];connect([p],fourth)})});svg.innerHTML=segments.join('')};window.addEventListener('resize',()=>requestAnimationFrame(drawFamilyLines));window.addEventListener('beforeprint',drawFamilyLines);let editRequest=0,pinTarget=null,recoveryTarget=null,issuedCodes=[];
@@ -507,6 +564,108 @@ function renderFamilyEvents(){
  }).join(''):'<p>Aucun événement familial inscrit pour ce mois.</p>';
 }
 renderFamilyEvents();
+
+
+/* Onglets et arbre vivant — lecture publique seulement, sans modifier les fiches Supabase. */
+let currentSopPage='home',livingRenderSerial=0;
+function selectSopTab(page){
+ if(!['home','events','memories','history','birthdays'].includes(page))page='home';
+ currentSopPage=page;
+ document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page});
+ document.querySelectorAll('[data-sop-tab]').forEach(btn=>{const active=btn.dataset.sopTab===page;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current')});
+ if(page==='memories')refreshSopMemories();
+ if(page==='home')requestAnimationFrame(()=>{drawFamilyLines()});
+ window.scrollTo({top:0,behavior:'instant'});
+}
+$('sopTabs').addEventListener('click',e=>{const tab=e.target.closest('[data-sop-tab]');if(tab)selectSopTab(tab.dataset.sopTab)});
+function livingPeople(){
+ const all=[...people,...virtualPeople.values()].filter(p=>p.id&&p.generation>=1&&p.generation<=4&&[p.surname,p.firstname].some(x=>String(x||'').trim())&&!p.emptyChild);
+ const known=new Set();return all.filter(p=>{const k=String(p.id);if(known.has(k))return false;known.add(k);return true}).sort((a,b)=>a.generation-b.generation||(a.position||0)-(b.position||0));
+}
+function drawLivingLeaves(){
+ const group=$('livingLeaves');if(!group||group.dataset.drawn)return;
+ let seed=731;const rand=()=>{seed=(seed*16807)%2147483647;return(seed%10000)/10000};
+ const ellipses=[[270,210,210,145],[731,209,207,151],[492,162,173,145],[238,332,154,101],[762,338,161,105],[490,315,173,120]];
+ const palette=['#59865b','#739e64','#a3bd7b','#c8d79b','#7ba977','#5b8e69','#a6bc81','#8caf76'];
+ let nodes='';
+ for(let j=0;j<480;j++){
+   const n=ellipses[Math.floor(rand()*ellipses.length)],theta=rand()*6.283,rad=Math.sqrt(rand());
+   const x=n[0]+Math.cos(theta)*rad*n[2],y=n[1]+Math.sin(theta)*rad*n[3];
+   const rx=5+rand()*8,ry=11+rand()*12,rot=Math.floor(rand()*360),clr=palette[Math.floor(rand()*palette.length)],opacity=.57+rand()*.32;
+   nodes+='<ellipse class="living-leaf" cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="'+clr+'" opacity="'+opacity.toFixed(2)+'" transform="rotate('+rot+' '+x.toFixed(1)+' '+y.toFixed(1)+')" style="--sway:-'+(rand()*3).toFixed(1)+'s"></ellipse>';
+ }
+ group.innerHTML=nodes;group.dataset.drawn='true';
+}
+function renderLivingTree(){
+ if(!$('livingPortraits'))return;
+ drawLivingLeaves();
+ const groups=new Map();for(const p of livingPeople()){const a=groups.get(p.generation)||[];a.push(p);groups.set(p.generation,a)}
+ const positions={
+ 1:[[44,76],[56,76]],
+ 2:[[14,47],[24,39],[34,29],[43,35],[57,35],[67,29],[77,39],[87,47]],
+ 3:[[9,19],[18,15],[27,22],[36,15],[45,20],[55,20],[64,15],[73,22],[82,15],[91,19],[15,62],[28,59],[72,59],[85,62]],
+ 4:[[8,66],[16,69],[24,66],[32,73],[40,66],[48,70],[56,67],[64,74],[72,66],[80,69],[88,66],[12,29],[21,27],[79,27],[88,29]]
+ };
+ let sequence=0;const parts=[];
+ for(const gen of [1,2,3,4]){
+ const group=groups.get(gen)||[];
+ for(let i=0;i<group.length;i++){
+  const p=group[i],slots=positions[gen],base=slots[i%slots.length],row=Math.floor(i/slots.length);
+  const px=Math.min(95,Math.max(5,base[0]+(row%2?2:-2)*row)),py=Math.min(83,Math.max(9,base[1]+(row%3-1)*5));
+  const diameter=gen===1?'64px':gen===2?'53px':gen===3?'42px':'34px';
+  const img=p.photo?'<img src="'+familySafe(p.photo)+'" alt="">':'<span class="living-initial">'+familySafe((p.firstname||p.surname||'?').slice(0,1).toUpperCase())+'</span>';
+  parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.17).toFixed(2)+'s" title="'+familySafe(familyName(p))+'"><span class="living-photo">'+img+'</span><span class="living-person-name">'+familySafe(familyName(p))+'</span></button>');
+ }
+ }
+ $('livingPortraits').innerHTML=parts.join('');
+}
+function replayLivingTree(){renderLivingTree()}
+$('livingPortraits').addEventListener('click',e=>{
+ const el=e.target.closest('[data-living-id]');if(!el)return;
+ const p=livingPeople().find(m=>String(m.id)===el.dataset.livingId);
+ if(p)showPublicPhoto(p);
+});
+function fillSopMemorySelect(){
+ const select=$('sopMemoryPerson');if(!select)return;
+ const old=select.value;select.innerHTML='<option value="">Choisir une personne enregistrée</option>'+people.filter(p=>[p.surname,p.firstname].some(x=>String(x||'').trim())).sort((a,b)=>a.generation-b.generation).map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
+ if([...select.options].some(o=>o.value===old))select.value=old;
+}
+async function refreshSopMemories(){
+ await fetchMemories();const gallery=$('sopPublicMemories');if(!gallery)return;
+ const bios=memories.biographies||[],photos=memories.photos||[],ids=[...new Set([...bios.map(p=>p.person_id),...photos.map(p=>p.person_id)])];
+ if(!ids.length){gallery.innerHTML='<div class="sop-memory-card"><h3>Notre album familial</h3><p>Les premiers récits et photos apparaîtront ici dès leur publication par les membres autorisés.</p></div>';return}
+ gallery.innerHTML=ids.map(id=>{
+ const person=people.find(p=>String(p.id)===String(id)),bio=bios.find(b=>b.person_id===id),pictures=photos.filter(p=>p.person_id===id);
+ return '<article class="sop-memory-card">'+(pictures[0]?'<img loading="lazy" src="'+familySafe(pictures[0].photo_data)+'" alt="'+familySafe(pictures[0].title)+'">':'')+'<h3>'+familySafe(familyName(person)||'Souvenir familial')+'</h3>'+(bio?'<p>'+familySafe(bio.narrative)+'</p>':'')+'<small>'+pictures.length+' photo(s)</small><p><button type="button" class="action" data-sop-memory-id="'+familySafe(id)+'">Voir les souvenirs</button></p></article>';
+ }).join('');
+}
+$('sopPublicMemories').addEventListener('click',e=>{const b=e.target.closest('[data-sop-memory-id]');if(b)openMemory(b.dataset.sopMemoryId)});
+function openMemorySelected(){const id=$('sopMemoryPerson').value;if(!id){alert('Choisissez une personne.');return}openMemory(id)}
+function openSopHistory(){
+ const code=$('sopHistoryCode').value.trim();if(!code){$('sopHistoryCode').focus();return}
+ window.open('historique_batcha_corrige.html#access='+encodeURIComponent(code),'_blank','noopener,noreferrer');
+ $('sopHistoryCode').value='';
+}
+async function loadSopBirthdays(){
+ const code=$('sopBirthdayCode').value.trim(),msg=$('sopBirthdayMessage'),out=$('sopBirthdayResults');
+ if(!code){msg.textContent='Entrez le code de l’historique familial.';return}
+ msg.textContent='Vérification de l’accès…';
+ try{
+ const list=await api('rpc/batcha_history_people',{p_secret:code});
+ if(!Array.isArray(list))throw Error('Réponse inattendue');
+ const today=new Date();
+ const birthdays=list.filter(p=>!p.deceased&&(p.birth_day&&p.birth_month||p.birth_date)).map(p=>{
+  const parts=String(p.birth_date||'').split('-'),month=Number(p.birth_month||parts[1]),day=Number(p.birth_day||parts[2]);
+  if(!month||!day)return null;const next=new Date(today.getFullYear(),month-1,day,12);
+  if(next<new Date(today.getFullYear(),today.getMonth(),today.getDate()))next.setFullYear(next.getFullYear()+1);
+  return {name:familyName(p),next};
+ }).filter(Boolean).sort((a,b)=>a.next-b.next);
+ out.hidden=false;$('sopBirthdayGate').hidden=true;
+ out.innerHTML='<h2>Les prochains anniversaires</h2>'+(birthdays.length?birthdays.map(b=>'<article class="sop-birthday-card"><span class="sop-birthday-date">'+familySafe(new Intl.DateTimeFormat('fr-CA',{day:'numeric',month:'short'}).format(b.next))+'</span><strong>'+familySafe(b.name)+'</strong></article>').join(''):'<p>Aucune date disponible.</p>');
+ $('sopBirthdayCode').value='';
+ }catch(err){msg.textContent='Accès refusé ou calendrier indisponible. Vérifiez le code.'}
+}
+function updateSopViews(){fillSopMemorySelect();renderLivingTree();if(currentSopPage==='memories')refreshSopMemories()}
 
 let childDrafts=[];
 function prepareChildren(p,gen){$('childrenForm').hidden=gen!==3;childDrafts=gen===3&&p&&!p.virtual?children(p.id).map(k=>({...k,...privateProfiles.get(k.id)})):[];$('childrenCount').min=childDrafts.length;$('childrenCount').value=childDrafts.length;renderChildFields()}
