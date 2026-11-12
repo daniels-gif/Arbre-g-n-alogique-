@@ -390,8 +390,18 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 #overlay.sop-register-mode .sop-registration-parent>label{color:#333d32}
 
 /* Classement horizontal des frères et sœurs de l'aîné au dernier selon leur rang. */
-.branch>.children{flex-direction:row!important;align-items:flex-start;justify-content:flex-start;overflow-x:auto;overflow-y:hidden;max-width:min(380px,85vw)}
-.branch>.children>.descendant{min-width:118px;flex:0 0 118px}
+/* Garder la fratrie entière visible sur l'arbre défilant : pas de sous-fenêtre tronquée. */
+#tree>.branch>.children{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:flex-start!important;justify-content:center!important;overflow:visible!important;width:max-content!important;max-width:none!important;min-width:100%;gap:10px;padding-bottom:16px}
+#tree>.branch>.children>.descendant{min-width:112px;flex:0 0 112px}
+#sopTree .tree-scroll{overflow:auto;overscroll-behavior-x:contain;touch-action:pan-x pan-y}
+#sopTree .person b{overflow-wrap:normal;word-break:normal}
+@media(max-width:680px){
+ #sopTree .tree-scroll{min-height:48vh}
+ #sopTree .family-chart{padding-top:10px}
+ #sopTree .tree-help{font-size:13px}
+ #tree>.branch>.children{gap:8px}
+ #sopTree .sop-tree-intro p{font-size:13px}
+}
 .family-welcome-panel{max-width:410px;text-align:center;border:2px solid #e3cb8e;box-shadow:0 20px 65px #1e3f2b50}
 .family-welcome-tree{font-size:64px;margin-bottom:12px}
 .family-welcome-panel h2{color:#356646;font-family:Georgia,serif}
@@ -563,7 +573,21 @@ function birthParts(p){const full=String(p?.birth_date||'').split('-');return {d
 function sameBirth(a,b){const x=birthParts(a),y=birthParts(b);return ['day','month','year'].every(k=>String(x[k]||'')===String(y[k]||''))}
 function fullBirthDate(p){const b=birthParts(p);return b.year&&b.month&&b.day?String(b.year).padStart(4,'0')+'-'+String(b.month).padStart(2,'0')+'-'+String(b.day).padStart(2,'0'):null}
 function childBirthFields(c){const b=birthParts(c),months=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];return '<div class="birth-parts"><label>Jour *<input data-child="birth_day" type="number" min="1" max="31" required inputmode="numeric" value="'+safe(b.day||'')+'"></label><label>Mois *<select data-child="birth_month" required><option value="">Choisir</option>'+months.map((name,i)=>'<option value="'+(i+1)+'" '+(Number(b.month)===i+1?'selected':'')+'>'+name+'</option>').join('')+'</select></label><label>Année (facultative)<input data-child="birth_year" type="number" min="1" max="9999" inputmode="numeric" value="'+safe(b.year||'')+'"></label></div>'}
-function openProfile(id,parent,gen){if(document.body.dataset.offline==='true'){alert('Mode aperçu : connectez-vous au site en ligne pour modifier les profils.');return}const p=privateProfiles.get(id)||people.find(x=>x.id===id)||virtualPeople.get(id)||null;if(p?.deceased){showPublicPhoto(p);return}$('form').reset();$('phone').required=false;$('photo').required=!p?.photo;$('form').dataset.gen=gen;$('pid').value=p?.virtual?'':(id||'');$('parent').value=parent||'';$('formtitle').textContent=p?'Modifier un profil':'Ajouter un descendant';$('profileMemoriesBtn').hidden=!p?.id||!!p?.virtual||!profileAccess.has(p.id);for(const [k,v] of [['surname',p?.surname],['firstname',p?.firstname],['gender',p?.gender]])$(k).value=v||'';const parts=birthParts(p);$('birthDay').value=parts.day||'';$('birthMonth').value=parts.month||'';$('birthYear').value=parts.year||'';$('birthRank').value=p?.birth_rank||'';$('birthRank').required=!(p?.id&&!p.virtual)&&Number(gen)>1;$('phone').value='';$('phone').dataset.loaded='';$('error').textContent='';prepareChildren(p,gen);$('overlay').classList.add('open');$('surname').focus();if(p?.id&&!p?.virtual&&profileAccess.has(p.id)){loadPrivatePhone(p.id,profileAccess.get(p.id))}}let zoomReady=false;function setTreeZoom(value){const z=Math.max(15,Math.min(150,Number(value)));$('familyChart').style.zoom=z/100;$('treeZoom').value=z;$('zoomValue').textContent=Math.round(z)+' %';zoomReady=true;requestAnimationFrame(drawFamilyLines)}function fitTree(){const w=$('familyChart').offsetWidth,available=document.querySelector('.tree-scroll').clientWidth;setTreeZoom(Math.min(70,Math.floor(available/w*100)))}
+function openProfile(id,parent,gen){if(document.body.dataset.offline==='true'){alert('Mode aperçu : connectez-vous au site en ligne pour modifier les profils.');return}const p=privateProfiles.get(id)||people.find(x=>x.id===id)||virtualPeople.get(id)||null;if(p?.deceased){showPublicPhoto(p);return}$('form').reset();$('phone').required=false;$('photo').required=!p?.photo;$('form').dataset.gen=gen;$('pid').value=p?.virtual?'':(id||'');$('parent').value=parent||'';$('formtitle').textContent=p?'Modifier un profil':'Ajouter un descendant';$('profileMemoriesBtn').hidden=!p?.id||!!p?.virtual||!profileAccess.has(p.id);for(const [k,v] of [['surname',p?.surname],['firstname',p?.firstname],['gender',p?.gender]])$(k).value=v||'';const parts=birthParts(p);$('birthDay').value=parts.day||'';$('birthMonth').value=parts.month||'';$('birthYear').value=parts.year||'';$('birthRank').value=p?.birth_rank||'';$('birthRank').required=!(p?.id&&!p.virtual)&&Number(gen)>1;$('phone').value='';$('phone').dataset.loaded='';$('error').textContent='';prepareChildren(p,gen);$('overlay').classList.add('open');$('surname').focus();if(p?.id&&!p?.virtual&&profileAccess.has(p.id)){loadPrivatePhone(p.id,profileAccess.get(p.id))}}let zoomReady=false;function setTreeZoom(value){const z=Math.max(15,Math.min(150,Number(value)));$('familyChart').style.zoom=z/100;$('treeZoom').value=z;$('zoomValue').textContent=Math.round(z)+' %';zoomReady=true;requestAnimationFrame(drawFamilyLines)}function centerTreeOnFounders(){
+ const area=document.querySelector('#sopTree .tree-scroll'),root=$('founders');
+ if(!area||!root||area.clientWidth===0)return;
+ const ar=area.getBoundingClientRect(),fr=root.getBoundingClientRect();
+ area.scrollLeft=Math.max(0,area.scrollLeft+(fr.left+fr.width/2)-(ar.left+ar.width/2));
+ area.scrollTop=0;
+}
+function fitTree(){
+ const w=$('familyChart').offsetWidth,area=document.querySelector('#sopTree .tree-scroll');
+ if(!area||!w)return;
+ const mobile=window.matchMedia('(max-width:680px)').matches;
+ const ideal=Math.floor(area.clientWidth/w*100);
+ setTreeZoom(mobile?Math.max(55,Math.min(75,ideal)):Math.max(15,Math.min(70,ideal)));
+ if(mobile)requestAnimationFrame(centerTreeOnFounders);
+}
 
 let landscapeActive=false;
 async function toggleLandscape(){
