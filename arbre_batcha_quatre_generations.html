@@ -323,6 +323,9 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .sop-chat-shortcut span:first-child{font-size:20px;line-height:1}
 @media(max-width:480px){.sop-chat-shortcut{right:10px;bottom:calc(13px + env(safe-area-inset-bottom));padding:10px 13px;gap:6px;font-size:12px;min-height:44px}}
 @media print{.sop-chat-shortcut{display:none!important}}
+
+.sop-chat-member-preview{display:flex;align-items:center;justify-content:center;gap:12px;min-height:70px;background:#f1f6ec;border:1px solid #d9e7d1;border-radius:13px;padding:9px;color:#536e51;font-size:13px;text-align:center}
+.sop-chat-member-preview img{height:57px;width:57px;object-fit:cover;border-radius:50%;border:2px solid #c1d2b7}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji">
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🌳 <span>Arbre généalogique</span></button>
 <button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
@@ -378,17 +381,17 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <div class="chat-family-shell">
 <div id="sopChatGate" class="chat-family-login">
  <h2>Entrer dans le salon</h2>
- <p>Pour protéger les échanges, identifiez-vous avec votre fiche familiale et votre code personnel.</p>
+ <p>Choisissez votre fiche familiale. Votre nom et votre photo doivent déjà être enregistrés pour accéder aux rubriques.</p>
  <form id="sopChatLogin">
  <label for="sopChatMember">Votre nom</label><select id="sopChatMember" required><option value="">Choisir sa fiche</option></select>
- <label for="sopChatPin">Votre code personnel</label><input id="sopChatPin" type="password" inputmode="numeric" maxlength="2" pattern="[0-9]{2}" autocomplete="off" placeholder="••" required>
+ <div id="sopChatMemberPreview" class="sop-chat-member-preview" aria-live="polite"></div>
  <button type="submit" class="action" id="sopChatJoin">Accéder au salon</button>
  </form>
  <p id="sopChatLoginMessage" role="status" class="chat-family-feedback"></p>
- <small>Un code personnel est nécessaire. Les messages restent invisibles aux visiteurs non connectés.</small>
+ <small>Le choix d’une fiche ne vérifie pas l’identité. Ne partagez aucune information privée dans le salon.</small>
 </div>
 <div id="sopChatRoom" hidden>
- <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Se déconnecter</button></div>
+ <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
  <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
@@ -660,11 +663,15 @@ renderFamilyEvents();
 let currentSopPage='home',livingRenderSerial=0;
 function selectSopTab(page){
  if(!['home','events','memories','chat'].includes(page))page='home';
+ if(page!=='home'&&!sopChatPerson){
+   sopPendingTab=page;
+   page='chat';
+ }
  currentSopPage=page;
  document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page});
  document.querySelectorAll('[data-sop-tab]').forEach(btn=>{const active=btn.dataset.sopTab===page;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current')});
  if(page==='memories')refreshSopMemories();
- if(page==='chat'){fillSopChatMembers();if(sopChatToken)refreshSopChat();}
+ if(page==='chat'){if(!sopChatPerson)fillSopChatMembers();else refreshSopChat();}
  if(page==='home')requestAnimationFrame(()=>{drawFamilyLines()});
  window.scrollTo({top:0,behavior:'instant'});
 }
@@ -735,45 +742,53 @@ function openMemorySelected(){const id=$('sopMemoryPerson').value;if(!id){alert(
 function updateSopViews(){fillSopMemorySelect();renderLivingTree();if(currentSopPage==='memories')refreshSopMemories()}
 
 
-/* Chat familial : aucun numéro ni message n'est exposé sans accès de fiche. */
-let sopChatToken=null,sopChatPerson=null,sopChatBusy=false,sopChatLastSignature='';
+/* Les rubriques familiales s’ouvrent après sélection d’une fiche avec nom et photo.
+   Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
+let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
+function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
 function fillSopChatMembers(){
  const select=$('sopChatMember');if(!select)return;
  const selected=select.value;
- const members=people.filter(p=>p.code_set===true&&p.deceased!==true&&p.generation>=2).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
+ const members=people.filter(eligibleSopChatMember).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
  select.innerHTML='<option value="">Choisir sa fiche</option>'+members.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
  if(members.some(p=>String(p.id)===selected))select.value=selected;
- $('sopChatLoginMessage').textContent=members.length?'':'Les membres doivent d’abord enregistrer leur fiche et recevoir leur code personnel.';
+ $('sopChatLoginMessage').textContent=members.length?'':'Aucune fiche avec nom et photo disponible. Enregistrez d’abord votre photo sur votre profil.';
+ updateSopChatMemberPreview();
 }
+function updateSopChatMemberPreview(){
+ const id=$('sopChatMember').value,member=people.find(p=>String(p.id)===id);
+ $('sopChatMemberPreview').innerHTML=eligibleSopChatMember(member)?'<img src="'+familySafe(member.photo)+'" alt="Photo de la fiche sélectionnée"><span>'+familySafe(familyName(member))+'</span>':'<span>Sélectionnez votre nom pour voir la photo enregistrée.</span>';
+}
+$('sopChatMember').addEventListener('change',updateSopChatMemberPreview);
 $('sopChatLogin').addEventListener('submit',async e=>{
  e.preventDefault();if(!$('sopChatLogin').reportValidity())return;
- const id=$('sopChatMember').value,pin=$('sopChatPin').value,member=people.find(p=>String(p.id)===id);
- if(!member||!member.code_set||member.deceased){$('sopChatLoginMessage').textContent='Choisissez une fiche enregistrée avec un code personnel.';return}
- $('sopChatJoin').disabled=true;$('sopChatLoginMessage').textContent='Vérification du code…';
+ const id=$('sopChatMember').value,member=people.find(p=>String(p.id)===id);
+ if(!eligibleSopChatMember(member)){$('sopChatLoginMessage').textContent='Une fiche enregistrée avec nom et photo est nécessaire.';return}
+ $('sopChatJoin').disabled=true;$('sopChatLoginMessage').textContent='Ouverture du salon…';
  try{
- const response=await api('rpc/batcha_open_with_code',{p_id:id,p_code:pin});
- if(response.error)throw Error(response.error);
- if(!response.access||response.readonly)throw Error('Accès au salon refusé.');
- await api('rpc/batcha_chat_read',{p_person_id:id,p_access:response.access});
- sopChatToken=response.access;sopChatPerson=member;
- $('sopChatPin').value='';$('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
- $('sopChatIdentity').textContent='Connecté : '+familyName(member);
+ await api('rpc/batcha_chat_registered_read',{p_person_id:id});
+ sopChatPerson=member;
+ $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
+ $('sopChatIdentity').textContent='Profil choisi : '+familyName(member);
  $('sopChatLoginMessage').textContent='';sopChatLastSignature='';
- await refreshSopChat();$('sopChatText').focus();
+ const destination=sopPendingTab;
+ sopPendingTab='chat';
+ if(destination!=='chat')selectSopTab(destination);
+ else await refreshSopChat();
  }catch(err){$('sopChatLoginMessage').textContent=err.message||'Connexion impossible.'}
  finally{$('sopChatJoin').disabled=false}
 });
 function leaveSopChat(){
- sopChatToken=null;sopChatPerson=null;sopChatLastSignature='';
+ sopChatPerson=null;sopPendingTab='chat';sopChatLastSignature='';
  $('sopChatGate').hidden=false;$('sopChatRoom').hidden=true;
  $('sopChatMessages').textContent='';$('sopChatText').value='';$('sopChatStatus').textContent='';
- $('sopChatPin').value='';
+ $('sopChatMember').value='';updateSopChatMemberPreview();selectSopTab('home');
 }
 async function refreshSopChat(){
- if(currentSopPage!=='chat'||!sopChatToken||!sopChatPerson||sopChatBusy)return;
+ if(currentSopPage!=='chat'||!sopChatPerson||sopChatBusy)return;
  sopChatBusy=true;
  try{
- const messages=await api('rpc/batcha_chat_read',{p_person_id:sopChatPerson.id,p_access:sopChatToken});
+ const messages=await api('rpc/batcha_chat_registered_read',{p_person_id:sopChatPerson.id});
  const signature=JSON.stringify(messages.map(m=>m.id));
  if(signature!==sopChatLastSignature){
  const area=$('sopChatMessages'),stick=area.scrollHeight-area.scrollTop-area.clientHeight<90;
@@ -786,20 +801,20 @@ async function refreshSopChat(){
  sopChatLastSignature=signature;
  }
  $('sopChatStatus').textContent='';
- }catch(err){$('sopChatStatus').textContent='Impossible de charger les messages : '+err.message;if(/Accès|expir/i.test(err.message))leaveSopChat()}
+ }catch(err){$('sopChatStatus').textContent='Impossible de charger les messages : '+err.message}
  finally{sopChatBusy=false}
 }
 $('sopChatCompose').addEventListener('submit',async e=>{
- e.preventDefault();if(!sopChatToken||!sopChatPerson)return;
+ e.preventDefault();if(!sopChatPerson)return;
  const message=$('sopChatText').value.trim();if(!message||message.length>500)return;
  $('sopChatSend').disabled=true;$('sopChatStatus').textContent='';
  try{
- await api('rpc/batcha_chat_send',{p_person_id:sopChatPerson.id,p_access:sopChatToken,p_message:message});
+ await api('rpc/batcha_chat_registered_send',{p_person_id:sopChatPerson.id,p_message:message});
  $('sopChatText').value='';await refreshSopChat();
  }catch(err){$('sopChatStatus').textContent=err.message}
  finally{$('sopChatSend').disabled=false}
 });
-setInterval(()=>{if(currentSopPage==='chat'&&sopChatToken&&document.visibilityState==='visible')refreshSopChat()},10000);
+setInterval(()=>{if(currentSopPage==='chat'&&sopChatPerson&&document.visibilityState==='visible')refreshSopChat()},10000);
 
 let childDrafts=[];
 function prepareChildren(p,gen){$('childrenForm').hidden=gen!==3;childDrafts=gen===3&&p&&!p.virtual?children(p.id).map(k=>({...k,...privateProfiles.get(k.id)})):[];$('childrenCount').min=childDrafts.length;$('childrenCount').value=childDrafts.length;renderChildFields()}
