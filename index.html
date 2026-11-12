@@ -1459,14 +1459,14 @@ $('sopFeedPosts').addEventListener('click',async e=>{
 let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
 function fillSopAccessMembers(){
  const select=$('sopAccessMember'),old=select.value;
- const eligible=people.filter(eligibleSopChatMember).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
+ const eligible=people.filter(p=>p&&!p.deceased&&p.code_set&&p.id).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
  select.innerHTML='<option value="">Choisir une fiche</option>'+eligible.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
  if(eligible.some(p=>String(p.id)===old))select.value=old;
  updateSopAccessPreview();
 }
 function updateSopAccessPreview(){
  const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
- $('sopAccessPreview').innerHTML=eligibleSopChatMember(m)?'<img src="'+familySafe(m.photo)+'" alt="Photo de la fiche"><strong>'+familySafe(familyName(m))+'</strong>':'<span>Sélectionnez votre nom pour afficher votre photo.</span>';
+ $('sopAccessPreview').innerHTML=m&&m.code_set&&!m.deceased?(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo de la fiche">':'')+'<strong>'+familySafe(familyName(m))+'</strong>':'<span>Sélectionnez votre nom pour continuer.</span>';
 }
 $('sopAccessMember').addEventListener('change',updateSopAccessPreview);
 $('sopMemberGateForm').addEventListener('submit',async e=>{
