@@ -227,7 +227,7 @@ const ADDITIONAL_GRANDCHILDREN=[
  {1:['K.','Gishlaine']},
  {1:['Chuenkou','Rodrigue']},
  {1:['Fosto','Stella']},
- {1:['Ntonmomba','Liliane']},
+ {1:['Ntonmomba','Liliane'],2:['Tanko','Franck'],3:['Tanko','Patrick']},
  {1:['Yandjio','Raïssa'],3:['Chuegoc','Larry']},
  {1:['Sidie','Inès']},
  {}
@@ -250,9 +250,19 @@ function person(p,parent,gen){
 }
 let virtualPeople=new Map();
 function descendantsMarkup(p,gen,branchIndex,slot){
- const isPatrick=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='djonkou'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick';const actualKids=p.virtual?[]:children(p.id);const kids=p.virtual?(gen===3&&branchIndex===2&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick'?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfried',generation:4,virtual:true}]:[]):actualKids;if(isPatrick){while(kids.length<3)kids.push({id:'placeholder-patrick-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true})}
+ const isPatrick=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='djonkou'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick';
+ const actualKids=p.virtual?[]:children(p.id);
+ const kids=p.virtual?(gen===3&&branchIndex===2&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick'?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfried',generation:4,virtual:true}]:[]):[...actualKids];
+ if(isPatrick){while(kids.length<3)kids.push({id:'placeholder-patrick-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true})}
+ // Comptes confirmés pour les quatre petits-enfants de NGANKWA Geneviève.
+ if(gen===3&&branchIndex===4){
+ const first=(p.firstname||'').trim().toLocaleLowerCase('fr');
+ const last=(p.surname||'').trim().toLocaleLowerCase('fr');
+ const target=first==='nadine'&&last==='leutah'?4:first==='liliane'?1:first==='franck'&&last==='tanko'?1:first==='patrick'&&last==='tanko'?2:0;
+ while(kids.length<target)kids.push({id:'ngankwa-child-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+ }
  virtualPeople.set(p.id,p);
- return '<div class="descendant">'+(p.emptyChild?person(null,p.parent_id,gen):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
+ return '<div class="descendant">'+(p.emptyChild?(String(p.id).startsWith('ngankwa-child-')?'<div class="person empty-fourth"><span class="round-avatar" aria-hidden="true">🍃</span><b>Enfant à renseigner</b></div>':person(null,p.parent_id,gen)):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
 }
 function render(){virtualPeople=new Map();const roots=people.filter(p=>p.generation===1).sort((a,b)=>(a.position||0)-(b.position||0));$('founders').innerHTML=roots.map(p=>person(p,null,1)).join('');const branches=people.filter(p=>p.generation===2).sort((a,b)=>(a.position||0)-(b.position||0)),counts=[7,5,4,4,4,5,1,6];$('tree').innerHTML=branches.map((p,i)=>{const kids=children(p.id),slots=Math.max(counts[i],kids.length);const third=Array.from({length:slots},(_,j)=>{const k=kids[j]||virtualChild(p,i,j);return k?descendantsMarkup(k,3,i,j):'<div class="descendant">'+person(null,p.id,3)+'</div>'}).join('');return '<div class="branch">'+person(p,null,2)+'<div class="vertical-line"></div><div class="children">'+third+'</div></div>'}).join('');$('loading').hidden=true;updateCounters();initFamilyTools();requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()})}
 function updateCounters(){const online=document.body.dataset.offline!=='true';const unique=[...new Map([...people,...virtualPeople.values()].filter(p=>p.id&&[p.surname,p.firstname].some(name=>String(name||'').trim())).map(p=>[p.id,p])).values()];$('countTotal').textContent=online?unique.length:'—';for(const gen of [2,3,4])$('countGen'+gen).textContent=online?unique.filter(p=>p.generation===gen).length:'—'}
