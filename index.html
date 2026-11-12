@@ -487,7 +487,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
  </div><div id="searchResults" role="status" class="heritage-results" hidden></div>
- </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button type="button" class="action" onclick="printTreeSize('A2')">🖨️ Imprimer A2</button> <button type="button" class="action" onclick="printTreeSize('A1')">🖨️ Imprimer A1</button> <button type="button" class="action" onclick="printTreeSize('A0')">🖨️ Imprimer A0</button> <button class="action" onclick="load()">Actualiser l’arbre</button></div>
+ </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button type="button" class="action" onclick="printTreeSize('A2')">🖨️ Imprimer A2</button> <button type="button" class="action" onclick="printTreeSize('A1')">🖨️ Imprimer A1</button> <button type="button" class="action" onclick="printTreeSize('A0')">🖨️ Imprimer A0</button> <button type="button" class="action" id="downloadTreeJpeg" onclick="downloadTreeJpegHD()">📷 Télécharger JPEG HD</button>  <button class="action" onclick="load()">Actualiser l’arbre</button></div>
 </section>
 <section class="sop-page" id="sopEvents" data-sop-page="events" hidden>
 <header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les dates importantes pour nous retrouver et célébrer.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
@@ -771,6 +771,70 @@ async function makeFamilyBook(){
 window.addEventListener('afterprint',()=>{document.body.classList.remove('book-print-mode')});
 
 
+
+
+/* Export JPEG haute définition, arbre complet sans les outils de navigation. */
+let treeJpegLibraryPromise;
+function loadTreeJpegLibrary(){
+ if(window.htmlToImage?.toJpeg)return Promise.resolve(window.htmlToImage);
+ if(!treeJpegLibraryPromise)treeJpegLibraryPromise=new Promise((resolve,reject)=>{
+   const lib=document.createElement('script');
+   lib.src='https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js';
+   lib.onload=()=>window.htmlToImage?.toJpeg?resolve(window.htmlToImage):reject(new Error('Le module JPEG est indisponible.'));
+   lib.onerror=()=>reject(new Error('Impossible de charger le module JPEG. Vérifiez la connexion Internet.'));
+   document.head.appendChild(lib);
+ }).catch(e=>{treeJpegLibraryPromise=null;throw e});
+ return treeJpegLibraryPromise;
+}
+async function downloadTreeJpegHD(){
+ const button=document.getElementById('downloadTreeJpeg');
+ if(button?.disabled)return;
+ const chart=$('familyChart'),selector=$('branchSelect');
+ const oldZoom=chart.style.zoom,oldBranch=selector?.value||'';
+ let holder=null;
+ if(button){button.disabled=true;button.textContent='Préparation du JPEG HD…'}
+ try{
+   const imageLib=await loadTreeJpegLibrary();
+   if(oldBranch)setFamilyBranch('');
+   chart.style.zoom='1';
+   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+   drawFamilyLines();
+   const clone=chart.cloneNode(true);
+   clone.removeAttribute('id');
+   clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+   clone.querySelectorAll('.person.add,.person:not(.person-saved)[data-gen] .emoji').forEach(el=>{if(el.classList.contains('add'))el.style.visibility='hidden'});
+   const w=Math.ceil(chart.scrollWidth),h=Math.ceil(chart.scrollHeight);
+   if(!w||!h)throw new Error('L’arbre n’est pas encore chargé.');
+   const padding=48;
+   const wantedWidth=Math.max(5200,w*2.8);
+   const ratio=Math.min(3.5,10000/(w+padding*2),Math.sqrt(32000000/((w+padding*2)*(h+padding*2))),wantedWidth/(w+padding*2));
+   const scale=Math.max(.1,ratio);
+   holder=document.createElement('div');
+   holder.setAttribute('aria-hidden','true');
+   holder.style.cssText='position:fixed;left:-100000px;top:0;pointer-events:none;background:#fffdf9;z-index:-1;';
+   const frame=document.createElement('div');
+   frame.style.cssText='display:block;background:#fffdf9;box-sizing:content-box;padding:'+padding+'px;width:'+w+'px;height:'+h+'px;overflow:hidden;';
+   clone.style.cssText='position:relative!important;zoom:1!important;transform:none!important;margin:0!important;width:'+w+'px!important;max-width:none!important;overflow:visible!important;';
+   frame.appendChild(clone);holder.appendChild(frame);document.body.appendChild(holder);
+   await new Promise(resolve=>requestAnimationFrame(resolve));
+   const url=await imageLib.toJpeg(frame,{quality:.97,pixelRatio:scale,backgroundColor:'#fffdf9',cacheBust:false,skipAutoScale:false,canvasWidth:Math.round((w+padding*2)*scale),canvasHeight:Math.round((h+padding*2)*scale)});
+   const anchor=document.createElement('a');
+   anchor.href=url;
+   anchor.download='Arbre_genealogique_SOP_WANDJI_HD.jpg';
+   document.body.appendChild(anchor);
+   anchor.click();
+   anchor.remove();
+ }catch(error){
+   console.error('Téléchargement JPEG HD :',error);
+   alert('Le JPEG HD n’a pas pu être généré sur cet appareil. '+(error?.message||'Essayez sur un ordinateur ou utilisez l’impression PDF.'));
+ }finally{
+   holder?.remove();
+   chart.style.zoom=oldZoom;
+   if(oldBranch)setFamilyBranch(oldBranch);
+   requestAnimationFrame(drawFamilyLines);
+   if(button){button.disabled=false;button.textContent='📷 Télécharger JPEG HD'}
+ }
+}
 
 /* Formats poster : A2/A1/A0 paysage, cadrage automatique sur une feuille. */
 let treePrintState=null;
