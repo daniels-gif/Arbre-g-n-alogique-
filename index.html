@@ -516,7 +516,8 @@ function virtualChild(parent,index,slot){
  return {id:'virtual-'+index,parent_id:parent.id,surname,firstname,generation:3,deceased:index===6,status_verified:index===6,memorialBird:index===6,virtual:true};
 }
 function person(p,parent,gen){
- const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe([p.surname,p.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' '))):'Ajouter';
+ const displaySurname=p?.surname&&gen>=3&&!/(^|\s)wandji(\s|$)/i.test(p.surname)?p.surname+' Wandji':p?.surname;
+ const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe([displaySurname,p.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' '))):'Ajouter';
  const memorial=!!p?.deceased;
  const photo=memorial&&!p?.photo?'<span class="round-avatar memorial-bird" aria-label="En mémoire de cette personne décédée"><span aria-hidden="true">🕊️</span></span>':p?.photo?'<img class="profile-photo '+(p.status_verified&&p.deceased?'deceased':'')+'" src="'+safe(p.photo)+'" alt="Photo de la personne">':'<span class="emoji round-avatar" aria-label="Photo non renseignée">+</span>';
  const attrs=' data-id="'+safe(p?.id||'')+'" data-parent="'+safe(parent||'')+'" data-gen="'+gen+'"';
