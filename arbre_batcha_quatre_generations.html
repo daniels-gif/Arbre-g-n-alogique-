@@ -505,7 +505,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .living-lineage-svg path{stroke:#ffd572;stroke-width:4;fill:none;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 5px #e9b94e);stroke-dasharray:8 7;animation:lineage-flow 9s linear infinite}
 @keyframes lineage-flow{to{stroke-dashoffset:-120}}
 #livingPortraits{z-index:4}
-#livingPortraits.has-lineage .living-portrait:not(.lineage-active){opacity:.33!important;filter:grayscale(.45)}
+#livingPortraits.has-lineage .living-portrait:not(.lineage-active){opacity:.33!important;filter:none}
 #livingPortraits .living-portrait.lineage-active{opacity:1!important;z-index:8;filter:drop-shadow(0 0 9px #f4c15f)}
 #livingPortraits .living-portrait.lineage-active .living-photo{box-shadow:0 0 0 4px #f8d574,0 0 16px 7px #f3c45f!important}
 .living-lineage-clear{border:1px solid #bca36b;border-radius:18px;background:#fff9e8;color:#35523b;padding:8px 11px;cursor:pointer;font:600 12px system-ui,sans-serif}
@@ -1723,6 +1723,45 @@ function premiumCanvasPhoto(im,cutout){
  ctx.restore();
  return canvas.toDataURL('image/jpeg',.85);
 }
+
+// Contrôle des portraits vivants : ne pas enregistrer une image réellement en noir et blanc.
+// L'échantillon provient du fichier original, avant amélioration et ajout du fond.
+async function sopIsMonochromePhoto(file){
+ if(!file)return false;
+ const url=URL.createObjectURL(file);
+ try{
+  const img=await premiumImage(url),canvas=document.createElement('canvas');
+  const scale=Math.min(1,160/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+  canvas.width=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+  canvas.height=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+  const context=canvas.getContext('2d',{willReadFrequently:true});
+  if(!context)return false;
+  context.drawImage(img,0,0,canvas.width,canvas.height);
+  const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
+  let neutral=0,chromatic=0;
+  for(let i=0;i<pixels.length;i+=16){
+   if(pixels[i+3]<180)continue;
+   const r=pixels[i],g=pixels[i+1],b=pixels[i+2];
+   const spread=Math.max(r,g,b)-Math.min(r,g,b);
+   if(spread<9)neutral++;
+   else if(spread>=20)chromatic++;
+  }
+  return neutral>90&&chromatic<Math.max(4,neutral*.012);
+ }finally{URL.revokeObjectURL(url)}
+}
+async function sopCheckLivingPhotosBeforeSave(){
+ const files=[$('photo')?.files?.[0]];
+ if(Number($('form').dataset.gen)===3){
+  rememberChildFields();
+  childDrafts.forEach(child=>{if(!child.deceased&&child.file)files.push(child.file)});
+ }
+ for(const file of files){
+  if(file&&await sopIsMonochromePhoto(file)){
+   throw Error('Photo noir et blanc refusée pour une personne vivante. Ajoutez une photo originale en couleur.');
+  }
+ }
+}
+
 async function photoData(file){
  if(!file)return null;
  const original=await premiumReadOriginal(file);
@@ -1758,7 +1797,7 @@ $('save').addEventListener('click',()=>{
  if(sopRegistrationForm.checkValidity())$('error').textContent='';
  else if(!$('error').textContent)$('error').textContent='Complétez les champs obligatoires avant d’enregistrer.';
 });
-$('form').addEventListener('submit',async e=>{e.preventDefault();if(!$('form').reportValidity())return;$('save').disabled=true;$('save').textContent='Enregistrement…';let pending=false;try{const parent={id:$('pid').value||null,parent_id:$('parent').value||null,surname:$('surname').value,firstname:$('firstname').value,gender:$('gender').value,birth_day:Number($('birthDay').value)||null,birth_month:Number($('birthMonth').value)||null,birth_year:Number($('birthYear').value)||null,birth_rank:Number($('birthRank').value)||null,newPhoto:null,originalPhoto:null};const parentPortrait=await photoData($('photo').files[0]);if(parentPortrait){parent.newPhoto=parentPortrait.enhanced;parent.originalPhoto=parentPortrait.original;if(!parentPortrait.detoured)$('error').textContent='La photo a été améliorée, mais le détourage automatique n’est pas disponible sur cet appareil.';}const old=privateProfiles.get(parent.id)||people.find(p=>p.id===parent.id),norm=v=>String(v||'').trim().toLocaleLowerCase('fr');const changed=!old||norm(old.surname)!==norm(parent.surname)||norm(old.firstname)!==norm(parent.firstname)||(old.gender||'')!==parent.gender||!sameBirth(old,parent)||(Number(old?.birth_rank)||0)!==(Number(parent.birth_rank)||0)||parent.newPhoto||!old?.code_set;if(changed){const before=new Set(people.map(p=>p.id)),wasNew=!parent.id;pending=(await submitProfile(parent))==='pending';if(wasNew){await refreshSavedId(parent,before);$('pid').value=parent.id}}
+$('form').addEventListener('submit',async e=>{e.preventDefault();if(!$('form').reportValidity())return;$('save').disabled=true;$('save').textContent='Enregistrement…';let pending=false;try{await sopCheckLivingPhotosBeforeSave();const parent={id:$('pid').value||null,parent_id:$('parent').value||null,surname:$('surname').value,firstname:$('firstname').value,gender:$('gender').value,birth_day:Number($('birthDay').value)||null,birth_month:Number($('birthMonth').value)||null,birth_year:Number($('birthYear').value)||null,birth_rank:Number($('birthRank').value)||null,newPhoto:null,originalPhoto:null};const parentPortrait=await photoData($('photo').files[0]);if(parentPortrait){parent.newPhoto=parentPortrait.enhanced;parent.originalPhoto=parentPortrait.original;if(!parentPortrait.detoured)$('error').textContent='La photo a été améliorée, mais le détourage automatique n’est pas disponible sur cet appareil.';}const old=privateProfiles.get(parent.id)||people.find(p=>p.id===parent.id),norm=v=>String(v||'').trim().toLocaleLowerCase('fr');const changed=!old||norm(old.surname)!==norm(parent.surname)||norm(old.firstname)!==norm(parent.firstname)||(old.gender||'')!==parent.gender||!sameBirth(old,parent)||(Number(old?.birth_rank)||0)!==(Number(parent.birth_rank)||0)||parent.newPhoto||!old?.code_set;if(changed){const before=new Set(people.map(p=>p.id)),wasNew=!parent.id;pending=(await submitProfile(parent))==='pending';if(wasNew){await refreshSavedId(parent,before);$('pid').value=parent.id}}
 await savePrivatePhone(parent.id);
 await savePrivateEmail(parent.id);
 if(Number($('form').dataset.gen)===3){rememberChildFields();const count=Number($('childrenCount').value);for(let i=0;i<count;i++){const child=childDrafts[i];if(child.deceased)continue;child.parent_id=parent.id;const childPortrait=await photoData(child.file);child.newPhoto=childPortrait?.enhanced||null;child.originalPhoto=childPortrait?.original||null;const oldChild=privateProfiles.get(child.id)||people.find(p=>p.id===child.id);if(oldChild&&norm(oldChild.surname)===norm(child.surname)&&norm(oldChild.firstname)===norm(child.firstname)&&(oldChild.gender||'')===(child.gender||'')&&sameBirth(oldChild,child)&&(Number(oldChild.birth_rank)||0)===(Number(child.birth_rank)||0)&&!child.newPhoto&&oldChild.code_set)continue;const before=new Set(people.map(p=>p.id)),wasNewChild=!child.id;const outcome=await submitProfile(child);pending=pending||outcome==='pending';if(wasNewChild)await refreshSavedId(child,before);child.photo=child.newPhoto||child.photo;child.file=null;child.newPhoto=null}}
