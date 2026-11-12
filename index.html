@@ -711,6 +711,7 @@ renderFamilyEvents();
 
 /* Onglets et arbre vivant — lecture publique seulement, sans modifier les fiches Supabase. */
 let currentSopPage='home',livingRenderSerial=0;
+let sopTreeFirstOpen=false;
 function openSopTree(){selectSopTab('tree')}
 function selectSopTab(page){
  if(!['home','tree','events','memories','chat'].includes(page))page='home';
@@ -732,7 +733,7 @@ function selectSopTab(page){
    if(!sopChatPerson){$('sopChatGate').hidden=false;$('sopChatRoom').hidden=true;fillSopChatMembers()}
    else{$('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;$('sopChatIdentity').textContent='Profil choisi : '+familyName(sopChatPerson);refreshSopChat()}
  }
- if(page==='tree')requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()});
+ if(page==='tree')requestAnimationFrame(()=>{if(!sopTreeFirstOpen){sopTreeFirstOpen=true;fitTree()}else drawFamilyLines()});
  window.scrollTo({top:0,behavior:'instant'});
 }
 $('sopTabs').addEventListener('click',e=>{const tab=e.target.closest('[data-sop-tab]');if(tab)selectSopTab(tab.dataset.sopTab)});
