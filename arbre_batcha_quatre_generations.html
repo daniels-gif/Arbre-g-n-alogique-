@@ -289,10 +289,38 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 
 .living-memorial-bird{font-size:clamp(14px,2.4vw,26px);line-height:1;filter:grayscale(1)}
 @media(max-width:600px){.sop-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Salon familial réservé aux profils déverrouillés. */
+.chat-family-shell{max-width:800px;margin:12px auto 32px;border:1px solid #d2dec8;background:#fffdf7;border-radius:20px;padding:18px;box-shadow:0 7px 28px #3b5a4311}
+.chat-family-login{max-width:445px;margin:10px auto 18px;text-align:center}
+.chat-family-login h2{font:600 23px Georgia,serif;color:#416047}
+.chat-family-login p,.chat-family-login small{color:#61745e;font-size:13px;line-height:1.6}
+.chat-family-login form{display:flex;flex-direction:column;gap:9px;text-align:left;margin:17px auto}
+.chat-family-login label{font-size:13px;font-weight:650;color:#466247}
+.chat-family-login select,.chat-family-login input{border:1px solid #bbceb4;border-radius:10px;padding:12px;min-height:43px;background:white;color:#324d35;font:inherit}
+.chat-family-login .action{margin-top:8px}
+.chat-family-feedback{font-size:12px;color:#875a36;min-height:17px}
+.chat-family-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid #dce7d4}
+.chat-family-heading strong{font:600 18px Georgia,serif;color:#365840}
+.chat-family-heading small{display:block;font-size:11px;color:#74866c;margin-top:3px}
+.chat-family-exit{padding:8px 11px;border:1px solid #b9cbb5;border-radius:18px;color:#506e4d;background:#f9faf4;cursor:pointer}
+.chat-family-messages{display:flex;flex-direction:column;gap:10px;min-height:280px;height:min(50vh,450px);overflow-y:auto;padding:16px 8px}
+.chat-family-message{max-width:83%;align-self:flex-start;background:#f0f3e9;border:1px solid #d5e1d0;border-radius:14px 14px 14px 4px;padding:9px 12px;overflow-wrap:anywhere}
+.chat-family-message.mine{align-self:flex-end;background:#e0f0dd;border-color:#b4d1b0;border-radius:14px 14px 4px 14px}
+.chat-family-message .author{font-size:11px;font-weight:750;color:#4d704d}
+.chat-family-message .body{white-space:pre-wrap;font-size:14px;color:#334b37;margin:5px 0;line-height:1.45}
+.chat-family-message time{font-size:10px;color:#819078}
+.chat-family-compose{display:flex;gap:9px;align-items:end;border-top:1px solid #dce7d4;padding-top:13px}
+.chat-family-compose textarea{flex:1;min-width:0;resize:vertical;min-height:52px;border:1px solid #bbceb4;border-radius:12px;padding:12px;font:inherit;color:#304e38}
+.chat-family-compose button{min-height:45px}
+#sopChatRoom>small{color:#7c8a77;font-size:11px}
+@media(max-width:600px){.chat-family-shell{padding:11px}.chat-family-messages{height:48vh;padding:9px 3px}.chat-family-compose{gap:5px}.chat-family-compose button{padding:10px}.chat-family-message{max-width:93%}}
+@media print{#sopChat{display:none!important}}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-batcha-danielechatouelle-4923.vercel.app/apercu-batcha.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji">
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🌳 <span>Arbre généalogique</span></button>
 <button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
 <button type="button" class="sop-tab" data-sop-tab="memories">📷 <span>Souvenirs</span></button>
+<button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
 </nav><main id="sopMain"><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p><div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
 <div id="livingScene" class="living-scene">
@@ -337,6 +365,29 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <header class="sop-section-heading"><span>PHOTOS ET HISTOIRES</span><h1>Souvenirs de famille</h1><p>Retrouvons les souvenirs transmis de génération en génération.</p></header>
 <div class="sop-memory-controls"><label>Personne <select id="sopMemoryPerson"><option value="">Choisir une personne enregistrée</option></select></label><button type="button" class="action" onclick="openMemorySelected()">Voir ou compléter sa fiche</button><button type="button" class="action" onclick="makeFamilyBook()">📖 Créer le livre familial PDF</button></div>
 <div id="sopPublicMemories" class="sop-public-memories" aria-live="polite"><p>Les souvenirs publiés apparaîtront ici.</p></div>
+</section>
+<section class="sop-page" id="sopChat" data-sop-page="chat" hidden>
+<header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>💬 Salon familial SOP Wandji</h1><p>Discutons entre membres de la famille.</p></header>
+<div class="chat-family-shell">
+<div id="sopChatGate" class="chat-family-login">
+ <h2>Entrer dans le salon</h2>
+ <p>Pour protéger les échanges, identifiez-vous avec votre fiche familiale et votre code personnel.</p>
+ <form id="sopChatLogin">
+ <label for="sopChatMember">Votre nom</label><select id="sopChatMember" required><option value="">Choisir sa fiche</option></select>
+ <label for="sopChatPin">Votre code personnel</label><input id="sopChatPin" type="password" inputmode="numeric" maxlength="2" pattern="[0-9]{2}" autocomplete="off" placeholder="••" required>
+ <button type="submit" class="action" id="sopChatJoin">Accéder au salon</button>
+ </form>
+ <p id="sopChatLoginMessage" role="status" class="chat-family-feedback"></p>
+ <small>Un code personnel est nécessaire. Les messages restent invisibles aux visiteurs non connectés.</small>
+</div>
+<div id="sopChatRoom" hidden>
+ <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Se déconnecter</button></div>
+ <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
+ <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
+ <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
+ <small>Respectez la vie privée de chacun : évitez de publier des numéros de téléphone ou des informations sensibles.</small>
+</div>
+</div>
 </section>
 </main><section id="familyBook" class="book-print-only" aria-label="Livre généalogique imprimable"></section><footer>Famille SOP Wandji — Terre de nos racines, berceau de nos générations</footer><div class="overlay photo-overlay" id="photoOverlay" role="dialog" aria-modal="true" aria-label="Aperçu de la photo"><div class="photo-panel"><button type="button" class="photo-close" id="closePhoto" aria-label="Fermer">✕</button><div class="photo-display"><img id="largePhoto" alt="Photo de famille agrandie"><div id="largePhotoPlaceholder" hidden aria-label="Photo non renseignée">🕊️</div><button type="button" class="photo-edit" id="photoEdit" hidden title="Modifier cette fiche" aria-label="Modifier cette fiche">✎</button></div><p id="photoName"></p><button type="button" id="photoMemories" class="action" hidden onclick="openMemoryForPhoto()">Voir souvenirs et album</button></div></div><div class="overlay heritage-overlay" id="memoryOverlay" role="dialog" aria-modal="true" aria-label="Souvenirs et biographie"><div class="panel heritage-panel">
 <button type="button" class="heritage-close" onclick="closeMemory()">✕ Fermer</button><h2 id="memoryTitle">Histoires de famille</h2>
@@ -601,11 +652,12 @@ renderFamilyEvents();
 /* Onglets et arbre vivant — lecture publique seulement, sans modifier les fiches Supabase. */
 let currentSopPage='home',livingRenderSerial=0;
 function selectSopTab(page){
- if(!['home','events','memories'].includes(page))page='home';
+ if(!['home','events','memories','chat'].includes(page))page='home';
  currentSopPage=page;
  document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page});
  document.querySelectorAll('[data-sop-tab]').forEach(btn=>{const active=btn.dataset.sopTab===page;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current')});
  if(page==='memories')refreshSopMemories();
+ if(page==='chat'){fillSopChatMembers();if(sopChatToken)refreshSopChat();}
  if(page==='home')requestAnimationFrame(()=>{drawFamilyLines()});
  window.scrollTo({top:0,behavior:'instant'});
 }
@@ -674,6 +726,73 @@ async function refreshSopMemories(){
 $('sopPublicMemories').addEventListener('click',e=>{const b=e.target.closest('[data-sop-memory-id]');if(b)openMemory(b.dataset.sopMemoryId)});
 function openMemorySelected(){const id=$('sopMemoryPerson').value;if(!id){alert('Choisissez une personne.');return}openMemory(id)}
 function updateSopViews(){fillSopMemorySelect();renderLivingTree();if(currentSopPage==='memories')refreshSopMemories()}
+
+
+/* Chat familial : aucun numéro ni message n'est exposé sans accès de fiche. */
+let sopChatToken=null,sopChatPerson=null,sopChatBusy=false,sopChatLastSignature='';
+function fillSopChatMembers(){
+ const select=$('sopChatMember');if(!select)return;
+ const selected=select.value;
+ const members=people.filter(p=>p.code_set===true&&p.deceased!==true&&p.generation>=2).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
+ select.innerHTML='<option value="">Choisir sa fiche</option>'+members.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
+ if(members.some(p=>String(p.id)===selected))select.value=selected;
+ $('sopChatLoginMessage').textContent=members.length?'':'Les membres doivent d’abord enregistrer leur fiche et recevoir leur code personnel.';
+}
+$('sopChatLogin').addEventListener('submit',async e=>{
+ e.preventDefault();if(!$('sopChatLogin').reportValidity())return;
+ const id=$('sopChatMember').value,pin=$('sopChatPin').value,member=people.find(p=>String(p.id)===id);
+ if(!member||!member.code_set||member.deceased){$('sopChatLoginMessage').textContent='Choisissez une fiche enregistrée avec un code personnel.';return}
+ $('sopChatJoin').disabled=true;$('sopChatLoginMessage').textContent='Vérification du code…';
+ try{
+ const response=await api('rpc/batcha_open_with_code',{p_id:id,p_code:pin});
+ if(response.error)throw Error(response.error);
+ if(!response.access||response.readonly)throw Error('Accès au salon refusé.');
+ await api('rpc/batcha_chat_read',{p_person_id:id,p_access:response.access});
+ sopChatToken=response.access;sopChatPerson=member;
+ $('sopChatPin').value='';$('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
+ $('sopChatIdentity').textContent='Connecté : '+familyName(member);
+ $('sopChatLoginMessage').textContent='';sopChatLastSignature='';
+ await refreshSopChat();$('sopChatText').focus();
+ }catch(err){$('sopChatLoginMessage').textContent=err.message||'Connexion impossible.'}
+ finally{$('sopChatJoin').disabled=false}
+});
+function leaveSopChat(){
+ sopChatToken=null;sopChatPerson=null;sopChatLastSignature='';
+ $('sopChatGate').hidden=false;$('sopChatRoom').hidden=true;
+ $('sopChatMessages').textContent='';$('sopChatText').value='';$('sopChatStatus').textContent='';
+ $('sopChatPin').value='';
+}
+async function refreshSopChat(){
+ if(currentSopPage!=='chat'||!sopChatToken||!sopChatPerson||sopChatBusy)return;
+ sopChatBusy=true;
+ try{
+ const messages=await api('rpc/batcha_chat_read',{p_person_id:sopChatPerson.id,p_access:sopChatToken});
+ const signature=JSON.stringify(messages.map(m=>m.id));
+ if(signature!==sopChatLastSignature){
+ const area=$('sopChatMessages'),stick=area.scrollHeight-area.scrollTop-area.clientHeight<90;
+ area.innerHTML=messages.length?messages.map(m=>{
+ const own=String(m.person_id)===String(sopChatPerson.id);
+ const datetime=new Date(m.created_at);
+ return '<article class="chat-family-message'+(own?' mine':'')+'"><div class="author">'+familySafe(m.author)+'</div><p class="body">'+familySafe(m.message)+'</p><time datetime="'+familySafe(m.created_at)+'">'+familySafe(datetime.toLocaleString('fr-CA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))+'</time></article>';
+ }).join(''):'<p class="chat-family-feedback">Aucun message pour le moment. Vous pouvez commencer la conversation !</p>';
+ if(stick)area.scrollTop=area.scrollHeight;
+ sopChatLastSignature=signature;
+ }
+ $('sopChatStatus').textContent='';
+ }catch(err){$('sopChatStatus').textContent='Impossible de charger les messages : '+err.message;if(/Accès|expir/i.test(err.message))leaveSopChat()}
+ finally{sopChatBusy=false}
+}
+$('sopChatCompose').addEventListener('submit',async e=>{
+ e.preventDefault();if(!sopChatToken||!sopChatPerson)return;
+ const message=$('sopChatText').value.trim();if(!message||message.length>500)return;
+ $('sopChatSend').disabled=true;$('sopChatStatus').textContent='';
+ try{
+ await api('rpc/batcha_chat_send',{p_person_id:sopChatPerson.id,p_access:sopChatToken,p_message:message});
+ $('sopChatText').value='';await refreshSopChat();
+ }catch(err){$('sopChatStatus').textContent=err.message}
+ finally{$('sopChatSend').disabled=false}
+});
+setInterval(()=>{if(currentSopPage==='chat'&&sopChatToken&&document.visibilityState==='visible')refreshSopChat()},10000);
 
 let childDrafts=[];
 function prepareChildren(p,gen){$('childrenForm').hidden=gen!==3;childDrafts=gen===3&&p&&!p.virtual?children(p.id).map(k=>({...k,...privateProfiles.get(k.id)})):[];$('childrenCount').min=childDrafts.length;$('childrenCount').value=childDrafts.length;renderChildFields()}
