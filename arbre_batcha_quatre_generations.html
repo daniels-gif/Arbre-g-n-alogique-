@@ -800,8 +800,7 @@ async function downloadTreeJpegHD(){
    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
    drawFamilyLines();
    const clone=chart.cloneNode(true);
-   clone.removeAttribute('id');
-   clone.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+   // Conserver les identifiants dans la copie pour garder les styles des huit branches.
    clone.querySelectorAll('.person.add,.person:not(.person-saved)[data-gen] .emoji').forEach(el=>{if(el.classList.contains('add'))el.style.visibility='hidden'});
    const w=Math.ceil(chart.scrollWidth),h=Math.ceil(chart.scrollHeight);
    if(!w||!h)throw new Error('L’arbre n’est pas encore chargé.');
