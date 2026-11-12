@@ -523,6 +523,29 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .family-branch-tile small{font-size:11px;color:#68786e}
 .family-branch-tile button{padding:7px 9px;border-radius:9px;border:1px solid #c1d1b8;background:#edf5e8;color:#36563b;margin-top:8px;cursor:pointer}
 .family-branch-empty{padding:13px;color:#667d68;background:#f8faf5;border-radius:10px}
+
+/* Arbre complet, sans décalage ni découpe sur le papier */
+@media print{
+ body.tree-size-print-mode #sopTree,body.tree-size-print-mode #landscapeTree,
+ body.tree-size-print-mode .tree-scroll,body.tree-size-print-mode #familyChart{
+  overflow:visible!important;max-width:none!important;max-height:none!important;
+ }
+ body.tree-size-print-mode #sopTree{width:100%!important;max-width:none!important}
+ body.tree-size-print-mode #landscapeTree{break-inside:avoid!important;page-break-inside:avoid!important}
+ body.tree-size-print-mode #familyChart{
+  display:block!important;zoom:var(--tree-print-zoom, .5)!important;
+  transform:none!important;transform-origin:top left!important;
+  width:max-content!important;min-width:0!important;height:max-content!important;
+  padding:2px 0!important;
+ }
+ body.tree-size-print-mode #familyLines{display:block!important;visibility:visible!important;opacity:1!important}
+ body.tree-size-print-mode #familyLines path{stroke:#171717!important;stroke-width:3.3!important;opacity:1!important}
+ body.tree-size-print-mode #tree.tree{display:flex!important;flex-wrap:nowrap!important;width:max-content!important;min-width:0!important}
+ body.tree-size-print-mode .branch{break-inside:avoid!important}
+ body.tree-size-print-mode .generation-label{margin:3px auto!important}
+ body.tree-size-print-mode .tree-scroll{min-height:0!important;height:auto!important;width:max-content!important}
+}
+.print-paper-hint{display:block;width:100%;text-align:center;color:#56705b;font-size:12px;margin:7px 0}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -568,7 +591,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
  </div><div id="searchResults" role="status" class="heritage-results" hidden></div>
- </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button type="button" class="action" onclick="printTreeSize('A2')">🖨️ Imprimer A2</button> <button type="button" class="action" onclick="printTreeSize('A1')">🖨️ Imprimer A1</button> <button type="button" class="action" onclick="printTreeSize('A0')">🖨️ Imprimer A0</button> <button type="button" class="action" id="downloadTreeJpeg" onclick="downloadTreeJpegHD()">📷 Télécharger JPEG HD</button>  <button class="action" onclick="load()">Actualiser l’arbre</button></div>
+ </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button type="button" class="action" onclick="printTreeSize('A4')">🖨️ PDF A4</button> <button type="button" class="action" onclick="printTreeSize('A3')">🖨️ Imprimer A3</button> <button type="button" class="action" onclick="printTreeSize('A2')">🖨️ Imprimer A2</button> <button type="button" class="action" onclick="printTreeSize('A1')">🖨️ Imprimer A1</button> <button type="button" class="action" onclick="printTreeSize('A0')">🖨️ Imprimer A0</button> <small class="print-paper-hint">Choisir le même format de papier et le mode paysage dans la fenêtre PDF. Pour une meilleure lisibilité, privilégier A1 ou A0.</small> <button type="button" class="action" id="downloadTreeJpeg" onclick="downloadTreeJpegHD()">📷 Télécharger JPEG HD</button>  <button class="action" onclick="load()">Actualiser l’arbre</button></div>
 </section>
 <section class="sop-page" id="sopEvents" data-sop-page="events" hidden>
 <header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les dates importantes pour nous retrouver et célébrer.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
@@ -929,38 +952,44 @@ async function downloadTreeJpegHD(){
  }
 }
 
-/* Formats poster : A2/A1/A0 paysage, cadrage automatique sur une feuille. */
+/* Impression PDF : arbre entier indépendant du zoom de l'écran */
 let treePrintState=null;
+const PAPER_FORMATS={A4:[297,210],A3:[420,297],A2:[594,420],A1:[841,594],A0:[1189,841]};
 function finishTreePrint(){
  if(!treePrintState)return;
- const prior=treePrintState;treePrintState=null;
+ const previous=treePrintState;treePrintState=null;
  document.body.classList.remove('tree-size-print-mode');
  document.documentElement.style.removeProperty('--tree-print-zoom');
  document.getElementById('treePaperSize')?.remove();
- $('familyChart').style.zoom=prior.zoom;
- if(prior.branch) setFamilyBranch(prior.branch);
+ $('familyChart').style.zoom=previous.zoom;
+ if(previous.branch)setFamilyBranch(previous.branch);
  requestAnimationFrame(drawFamilyLines);
 }
-function printTreeSize(size){
- const sizes={A2:[594,420],A1:[841,594],A0:[1189,841]};
- if(!sizes[size])return;
+function prepareTreePrint(size){
+ const dimensions=PAPER_FORMATS[size];if(!dimensions)return false;
  if(treePrintState)finishTreePrint();
  const chart=$('familyChart');
  treePrintState={zoom:chart.style.zoom,branch:$('branchSelect')?.value||''};
  if(treePrintState.branch)setFamilyBranch('');
- const page=document.createElement('style');page.id='treePaperSize';
- page.textContent='@page{size:'+size+' landscape;margin:8mm}';
- document.head.appendChild(page);
+ chart.style.zoom='1';
  document.body.classList.add('tree-size-print-mode');
- requestAnimationFrame(()=>{
-   const [pageWidth,pageHeight]=sizes[size];
-   const w=Math.max(1,chart.scrollWidth),h=Math.max(1,chart.scrollHeight);
-   const zoom=Math.min((pageWidth-16)*96/25.4/w,(pageHeight-16)*96/25.4/h);
-   document.documentElement.style.setProperty('--tree-print-zoom',String(Math.max(.05,Math.min(1.8,zoom*.98))));
-   drawFamilyLines();
-   requestAnimationFrame(()=>window.print());
- });
+ const page=document.createElement('style');page.id='treePaperSize';
+ page.textContent='@page{size:'+size+' landscape;margin:6mm}';
+ document.head.appendChild(page);
+ const w=Math.max(1,chart.scrollWidth),h=Math.max(1,chart.scrollHeight);
+ const fit=Math.min((dimensions[0]-20)*96/25.4/w,(dimensions[1]-20)*96/25.4/h);
+ document.documentElement.style.setProperty('--tree-print-zoom',String(Math.max(.08,Math.min(1.75,fit*.96))));
+ drawFamilyLines();
+ return true;
 }
+function printTreeSize(size){
+ if(!prepareTreePrint(size))return;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
+}
+window.addEventListener('beforeprint',()=>{
+ if(treePrintState||document.body.classList.contains('book-print-mode'))return;
+ prepareTreePrint('A4');
+});
 window.addEventListener('afterprint',finishTreePrint);
 
 const FAMILY_EVENTS=[
