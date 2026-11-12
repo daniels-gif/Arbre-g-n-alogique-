@@ -597,6 +597,19 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .sop-tab span{font-size:clamp(10px,1.6vw,13px);overflow-wrap:anywhere}
 .sop-member-gate input{width:100%;padding:12px;border-radius:10px;border:1px solid #a6bda5;font-size:16px;margin-bottom:9px}
 @media(max-width:650px){.sop-tabs{gap:3px;padding:5px 3px}.sop-tab{min-height:66px;font-size:18px;padding:8px 2px}.sop-tab span{font-size:10px}}
+
+.sop-feed-reactions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid #dce6d6}
+.sop-feed-reactions>.action{padding:8px 12px}
+.sop-feed-reaction-list{position:relative;font-size:13px;color:#52684f}
+.sop-feed-reaction-list>summary{cursor:pointer;list-style:none;padding:8px 4px;font-weight:650}
+.sop-feed-reaction-list>summary::-webkit-details-marker{display:none}
+.sop-feed-member-list{margin-top:5px;padding:9px 12px;border:1px solid #d6e2d1;border-radius:11px;background:#fafcf8;max-height:220px;overflow-y:auto}
+.sop-feed-comment{padding:5px 0;border-bottom:1px solid #e6eadf}
+.sop-feed-comment:last-child{border-bottom:0}
+.sop-feed-comment p{margin:4px 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.sop-feed-comment-form{display:flex;gap:7px;align-items:center;margin-top:12px}
+.sop-feed-comment-form input{flex:1;min-width:0;border:1px solid #c2d1bc;border-radius:11px;padding:10px;font:inherit}
+.sop-feed-comment-form button{flex-shrink:0}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -1355,16 +1368,21 @@ function formatFamilyFeedDate(iso){
  return isNaN(date.getTime())?'':date.toLocaleString('fr-CA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
 function renderFamilyFeed(){
- const container=$('sopFeedPosts');
- if(!container)return;
+ const container=$('sopFeedPosts');if(!container)return;
  if(!familyFeedItems.length){container.innerHTML='<p class="family-branch-empty">Aucune actualité publiée pour le moment. La première nouvelle familiale apparaîtra ici.</p>';return}
  container.innerHTML=familyFeedItems.map(post=>{
   const mine=sopChatPerson&&String(post.person_id)===String(sopChatPerson.id)&&profileAccess.has(post.person_id);
+  const likes=Array.isArray(post.likes)?post.likes:[],comments=Array.isArray(post.comments)?post.comments:[];
+  const hasLiked=likes.some(l=>String(l.person_id)===String(sopChatPerson?.id));
   return '<article class="sop-feed-post"><div class="sop-feed-post-header">'+
    (post.avatar?'<img loading="lazy" src="'+familySafe(post.avatar)+'" alt="">':'')+
    '<div><strong>'+familySafe(post.author||'Famille SOP Wandji')+'</strong><time datetime="'+familySafe(post.created_at)+'">'+familySafe(formatFamilyFeedDate(post.created_at))+'</time></div></div>'+
    (post.body?'<div class="sop-feed-body">'+familySafe(post.body)+'</div>':'')+
    (post.image?'<img class="sop-feed-picture" loading="lazy" src="'+familySafe(post.image)+'" alt="Photo publiée dans le fil familial">':'')+
+   '<div class="sop-feed-reactions"><button type="button" class="action" data-feed-like="'+familySafe(post.id)+'">'+(hasLiked?'💚 Aimé':'♡ J’aime')+'</button>'+
+   '<details class="sop-feed-reaction-list"><summary>❤️ '+likes.length+' J’aime</summary><div class="sop-feed-member-list">'+(likes.length?likes.map(l=>'<div>'+familySafe(l.name)+'</div>').join(''):'Aucune réaction pour le moment.')+'</div></details>'+
+   '<details class="sop-feed-reaction-list"><summary>💬 '+comments.length+' commentaire'+(comments.length===1?'':'s')+'</summary><div class="sop-feed-member-list">'+(comments.length?comments.map(c=>'<div class="sop-feed-comment"><strong>'+familySafe(c.name)+'</strong><p>'+familySafe(c.body)+'</p></div>').join(''):'Aucun commentaire pour le moment.')+'</div></details></div>'+
+   '<form class="sop-feed-comment-form" data-feed-comment="'+familySafe(post.id)+'"><input type="text" maxlength="600" aria-label="Écrire un commentaire" placeholder="Écrire un commentaire…" required><button type="submit" class="action">Envoyer</button></form>'+
    (mine?'<button class="sop-feed-remove" type="button" data-feed-remove="'+familySafe(post.id)+'">Supprimer ma publication</button>':'')+
    '</article>';
  }).join('');
@@ -1442,6 +1460,29 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
   status.textContent='';$('sopFeedNotice').textContent='Votre actualité a été publiée dans le fil familial.';$('sopFeedComposerToggle').open=false;
   familyFeedItems=await api('rpc/batcha_feed_read',{p_person_id:member.id,p_access:access});renderFamilyFeed();
  }catch(err){status.textContent='Publication non enregistrée : '+err.message}
+ finally{button.disabled=false}
+});
+$('sopFeedPosts').addEventListener('click',async e=>{
+ const button=e.target.closest('[data-feed-like]');if(!button)return;
+ if(!sopChatPerson||!profileAccess.get(sopChatPerson.id))return;
+ button.disabled=true;
+ try{
+  await api('rpc/batcha_feed_like',{p_post_id:button.dataset.feedLike,p_access:profileAccess.get(sopChatPerson.id)});
+  familyFeedItems=await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileAccess.get(sopChatPerson.id)});renderFamilyFeed();
+ }catch(err){$('sopFeedStatus').textContent='J’aime non enregistré : '+err.message}
+ finally{button.disabled=false}
+});
+$('sopFeedPosts').addEventListener('submit',async e=>{
+ const form=e.target.closest('[data-feed-comment]');if(!form)return;
+ e.preventDefault();if(!sopChatPerson||!profileAccess.get(sopChatPerson.id))return;
+ const input=form.querySelector('input'),body=input.value.trim();if(!body)return;
+ const button=form.querySelector('button');button.disabled=true;
+ try{
+  await api('rpc/batcha_feed_comment',{p_post_id:form.dataset.feedComment,p_access:profileAccess.get(sopChatPerson.id),p_body:body});
+  familyFeedItems=await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileAccess.get(sopChatPerson.id)});renderFamilyFeed();
+  const article=[...$('sopFeedPosts').querySelectorAll('[data-feed-comment]')].find(el=>el.dataset.feedComment===form.dataset.feedComment);
+  if(article){const details=article.closest('article').querySelectorAll('.sop-feed-reaction-list');if(details[1])details[1].open=true}
+ }catch(err){$('sopFeedStatus').textContent='Commentaire non enregistré : '+err.message}
  finally{button.disabled=false}
 });
 $('sopFeedPosts').addEventListener('click',async e=>{
