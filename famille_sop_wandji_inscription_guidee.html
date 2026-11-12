@@ -421,6 +421,27 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  #tree .grandchildren{gap:1px!important;padding-top:4px!important}
  #founders.founders{gap:12px!important}
 }
+
+/* Impression poster : le papier sélectionné et l'arbre seul, sur une page. */
+@media print{
+ body.tree-size-print-mode{background:white!important;margin:0!important;padding:0!important}
+ body.tree-size-print-mode > header,body.tree-size-print-mode > footer,
+ body.tree-size-print-mode .sop-tabs,body.tree-size-print-mode .sop-chat-shortcut,
+ body.tree-size-print-mode .sop-page:not(#sopTree),
+ body.tree-size-print-mode #sopTree>.sop-tree-intro,
+ body.tree-size-print-mode #sopTree>.family-counters,
+ body.tree-size-print-mode #sopTree>#loading,
+ body.tree-size-print-mode #sopTree>.actions,
+ body.tree-size-print-mode #landscapeTree .tree-compact-actions{display:none!important}
+ body.tree-size-print-mode #sopTree{display:block!important;padding:0!important;margin:0!important}
+ body.tree-size-print-mode main{display:block!important;padding:0!important;margin:0!important;overflow:visible!important}
+ body.tree-size-print-mode #landscapeTree{display:block!important;position:static!important;inset:auto!important;width:max-content!important;min-height:0!important;max-width:none!important;height:auto!important;margin:0!important;padding:0!important;border:none!important;box-shadow:none!important;background:white!important;overflow:visible!important}
+ body.tree-size-print-mode .tree-scroll{display:block!important;overflow:visible!important;width:max-content!important;height:auto!important;min-height:0!important;max-height:none!important;margin:0!important;padding:0!important}
+ body.tree-size-print-mode #familyChart{zoom:var(--tree-print-zoom,1)!important;width:max-content!important;max-width:none!important;margin:0!important;padding:0!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ body.tree-size-print-mode #tree.tree{width:max-content!important;min-width:0!important}
+ body.tree-size-print-mode #founders{break-inside:avoid!important}
+ body.tree-size-print-mode .person.add{visibility:hidden!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="400"><meta property="og:image:height" content="210"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -466,7 +487,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
  </div><div id="searchResults" role="status" class="heritage-results" hidden></div>
- </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button class="action" onclick="print()">Imprimer / Enregistrer en PDF</button> <button class="action" onclick="load()">Actualiser l’arbre</button></div>
+ </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><button type="button" class="action" onclick="printTreeSize('A2')">🖨️ Imprimer A2</button> <button type="button" class="action" onclick="printTreeSize('A1')">🖨️ Imprimer A1</button> <button type="button" class="action" onclick="printTreeSize('A0')">🖨️ Imprimer A0</button> <button class="action" onclick="load()">Actualiser l’arbre</button></div>
 </section>
 <section class="sop-page" id="sopEvents" data-sop-page="events" hidden>
 <header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les dates importantes pour nous retrouver et célébrer.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
@@ -749,6 +770,41 @@ async function makeFamilyBook(){
 }
 window.addEventListener('afterprint',()=>{document.body.classList.remove('book-print-mode')});
 
+
+
+/* Formats poster : A2/A1/A0 paysage, cadrage automatique sur une feuille. */
+let treePrintState=null;
+function finishTreePrint(){
+ if(!treePrintState)return;
+ const prior=treePrintState;treePrintState=null;
+ document.body.classList.remove('tree-size-print-mode');
+ document.documentElement.style.removeProperty('--tree-print-zoom');
+ document.getElementById('treePaperSize')?.remove();
+ $('familyChart').style.zoom=prior.zoom;
+ if(prior.branch) setFamilyBranch(prior.branch);
+ requestAnimationFrame(drawFamilyLines);
+}
+function printTreeSize(size){
+ const sizes={A2:[594,420],A1:[841,594],A0:[1189,841]};
+ if(!sizes[size])return;
+ if(treePrintState)finishTreePrint();
+ const chart=$('familyChart');
+ treePrintState={zoom:chart.style.zoom,branch:$('branchSelect')?.value||''};
+ if(treePrintState.branch)setFamilyBranch('');
+ const page=document.createElement('style');page.id='treePaperSize';
+ page.textContent='@page{size:'+size+' landscape;margin:8mm}';
+ document.head.appendChild(page);
+ document.body.classList.add('tree-size-print-mode');
+ requestAnimationFrame(()=>{
+   const [pageWidth,pageHeight]=sizes[size];
+   const w=Math.max(1,chart.scrollWidth),h=Math.max(1,chart.scrollHeight);
+   const zoom=Math.min((pageWidth-16)*96/25.4/w,(pageHeight-16)*96/25.4/h);
+   document.documentElement.style.setProperty('--tree-print-zoom',String(Math.max(.05,Math.min(1.8,zoom*.98))));
+   drawFamilyLines();
+   requestAnimationFrame(()=>window.print());
+ });
+}
+window.addEventListener('afterprint',finishTreePrint);
 
 const FAMILY_EVENTS=[
  {date:'2026-12-12',title:'Mariage de Chuegoc Larry',description:'Célébration familiale',type:'mariage'},
