@@ -581,6 +581,15 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .tree-export-content .print-size-picker{width:100%;justify-content:center}
 .tree-export-content .print-paper-hint{letter-spacing:normal;width:100%;text-align:center}
 @media print{.tree-export-dropdown{display:none!important}}
+
+/* Composer replié par défaut : le fil reste immédiatement visible. */
+.sop-feed-composer-toggle{border-radius:19px;border:1px solid #cbdcc4;background:#fffdf8;margin:0 0 17px;overflow:hidden;box-shadow:0 4px 16px #2a533d10}
+.sop-feed-composer-toggle>summary{list-style:none;cursor:pointer;padding:15px 19px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#315e42;font-weight:750;font-size:16px}
+.sop-feed-composer-toggle>summary::-webkit-details-marker{display:none}
+.sop-feed-composer-toggle>summary .sop-feed-toggle-icon{font-size:21px;color:#477450;line-height:1}
+.sop-feed-composer-toggle[open]>summary{border-bottom:1px solid #dbe5d5}
+.sop-feed-composer-toggle[open] .sop-feed-toggle-icon{transform:rotate(45deg)}
+.sop-feed-composer-toggle .sop-feed-composer{border:0;box-shadow:none;border-radius:0;margin:0}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -633,6 +642,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <section class="sop-page" id="sopNews" data-sop-page="news" hidden>
 <header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>📰 Fil d’actualité SOP Wandji</h1><p>Un espace commun pour partager les moments importants de la famille, des textes et des photos.</p></header>
 <div class="sop-feed-shell">
+ <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>＋ Publier une actualité <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
  <form id="sopFeedCompose" class="sop-feed-composer">
   <h2>Partager une actualité</h2>
   <p id="sopFeedIdentity">Sélectionnez votre fiche familiale pour consulter le fil.</p>
@@ -650,6 +660,8 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
   </div>
   <p id="sopFeedStatus" role="status"></p>
  </form>
+ </details>
+ <p id="sopFeedNotice" class="sop-feed-note" role="status"></p>
  <div id="sopFeedPosts" class="sop-feed-posts" aria-live="polite"><p>Chargement des actualités familiales…</p></div>
 </div>
 </section>
@@ -1396,6 +1408,7 @@ $('sopFeedUnlock').addEventListener('click',async()=>{
   await refreshFamilyFeed();
  }catch(err){status.textContent=err.message}
 });
+$('sopFeedComposerToggle').addEventListener('toggle',()=>{if($('sopFeedComposerToggle').open)$('sopFeedNotice').textContent=''});
 $('sopFeedCompose').addEventListener('submit',async e=>{
  e.preventDefault();const member=sopChatPerson,button=$('sopFeedPublish'),status=$('sopFeedStatus');
  if(!member){status.textContent='Sélectionnez d’abord votre fiche familiale.';return}
@@ -1416,7 +1429,7 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
   $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedCode').value='';
   const preview=$('sopFeedImagePreview');preview.hidden=true;preview.removeAttribute('src');
   if(preview.dataset.tempUrl){URL.revokeObjectURL(preview.dataset.tempUrl);delete preview.dataset.tempUrl}
-  status.textContent='Votre actualité a été publiée dans le fil familial.';
+  status.textContent='';$('sopFeedNotice').textContent='Votre actualité a été publiée dans le fil familial.';$('sopFeedComposerToggle').open=false;
   familyFeedItems=await api('rpc/batcha_feed_read',{p_person_id:member.id,p_access:access});renderFamilyFeed();
  }catch(err){status.textContent='Publication non enregistrée : '+err.message}
  finally{button.disabled=false}
