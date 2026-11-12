@@ -393,6 +393,34 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .family-welcome-tree{font-size:64px;margin-bottom:12px}
 .family-welcome-panel h2{color:#356646;font-family:Georgia,serif}
 .family-welcome-panel p{color:#465e4d;line-height:1.6}
+
+/* Arbre compact : limiter fortement les espaces inutiles, sans changer la structure. */
+#tree.tree{gap:7px!important;padding:9px 6px 12px!important}
+#tree>.branch{padding:0 2px!important;min-width:104px!important}
+#tree>.branch>.children{gap:3px!important;padding-top:9px!important}
+#tree>.branch>.children>.descendant{flex:0 0 92px!important;width:92px!important;min-width:92px!important}
+#tree>.branch>.children>.descendant>.person{width:90px!important;min-height:99px!important}
+#tree .grandchildren{gap:2px!important;padding-top:8px!important;margin-top:0!important}
+#tree .grandchildren>.descendant{flex:0 0 67px!important;width:67px!important;min-width:67px!important}
+#tree .grandchildren>.descendant>.person{width:66px!important;min-height:72px!important;padding:2px 1px!important}
+#tree>.branch>.person{min-height:126px!important}
+#tree>.branch>.person .person-view{min-height:126px!important}
+#tree>.branch>.person img,#tree>.branch>.person .round-avatar,#tree>.branch>.person .memorial-avatar{width:88px!important;height:88px!important}
+#tree>.branch>.children>.descendant>.person img,#tree>.branch>.children>.descendant>.person .round-avatar,#tree>.branch>.children>.descendant>.person .memorial-avatar{width:63px!important;height:63px!important}
+#tree .grandchildren .person img,#tree .grandchildren .round-avatar,#tree .grandchildren .memorial-avatar{width:39px!important;height:39px!important}
+#tree .person b{line-height:1.2!important;overflow-wrap:anywhere}
+#tree .grandchildren .person b{font-size:9px!important}
+#founders.founders{gap:20px!important;padding-bottom:4px!important}
+#founders .person{min-height:175px!important}
+#founders .person-view{min-height:175px!important}
+#founders .person img,#founders .person .round-avatar,#founders .person .memorial-avatar{width:125px!important;height:125px!important}
+#familyChart .generation-label{margin-block:3px!important}
+@media print{
+ #tree.tree{gap:4px!important;padding:4px 2px 6px!important}
+ #tree>.branch>.children{gap:2px!important;padding-top:5px!important}
+ #tree .grandchildren{gap:1px!important;padding-top:4px!important}
+ #founders.founders{gap:12px!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="400"><meta property="og:image:height" content="210"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-famille-sop-wandji.jpg"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
