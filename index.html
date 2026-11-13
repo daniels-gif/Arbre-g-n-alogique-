@@ -565,7 +565,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 .sop-feed-post-header strong{display:block;color:#365c42;font-size:14px}
 .sop-feed-post-header time{display:block;font-size:11px;color:#778779;margin-top:3px}
 .sop-feed-post .sop-feed-body{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6;color:#2c4937;font-size:15px}
-.sop-feed-post .sop-feed-picture{width:100%;height:auto;max-height:580px;object-fit:contain;border-radius:13px;display:block;background:#f1f4ed;margin-top:12px}
+.sop-feed-clip{margin-top:12px;padding:13px;border:1px solid #d4dfcc;border-radius:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:#f5f6f0}.sop-feed-clip span{font-size:13px}.sop-feed-clip a{display:inline-block;padding:10px 14px;background:#365c42;color:white;border-radius:12px;text-decoration:none;font-weight:650}.sop-feed-post .sop-feed-picture{width:100%;height:auto;max-height:580px;object-fit:contain;border-radius:13px;display:block;background:#f1f4ed;margin-top:12px}
 .sop-feed-remove{margin-top:10px;border:1px solid #cecec2;border-radius:10px;background:#f9f8f5;padding:7px 10px;color:#596450;cursor:pointer}
 #sopFeedStatus{font-size:13px;min-height:20px;margin:10px 0;color:#315e42}
 @media(max-width:600px){.sop-feed-shell{padding:5px 9px}.sop-feed-composer{padding:13px}.sop-feed-post{padding:13px}}
@@ -684,17 +684,17 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 </section>
 
 <section class="sop-page" id="sopNews" data-sop-page="news" hidden>
-<header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>📰 Fil d’actualité SOP Wandji</h1><p>Un espace commun pour partager les moments importants de la famille, des textes et des photos.</p></header>
+<header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>📰 Fil d’actualité SOP Wandji</h1><p>Un espace commun pour partager les moments importants de la famille, des textes, des photos et des vidéos courtes.</p></header>
 <div class="sop-feed-shell">
  <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>＋ Publier une actualité <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
  <form id="sopFeedCompose" class="sop-feed-composer">
   <h2>Partager une actualité</h2>
   <p id="sopFeedIdentity">Sélectionnez votre fiche familiale pour consulter le fil.</p>
-  <label for="sopFeedText">Votre texte (facultatif si vous ajoutez une photo)</label>
+  <label for="sopFeedText">Votre texte (facultatif avec une photo ou une vidéo)</label>
   <textarea id="sopFeedText" maxlength="1200" placeholder="Une nouvelle, une réussite, une annonce, un moment à partager…"></textarea>
   <label for="sopFeedImage">Ajouter une photo (facultatif)</label>
   <input type="file" id="sopFeedImage" accept="image/jpeg,image/png,image/webp">
-  <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie">
+  <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie"><label for="sopFeedVideoUrl">Lien d’un Reel ou Short (facultatif)</label><input type="url" id="sopFeedVideoUrl" placeholder="https://www.youtube.com/shorts/… ou Instagram/TikTok" maxlength="500"><small>Collez un lien YouTube Shorts, Instagram Reels ou TikTok. La vidéo reste hébergée sur le service d’origine.</small>
   <label for="sopFeedCode">Code personnel de votre fiche (4 chiffres)</label>
   <input id="sopFeedCode" type="password" maxlength="4" pattern="[0-9]{2}|[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Votre code à 4 chiffres" aria-describedby="sopFeedCodeHelp">
   <p id="sopFeedCodeHelp" class="sop-feed-note">Les actualités restent réservées aux membres qui déverrouillent leur fiche. Aucun bouton de partage hors du site n’est proposé.</p>
@@ -1403,6 +1403,23 @@ function formatFamilyFeedDate(iso){
  const date=new Date(iso);
  return isNaN(date.getTime())?'':date.toLocaleString('fr-CA',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
 }
+function familyClipFromBody(text){
+ const matches=String(text||'').match(/https?:\/\/[^\s<>"']+/gi)||[];
+ for(const raw of matches){
+  try{
+   const url=new URL(raw),host=url.hostname.toLowerCase().replace(/^www\./,'');
+   if(url.protocol!=='https:')continue;
+   const path=url.pathname;
+   if((host==='youtube.com'&&/^\/shorts\/[a-zA-Z0-9_-]{6,}/.test(path))||(host==='youtu.be'&&/^\/[a-zA-Z0-9_-]{6,}/.test(path)))
+    return {url:raw,label:'YouTube Shorts'};
+   if(host==='instagram.com'&&/^\/reel\/[a-zA-Z0-9_-]+/.test(path))
+    return {url:raw,label:'Instagram Reel'};
+   if((host==='tiktok.com'||host==='m.tiktok.com')&&/^\/@[^/]+\/video\/\d+/.test(path))
+    return {url:raw,label:'TikTok'};
+  }catch(e){}
+ }
+ return null;
+}
 function renderFamilyFeed(){
  const container=$('sopFeedPosts');if(!container)return;
  if(!familyFeedItems.length){container.innerHTML='<p class="family-branch-empty">Aucune actualité publiée pour le moment. La première nouvelle familiale apparaîtra ici.</p>';return}
@@ -1410,10 +1427,13 @@ function renderFamilyFeed(){
   const mine=sopChatPerson&&String(post.person_id)===String(sopChatPerson.id)&&profileAccess.has(post.person_id);
   const likes=Array.isArray(post.likes)?post.likes:[],comments=Array.isArray(post.comments)?post.comments:[];
   const hasLiked=likes.some(l=>String(l.person_id)===String(sopChatPerson?.id));
+  const clip=familyClipFromBody(post.body||'');
+  const displayBody=clip?String(post.body||'').replace(clip.url,'').trim():post.body;
   return '<article class="sop-feed-post"><div class="sop-feed-post-header">'+
    (post.avatar?'<img loading="lazy" src="'+familySafe(post.avatar)+'" alt="">':'')+
    '<div><strong>'+familySafe(post.author||'Famille SOP Wandji')+'</strong><time datetime="'+familySafe(post.created_at)+'">'+familySafe(formatFamilyFeedDate(post.created_at))+'</time></div></div>'+
-   (post.body?'<div class="sop-feed-body">'+familySafe(post.body)+'</div>':'')+
+   (displayBody?'<div class="sop-feed-body">'+familySafe(displayBody)+'</div>':'')+
+   (clip?'<div class="sop-feed-clip"><span>🎬 '+familySafe(clip.label)+'</span><a href="'+familySafe(clip.url)+'" target="_blank" rel="noopener noreferrer">▶ Regarder la vidéo</a></div>':'')+
    (post.image?'<img class="sop-feed-picture" loading="lazy" src="'+familySafe(post.image)+'" alt="Photo publiée dans le fil familial">':'')+
    '<div class="sop-feed-reactions"><button type="button" class="action" data-feed-like="'+familySafe(post.id)+'">'+(hasLiked?'💚 Aimé':'♡ J’aime')+'</button>'+
    '<details class="sop-feed-reaction-list"><summary>❤️ '+likes.length+' J’aime</summary><div class="sop-feed-member-list">'+(likes.length?likes.map(l=>'<div>'+familySafe(l.name)+'</div>').join(''):'Aucune réaction pour le moment.')+'</div></details>'+
@@ -1476,8 +1496,10 @@ $('sopFeedComposerToggle').addEventListener('toggle',()=>{if($('sopFeedComposerT
 $('sopFeedCompose').addEventListener('submit',async e=>{
  e.preventDefault();const member=sopChatPerson,button=$('sopFeedPublish'),status=$('sopFeedStatus');
  if(!member){status.textContent='Sélectionnez d’abord votre fiche familiale.';return}
- const body=$('sopFeedText').value.trim(),file=$('sopFeedImage').files[0],code=$('sopFeedCode').value.trim();
- if(!body&&!file){status.textContent='Écrivez une actualité ou choisissez une photo.';return}
+ const body=$('sopFeedText').value.trim(),file=$('sopFeedImage').files[0],code=$('sopFeedCode').value.trim(),clipUrl=$('sopFeedVideoUrl').value.trim();
+ if(!body&&!file&&!clipUrl){status.textContent='Écrivez une actualité, choisissez une photo ou collez un lien vidéo.';return}
+ if(clipUrl&&!familyClipFromBody(clipUrl)){status.textContent='Collez un lien valide YouTube Shorts, Instagram Reels ou TikTok.';return}
+ if((body.length+(clipUrl?clipUrl.length+1:0))>1200){status.textContent='Texte et lien : 1200 caractères maximum.';return}
  button.disabled=true;status.textContent='Préparation de votre publication…';
  try{
   let access=profileAccess.get(member.id);
@@ -1488,9 +1510,10 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
    if(result.personal_code){issuedCodes=[{name:familyName(member),code:result.personal_code}];showCodes('Code personnel actualisé : notez vos 4 chiffres.');}
   }
   if(!access)throw Error('Saisissez le code personnel à 4 chiffres de votre fiche pour publier.');
+  if(file&&await sopIsMonochromePhoto(file))throw Error('Photo en noir et blanc refusée. Choisissez une photo en couleur.');
   const image=await compressFamilyFeedPhoto(file);
-  await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:body,p_image:image});
-  $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedCode').value='';
+  await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:[body,clipUrl].filter(Boolean).join('\\n'),p_image:image});
+  $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedCode').value='';$('sopFeedVideoUrl').value='';
   const preview=$('sopFeedImagePreview');preview.hidden=true;preview.removeAttribute('src');
   if(preview.dataset.tempUrl){URL.revokeObjectURL(preview.dataset.tempUrl);delete preview.dataset.tempUrl}
   status.textContent='';$('sopFeedNotice').textContent='Votre actualité a été publiée dans le fil familial.';$('sopFeedComposerToggle').open=false;
