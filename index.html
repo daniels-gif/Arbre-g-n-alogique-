@@ -854,6 +854,39 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 #sopTabs .sop-tab span{display:block;line-height:1;pointer-events:none}
 #sopTabs .sop-tab:focus-visible{outline:3px solid #bda466;outline-offset:2px}
 @media(max-width:620px){#sopTabs.sop-tabs{display:flex;grid-template-columns:none;gap:5px;padding:5px 4px;max-width:100%;margin:4px auto}#sopTabs .sop-tab{width:clamp(40px,13vw,49px);height:clamp(40px,13vw,49px);padding:0;border-radius:13px;font-size:23px}}
+
+/* Page d'accueil 2026 : adaptation de la maquette mobile de la famille. */
+#sopHome{max-width:900px;margin:0 auto;padding:0 12px 14px;background:#f8faf3}
+#sopHome .family-intro{text-align:center;max-width:790px;margin:0 auto;padding:20px 10px 9px}
+#sopHome .family-intro .sop-hero-kicker{font:700 clamp(10px,1.8vw,13px)/1.35 system-ui,sans-serif;letter-spacing:.035em;color:#7f9380;margin:0 0 10px}
+#sopHome .family-garden-title{font:700 clamp(26px,5vw,44px)/1.15 system-ui,sans-serif;letter-spacing:-.028em;color:#2d624a;margin:0 0 13px;text-wrap:balance}
+#sopHome .family-garden-subtitle{font:400 clamp(15px,2.8vw,21px)/1.4 system-ui,sans-serif;color:#758a76;max-width:640px;margin:0 auto;text-wrap:balance}
+#sopHome .living-tree{max-width:100%;margin:15px auto 8px;background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}
+#sopHome .living-garden-frame{background:#e8f0e1;padding:15px 15px 10px;border-radius:28px}
+#sopHome .living-caption{min-height:0;padding:0;margin:0;display:block}
+#sopHome .living-caption:empty{display:none}
+#sopHome .living-lineage-clear:not([hidden]){display:inline-flex;margin:0 0 7px}
+#sopHome .living-scene{background:#fffefb;border-radius:21px;overflow:hidden;max-height:650px;aspect-ratio:1000/600}
+#sopHome .living-replay-row{display:flex;justify-content:center;align-items:center;padding:11px 0 0}
+#sopHome .living-replay-row .living-replay{font:650 14px system-ui,sans-serif;padding:10px 17px;min-height:42px;border-radius:24px;border:1px solid #bdd1b7;background:#fcfbf5;color:#315f48;box-shadow:0 2px 5px #305b3212}
+#sopHome .living-tree .sop-hero-actions{max-width:none;padding:0;margin:16px 0 4px;gap:9px;display:flex;flex-direction:column;align-items:stretch}
+#sopHome .living-tree .sop-hero-actions>button{flex:0 0 auto!important;display:flex;justify-content:center;align-items:center;gap:11px;width:100%;height:auto!important;min-height:50px!important;padding:13px 15px!important;margin:0;border-radius:21px;font:700 clamp(13px,2.7vw,17px)/1.25 system-ui,sans-serif;box-sizing:border-box}
+#sopHome .sop-hero-actions>button span[aria-hidden]{font-size:1.2em}
+@media(max-width:620px){
+ #sopHome{padding:0 10px 12px}
+ #sopHome .family-intro{padding:16px 7px 8px}
+ #sopHome .family-intro .sop-hero-kicker{font-size:10px;margin-bottom:9px}
+ #sopHome .family-garden-title{font-size:clamp(25px,6.7vw,36px);line-height:1.1;margin:0 0 11px}
+ #sopHome .family-garden-subtitle{font-size:clamp(15px,3.8vw,18px);line-height:1.45}
+ #sopHome .living-tree{margin:15px auto 4px}
+ #sopHome .living-garden-frame{padding:10px 10px 9px;border-radius:24px}
+ #sopHome .living-scene{aspect-ratio:1.25;height:auto;min-height:270px;border-radius:17px}
+ #sopHome .living-replay-row{padding-top:9px}
+ #sopHome .living-replay-row .living-replay{font-size:12px;min-height:39px;padding:9px 14px}
+ #sopHome .living-tree .sop-hero-actions{gap:8px;margin:13px 0 4px;padding:0}
+ #sopHome .living-tree .sop-hero-actions>button{min-height:48px!important;padding:12px 10px!important;font-size:clamp(12px,3.5vw,15px);border-radius:20px}
+}
+@media(prefers-reduced-motion:reduce){#sopHome .living-replay{transition:none}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><span aria-hidden="true">🏡</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><span aria-hidden="true">🌳</span></button>
@@ -869,8 +902,14 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
 <div class="sop-family-day" id="sopGatePersonalBirthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" placeholder="Ex. : 15"><label for="sopAccessYear">Mois de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1" max="12" placeholder="Ex. : 4"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
-<p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP WANDJI &amp; KWAMOUO Jacqueline · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
-<div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>Notre jardin des générations</h2><p>Des racines aux branches, nos générations s’épanouissent comme des fruits.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
+<p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Notre jardin des générations">
+<p class="sop-hero-kicker">FAMILLE SOP WANDJI &amp; KWAMOUO JACQUELINE</p>
+<h1 class="family-garden-title">Notre jardin des générations</h1>
+<p class="family-garden-subtitle">Des racines qui nous unissent, des générations qui s’épanouissent.</p>
+</section>
+<section class="living-tree" aria-label="Arbre de vie familial animé">
+<div class="living-garden-frame">
+<div class="living-caption"><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button></div>
 <div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
 <linearGradient id="livingTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#765239"/><stop offset=".5" stop-color="#aa865b"/><stop offset="1" stop-color="#5e422d"/></linearGradient>
@@ -894,8 +933,10 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </g><g id="livingLeaves"></g>
 </svg>
 <svg class="living-lineage-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"><g id="livingLineagePaths"></g></svg><div id="livingPortraits" class="living-portraits"></div><button type="button" class="living-leaf-add living-leaf-add-a" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-b" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-c" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button>
-</div><p class="living-hint">🌿 Cliquez sur « Ajouter » pour ouvrir l’arbre, puis sur un rond + de votre branche pour vous enregistrer.</p>
-<div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()">＋ M’enregistrer sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()">Voir l’arbre généalogique</button><button type="button" class="sop-hero-primary" onclick="selectSopTab('news')">🌿 Entrer dans notre univers familial</button></div>
+</div>
+<div class="living-replay-row"><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir l’animation</button></div>
+</div>
+<div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()"><span aria-hidden="true">♧</span> M’enregistrer sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()"><span aria-hidden="true">♧</span> Voir l’arbre généalogique</button><button type="button" class="sop-hero-primary" onclick="selectSopTab('news')"><span aria-hidden="true">❧</span> Entrer dans notre univers familial</button></div>
 
 </section>
 </section>
