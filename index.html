@@ -695,6 +695,8 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 }
 .living-portrait[data-gen="3"]{--generation-color:#6c845b;--generation-halo:#e2ead8}
 .sop-family-birthday{grid-template-columns:minmax(85px,1fr) minmax(155px,1.6fr);gap:9px}.sop-family-birthday label{margin:0!important}.sop-family-birthday input,.sop-family-birthday select{grid-row:2}
+#sopHome .living-portrait[data-gen="3"] .living-person-name,#sopHome .living-portrait[data-gen="4"] .living-person-name{display:none!important}
+.sop-family-day{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.sop-family-day label{font-size:13px;margin:0}.sop-family-day input{grid-row:2;min-width:0}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -704,12 +706,12 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
-<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Si votre fiche comporte une photo et votre jour de naissance, vous pouvez consulter les rubriques familiales sans utiliser votre code personnel. La modification de votre profil reste verrouillée.</p>
+<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Les membres vivants des générations 1 à 3 dont la fiche comporte une photo, un jour et une année de naissance peuvent consulter les rubriques sans code personnel. La modification des profils reste verrouillée. La modification de votre profil reste verrouillée.</p>
 <form id="sopMemberGateForm"><label for="sopAccessMember">Nom et prénom sur votre fiche</label><input id="sopAccessMember" type="text" required autocomplete="name" maxlength="220" placeholder="Nom et prénom">
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
-<div class="sop-family-day"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" required placeholder="Ex. : 15"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
+<div class="sop-family-day"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" required placeholder="Ex. : 15"><label for="sopAccessYear">Année de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1900" max="2026" required placeholder="Ex. : 1985"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
-<p class="sop-gate-note">Pas encore de photo ou de jour de naissance sur votre fiche ? Complétez-les sur l’arbre familial avec votre code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
+<p class="sop-gate-note">Pas encore de photo, de jour ou d’année de naissance sur votre fiche ? Complétez-les sur l’arbre familial avec votre code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
 <div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
@@ -875,7 +877,7 @@ function person(p,parent,gen){
  const displaySurname=gen>=3?String(p?.surname||'').replace(/\s+wandji$/i,'').trim():p?.surname;
  const rawName=gen===4?(String(p?.firstname||'').trim()||String(displaySurname||'').trim()):[displaySurname,p?.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' ');
  const founderTitle=gen===1&&/sop wandji/i.test(String(p?.surname||''))&&/antoine/i.test(String(p?.firstname||''))?'Papa ':gen===1&&/kouamo/i.test(String(p?.surname||''))&&/jacqueline/i.test(String(p?.firstname||''))?'Mama ':'';
- const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe(founderTitle+(gen>=3?familyTitleCase(rawName):rawName))):'Ajouter';
+ const label=p?(p.virtual&&p.deceased&&!p.firstname?'':gen>=3?'Profil familial':safe(founderTitle+rawName)):'Ajouter';
  const memorial=!!p?.deceased;
  const photo=memorial&&!p?.photo?'<span class="round-avatar memorial-bird" aria-label="En mémoire de cette personne décédée"><span aria-hidden="true">🕊️</span></span>':p?.photo?'<img class="profile-photo '+(p.deceased?'deceased':'')+'" src="'+safe(p.photo)+'" alt="Photo de la personne">':'<span class="emoji round-avatar" aria-label="Photo non renseignée">+</span>';
  const attrs=' data-id="'+safe(p?.id||'')+'" data-parent="'+safe(parent||'')+'" data-gen="'+gen+'"';
@@ -972,8 +974,8 @@ $('issuedCodeList').addEventListener('click',e=>{
  const body='Bonjour '+item.name+',\n\nTa fiche a été ajoutée à notre arbre généalogique SOP Wandji !\n\nVoici ton code personnel à 4 chiffres : '+item.code+'\n\nAccède au site familial : https://arbre-genealogique-famille-sop-wandji.vercel.app/\n\nConserve ce code confidentiel et ne le partage pas.\n\nBienvenue dans la famille ! 🌳';
  window.location.href='mailto:'+encodeURIComponent(item.email)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
 });
-let photoEditTarget=null;function showPublicPhoto(member){$('largePhoto').hidden=!member?.photo;$('largePhotoPlaceholder').hidden=!!member?.photo;const memorial=!!member?.deceased;$('largePhotoPlaceholder').textContent=memorial?'🕊️':'👤';$('largePhotoPlaceholder').setAttribute('aria-label',memorial?'En mémoire de cette personne décédée':'Photo non renseignée');if(member?.photo){$('largePhoto').src=member.photo;$('largePhoto').style.filter=member.deceased?'grayscale(1)':'none'}else $('largePhoto').removeAttribute('src');$('photoName').textContent=[member?.surname,member?.firstname].filter(Boolean).join(' ');window.lastViewedPersonId=member?.id||null;$('photoMemories').hidden=!member?.id||!!member?.virtual||!people.some(p=>p.id===member.id);photoEditTarget=member&&!member.deceased&&!member.virtual?{id:member.id,parent:member.parent_id||null,gen:member.generation}:null;$('photoEdit').hidden=!photoEditTarget;$('photoOverlay').classList.add('open')}
-async function edit(id,parent,gen){if(landscapeActive)await exitLandscape();if(document.body.dataset.offline==='true'){alert('Mode aperçu : connectez-vous au site pour enregistrer.');return}const request=++editRequest,p=people.find(x=>x.id===id)||virtualPeople.get(id);if(p?.deceased){showPublicPhoto(p);return}if(p&&p.code_set){pinTarget={id,parent,gen};$('pinForm').reset();$('pinName').textContent=[p.surname,p.firstname].filter(Boolean).join(' ');$('pinError').textContent='';$('pinOverlay').classList.add('open');$('personalPin').focus();return}if(p&&!p.virtual&&!privateProfiles.has(id)){try{const data=await api('rpc/batcha_open_with_code',{p_id:id,p_code:null});if(request!==editRequest)return;if(data.error)throw Error(data.error);if(data.readonly){showPublicPhoto(data.profile);return}cacheOpenedProfile(data)}catch(err){alert('Impossible d’ouvrir la fiche : '+err.message);return}}openProfile(id,parent,gen)}
+let photoEditTarget=null;function showPublicPhoto(member){$('largePhoto').hidden=!member?.photo;$('largePhotoPlaceholder').hidden=!!member?.photo;const memorial=!!member?.deceased;$('largePhotoPlaceholder').textContent=memorial?'🕊️':'👤';$('largePhotoPlaceholder').setAttribute('aria-label',memorial?'En mémoire de cette personne décédée':'Photo non renseignée');if(member?.photo){$('largePhoto').src=member.photo;$('largePhoto').style.filter=member.deceased?'grayscale(1)':'none'}else $('largePhoto').removeAttribute('src');$('photoName').textContent=Number(member?.generation)>=3?'Profil familial':[member?.surname,member?.firstname].filter(Boolean).join(' ');window.lastViewedPersonId=member?.id||null;$('photoMemories').hidden=!member?.id||!!member?.virtual||!people.some(p=>p.id===member.id);photoEditTarget=member&&!member.deceased&&!member.virtual?{id:member.id,parent:member.parent_id||null,gen:member.generation}:null;$('photoEdit').hidden=!photoEditTarget;$('photoOverlay').classList.add('open')}
+async function edit(id,parent,gen){if(landscapeActive)await exitLandscape();if(document.body.dataset.offline==='true'){alert('Mode aperçu : connectez-vous au site pour enregistrer.');return}const request=++editRequest,p=people.find(x=>x.id===id)||virtualPeople.get(id);if(p?.deceased){showPublicPhoto(p);return}if(p&&p.code_set){pinTarget={id,parent,gen};$('pinForm').reset();$('pinName').textContent=p.generation>=3?'Profil familial':[p.surname,p.firstname].filter(Boolean).join(' ');$('pinError').textContent='';$('pinOverlay').classList.add('open');$('personalPin').focus();return}if(p&&!p.virtual&&!privateProfiles.has(id)){try{const data=await api('rpc/batcha_open_with_code',{p_id:id,p_code:null});if(request!==editRequest)return;if(data.error)throw Error(data.error);if(data.readonly){showPublicPhoto(data.profile);return}cacheOpenedProfile(data)}catch(err){alert('Impossible d’ouvrir la fiche : '+err.message);return}}openProfile(id,parent,gen)}
 $('pinForm').addEventListener('submit',async e=>{e.preventDefault();if(!pinTarget||!$('pinForm').reportValidity())return;const target={...pinTarget};$('openPin').disabled=true;$('pinError').textContent='';try{const data=await api('rpc/batcha_open_with_code',{p_id:target.id,p_code:$('personalPin').value});if(data.error)throw Error(data.error);if(data.readonly){closePin();showPublicPhoto(data.profile);return}cacheOpenedProfile(data);closePin();openProfile(target.id,target.parent,target.gen);if(data.personal_code){issuedCodes=[{name:familyName(data.profile),code:data.personal_code}];showCodes('Votre ancien code à 2 chiffres a été remplacé par un code à 4 chiffres. Notez-le pour vos prochaines connexions.')}}catch(err){$('pinError').textContent=err.message}finally{$('openPin').disabled=false}});
 function birthParts(p){const full=String(p?.birth_date||'').split('-');return {day:(p?.birth_day??Number(full[2]))||null,month:(p?.birth_month??Number(full[1]))||null,year:(p?.birth_year??Number(full[0]))||null}}
 function sameBirth(a,b){const x=birthParts(a),y=birthParts(b);return ['day','month','year'].every(k=>String(x[k]||'')===String(y[k]||''))}
@@ -1040,7 +1042,7 @@ function searchFamilyMember(term){
  const pool=[...people,...virtualPeople.values()].filter(p=>p.id&&familyName(p).toLocaleLowerCase('fr').includes(t)).slice(0,14);
  results.hidden=false;
  if(!pool.length){results.textContent='Aucune personne trouvée';return}
- results.innerHTML=pool.map(p=>'<button type="button" data-find-person="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</button>').join('');
+ results.innerHTML=pool.map(p=>'<button type="button" data-find-person="'+familySafe(p.id)+'">'+(p.generation>=3?'Profil familial · '+p.generation+'ᵉ génération':familySafe(familyName(p)))+'</button>').join('');
 }
 function focusFamilyMember(id){
  $('branchSelect').value='';setFamilyBranch('');
@@ -1356,7 +1358,7 @@ let sopTreeFirstOpen=false;
 function openSopTree(){selectSopTab('tree')}
 const SOP_PRIVATE_TABS=['news','events','memories','chat'];
 let sopFamilyVisit=null;
-function sopHasAccess(){return !!(sopChatPerson&&(profileAccess.get(sopChatPerson.id)||(sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id)))}
+function sopHasAccess(){return !!(sopChatPerson&&!sopChatPerson.deceased&&sopChatPerson.generation<=3&&(profileAccess.get(sopChatPerson.id)||(sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id)))}
 function selectSopTab(page){
  if(!['home','tree','events','memories','chat','news'].includes(page))page='home';
  const awaiting=SOP_PRIVATE_TABS.includes(page)&&!sopHasAccess();
@@ -1430,7 +1432,7 @@ function renderLivingTree(){
   const px=Math.min(95,Math.max(5,base[0]+(row%2?2:-2)*row)),py=Math.min(83,Math.max(9,base[1]+(row%3-1)*5));
   const diameter=gen===1?'64px':gen===2?'53px':gen===3?'42px':'34px';
   const img=p.photo?'<img src="'+familySafe(p.photo)+'" alt="">':p.deceased?'<span class="living-memorial-bird" aria-label="En mémoire de cette personne">🕊️</span>':'<span class="living-initial">'+familySafe((p.firstname||p.surname||'?').slice(0,1).toUpperCase())+'</span>';
-  parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" data-deceased="'+(p.deceased?'true':'false')+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.17).toFixed(2)+'s" title="'+familySafe(livingDisplayName(p))+'"><span class="living-photo">'+img+'</span><span class="living-person-name">'+familySafe(livingDisplayName(p))+'</span></button>');
+  parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" data-deceased="'+(p.deceased?'true':'false')+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.17).toFixed(2)+'s" title="'+familySafe(gen>=3?'Portrait familial':livingDisplayName(p))+'"><span class="living-photo">'+img+'</span><span class="living-person-name">'+familySafe(gen>=3?'':livingDisplayName(p))+'</span></button>');
  }
  }
  $('livingPortraits').innerHTML=parts.join('');
@@ -1611,7 +1613,7 @@ async function refreshFamilyFeed(){
  if(!profileToken&&!familyVisit){$('sopFeedPosts').innerHTML='<p class="family-branch-empty">Identifiez votre fiche familiale pour lire les actualités.</p>';return}
  familyFeedBusy=true;
  try{
-  familyFeedItems=profileToken?await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileToken}):await api('rpc/batcha_family_feed_read',{p_person_id:sopChatPerson.id,p_day:familyVisit.day});
+  familyFeedItems=profileToken?await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileToken}):await api('rpc/batcha_family_feed_year_read',{p_person_id:sopChatPerson.id,p_day:familyVisit.day,p_year:familyVisit.year});
   $('sopFeedIdentity').textContent='Fiche sélectionnée : '+familyName(sopChatPerson);
   renderFamilyFeed();
   $('sopFeedStatus').textContent='';
@@ -1723,6 +1725,7 @@ let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignatu
 function fillSopAccessMembers(){
  $('sopAccessMember').value='';
  $('sopAccessDay').value='';
+ $('sopAccessYear').value='';
  $('sopAccessPreview').textContent='Votre fiche apparaîtra après vérification.';
 }
 function normalizeSopMemberName(name){
@@ -1731,24 +1734,24 @@ function normalizeSopMemberName(name){
 $('sopMemberGateForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!$('sopMemberGateForm').reportValidity())return;
  const entered=normalizeSopMemberName($('sopAccessMember').value);
- const day=Number($('sopAccessDay').value);
+ const day=Number($('sopAccessDay').value),year=Number($('sopAccessYear').value);
  const error=$('sopAccessError'),button=$('sopAccessContinue');
- const matches=people.filter(p=>p&&p.id&&!p.deceased&&!p.virtual&&p.photo&&normalizeSopMemberName(familyName(p))===entered);
+ const matches=people.filter(p=>p&&p.id&&!p.deceased&&p.generation<=3&&!p.virtual&&p.photo&&normalizeSopMemberName(familyName(p))===entered);
  if(matches.length!==1){error.textContent='Nom introuvable ou ambigu. Vérifiez le nom et le prénom inscrits sur votre fiche.';return}
  const m=matches[0];
  button.disabled=true;error.textContent='';
  try{
-  const eligible=await api('rpc/batcha_family_visitor_eligible',{p_person_id:m.id,p_day:day});
+  const eligible=await api('rpc/batcha_family_visitor_year_eligible',{p_person_id:m.id,p_day:day,p_year:year});
   if(eligible!==true)throw Error('Photo ou jour de naissance absent ou différente.');
   sopChatPerson=m;
-  sopFamilyVisit={id:m.id,day};
+  sopFamilyVisit={id:m.id,day,year};
   $('sopAccessPreview').innerHTML=(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo du membre">':'')+'<strong>'+familySafe(familyName(m))+'</strong>';
   const dest=sopPendingTab;sopPendingTab='chat';
   selectSopTab(dest);
- }catch(err){error.textContent='Accès non validé. Vérifiez votre nom, votre photo et vos jour/mois de naissance enregistrés.'}
+ }catch(err){error.textContent='Accès refusé. Vérifiez votre nom, votre jour et votre année de naissance. La 4ᵉ génération et les personnes décédées ne peuvent pas accéder aux rubriques.'}
  finally{button.disabled=false}
 });
-function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
+function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.generation<=3&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
 function fillSopChatMembers(){
  const select=$('sopChatMember');if(!select)return;
  const selected=select.value;
@@ -1769,7 +1772,8 @@ $('sopChatLogin').addEventListener('submit',async e=>{
  if(!eligibleSopChatMember(member)){$('sopChatLoginMessage').textContent='Une fiche enregistrée avec nom et photo est nécessaire.';return}
  $('sopChatJoin').disabled=true;$('sopChatLoginMessage').textContent='Ouverture du salon…';
  try{
- await api('rpc/batcha_chat_registered_read',{p_person_id:id});
+ if(!sopFamilyVisit||sopFamilyVisit.id!==member.id)throw Error('Identifiez-vous avec votre nom, jour et année de naissance.');
+ await api('rpc/batcha_family_chat_year_read',{p_person_id:id,p_day:sopFamilyVisit.day,p_year:sopFamilyVisit.year});
  sopChatPerson=member;
  $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
  $('sopChatIdentity').textContent='Profil choisi : '+familyName(member);
@@ -1791,7 +1795,10 @@ async function refreshSopChat(){
  if(currentSopPage!=='chat'||!sopChatPerson||sopChatBusy)return;
  sopChatBusy=true;
  try{
- const messages=await api('rpc/batcha_chat_registered_read',{p_person_id:sopChatPerson.id});
+ const visitor=sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id?sopFamilyVisit:null;
+ const token=profileAccess.get(sopChatPerson.id);
+ if(!visitor&&!token)throw Error('Identifiez-vous avec votre nom, jour et année de naissance.');
+ const messages=visitor?await api('rpc/batcha_family_chat_year_read',{p_person_id:sopChatPerson.id,p_day:visitor.day,p_year:visitor.year}):await api('rpc/batcha_chat_read',{p_person_id:sopChatPerson.id,p_access:token});
  const signature=JSON.stringify(messages.map(m=>m.id));
  if(signature!==sopChatLastSignature){
  const area=$('sopChatMessages'),stick=area.scrollHeight-area.scrollTop-area.clientHeight<90;
