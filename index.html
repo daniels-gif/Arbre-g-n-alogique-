@@ -824,21 +824,45 @@ function person(p,parent,gen){
  return '<div class="person person-saved"'+attrs+'><button type="button" class="person-view" aria-label="Voir la photo de '+label+'">'+photo+'<b>'+label+'</b></button></div>';
 }
 let virtualPeople=new Map();
+// Effectifs confirmés par la famille, pour les profils de la 3e génération seulement.
+// Les cases vides n'ajoutent aucun faux profil dans la base de données.
+const CONFIRMED_CHILD_COUNTS=[
+ {branch:0,slot:2,terms:['cedric','cédric'],count:2},
+ {branch:1,slot:1,terms:['ghislaine','gishlaine'],count:3},
+ {branch:2,slot:0,terms:['patrick'],count:3},
+ {branch:3,slot:0,terms:['stephanie','stéphanie'],count:0},
+ {branch:3,slot:1,terms:['stella'],count:1},
+ {branch:4,slot:0,terms:['nadine'],count:4},
+ {branch:4,slot:1,terms:['liliane'],count:1},
+ {branch:4,slot:2,terms:['franck'],count:1},
+ {branch:4,slot:3,terms:['patrick'],count:2},
+ {branch:5,slot:0,terms:['dany'],count:3}
+];
+function confirmedChildCount(p,gen,branchIndex,slot){
+ if(gen!==3||!p)return null;
+ const normalized=[p.surname,p.firstname].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
+ const entry=CONFIRMED_CHILD_COUNTS.find(e=>e.branch===branchIndex&&e.slot===slot&&e.terms.some(t=>normalized.includes(t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr'))));
+ return entry?entry.count:null;
+}
 function descendantsMarkup(p,gen,branchIndex,slot){
- const isPatrick=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='djonkou'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick';
  const actualKids=p.virtual?[]:children(p.id);
- const kids=p.virtual?(gen===3&&branchIndex===2&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick'?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfrield',generation:4,virtual:true}]:[]):[...actualKids];
- if(isPatrick){while(kids.length<3)kids.push({id:'placeholder-patrick-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true})}
- // Comptes confirmés pour les quatre petits-enfants de NGANKWA Geneviève.
- if(gen===3&&branchIndex===4){
- const first=(p.firstname||'').trim().toLocaleLowerCase('fr');
- const last=(p.surname||'').trim().toLocaleLowerCase('fr');
- const target=first==='nadine'&&last==='leutah'?4:first==='liliane'?1:first==='franck'&&last==='tanko'?1:first==='patrick'&&last==='tanko'?2:0;
- while(kids.length<target)kids.push({id:'ngankwa-child-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+ const isPatrick=gen===3&&branchIndex===2&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick';
+ const kids=p.virtual?(isPatrick?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfrield',generation:4,virtual:true}]:[]):[...actualKids];
+ const confirmed=confirmedChildCount(p,gen,branchIndex,slot);
+ if(confirmed!==null){
+   while(kids.length<confirmed)kids.push({id:'confirmed-child-'+branchIndex+'-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+ }else{
+   if(isPatrick){while(kids.length<3)kids.push({id:'placeholder-patrick-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true})}
+   // Compteurs antérieurs pour les autres profils non encore renseignés.
+   if(gen===3&&branchIndex===4){
+     const first=(p.firstname||'').trim().toLocaleLowerCase('fr');
+     const last=(p.surname||'').trim().toLocaleLowerCase('fr');
+     const target=first==='nadine'&&last==='leutah'?4:first==='liliane'?1:first==='franck'&&last==='tanko'?1:first==='patrick'&&last==='tanko'?2:0;
+     while(kids.length<target)kids.push({id:'ngankwa-child-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+   }
+   const isFostoStephanie=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='fosto'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='stéphanie';
+   if(gen===3&&!p.virtual&&!p.deceased&&!isFostoStephanie)kids.push({id:'new-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  }
- // FOSTO Stéphanie n'a aucun descendant : ne pas afficher un faux enfant « + ».
- const isFostoStephanie=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='fosto'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='stéphanie';
- if(gen===3&&!p.virtual&&!p.deceased&&!isFostoStephanie)kids.push({id:'new-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  virtualPeople.set(p.id,p);
  return '<div class="descendant">'+(p.emptyChild?(person(null,p.parent_id,gen)):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
 }
