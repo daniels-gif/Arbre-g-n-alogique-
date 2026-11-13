@@ -723,6 +723,20 @@ body.guest-tree-view #sopTree .family-chart{margin:0 auto}
  body.guest-tree-view #sopTree,
  body.guest-tree-view #familyBook{display:none!important}
 }
+
+/* Légende en bas, discrète, visible pour les visiteurs. */
+.guest-tree-legend{display:none;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 13px;margin:3px auto 10px;padding:5px 12px;max-width:100%;font-size:10px;color:#65716a;line-height:1.25}
+.guest-tree-legend .legend-tag{font-weight:700;color:#65716a}
+.guest-tree-legend>span:not(.legend-tag){display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.guest-tree-legend .legend-dot{display:inline-block;width:9px;height:9px;flex:none;border-radius:50%;border:1px solid #0001}
+.guest-tree-legend .legend-g1{background:#ae8b46}
+.guest-tree-legend .legend-g2{background:#5a875c}
+.guest-tree-legend .legend-g3{background:#b76b86}
+.guest-tree-legend .legend-g4{background:#8770b5}
+.guest-tree-legend .legend-deceased{background:#659bc8}
+body.guest-tree-view #sopTree .guest-tree-legend{display:flex!important}
+body.guest-tree-view #sopTree .tree-scroll{height:calc(100dvh - 185px)!important}
+@media(max-width:600px){.guest-tree-legend{font-size:9px;gap:4px 9px}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -770,7 +784,14 @@ body.guest-tree-view #sopTree .family-chart{margin:0 auto}
  <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
  </div><div id="searchResults" role="status" class="heritage-results" hidden></div>
- </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="actions"><details class="tree-export-dropdown"><summary>🖨️ Impression et téléchargement <span aria-hidden="true">▾</span></summary><div class="tree-export-content"><label class="print-size-picker">Format PDF <select id="treePrintSize" aria-label="Format papier pour impression"><option value="PANORAMA">Panoramique — sans grand espace blanc</option><option value="A0">A0 — Grand poster</option><option value="A1">A1 — Poster</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4 — Aperçu seulement</option></select></label><button type="button" class="action" id="downloadTreePdf" onclick="downloadTreePdf($('treePrintSize').value)">📄 Télécharger PDF</button><button type="button" class="action" id="downloadTreeJpeg" onclick="downloadTreeJpegHD()">📷 Télécharger JPEG HD</button><small class="print-paper-hint">Panoramique évite les grandes marges blanches ; A1 et A0 conviennent aux grandes affiches.</small></div></details><button type="button" class="action" onclick="load()">Actualiser l’arbre</button></div>
+ </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="guest-tree-legend" aria-label="Légende des générations et symboles">
+<span class="legend-tag">Légende</span>
+<span><i class="legend-dot legend-g1" aria-hidden="true"></i>Fondateurs</span>
+<span><i class="legend-dot legend-g2" aria-hidden="true"></i>Enfants</span>
+<span><i class="legend-dot legend-g3" aria-hidden="true"></i>Petits-enfants</span>
+<span><i class="legend-dot legend-g4" aria-hidden="true"></i>Arrière-petits-enfants</span>
+<span><i class="legend-dot legend-deceased" aria-hidden="true"></i>Défunts</span>
+</div><div class="actions"><details class="tree-export-dropdown"><summary>🖨️ Impression et téléchargement <span aria-hidden="true">▾</span></summary><div class="tree-export-content"><label class="print-size-picker">Format PDF <select id="treePrintSize" aria-label="Format papier pour impression"><option value="PANORAMA">Panoramique — sans grand espace blanc</option><option value="A0">A0 — Grand poster</option><option value="A1">A1 — Poster</option><option value="A2">A2</option><option value="A3">A3</option><option value="A4">A4 — Aperçu seulement</option></select></label><button type="button" class="action" id="downloadTreePdf" onclick="downloadTreePdf($('treePrintSize').value)">📄 Télécharger PDF</button><button type="button" class="action" id="downloadTreeJpeg" onclick="downloadTreeJpegHD()">📷 Télécharger JPEG HD</button><small class="print-paper-hint">Panoramique évite les grandes marges blanches ; A1 et A0 conviennent aux grandes affiches.</small></div></details><button type="button" class="action" onclick="load()">Actualiser l’arbre</button></div>
 </section>
 
 <section class="sop-page" id="sopNews" data-sop-page="news" hidden>
