@@ -648,6 +648,24 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 #sopTree #familyChart .person .memorial-bird,
 #sopTree #familyChart .person .round-avatar.memorial-bird {background:#82b3d7!important;border:3px solid #4f93bd!important;outline:2px solid #c9e4f6!important;color:#fff!important;filter:none!important}
 #sopTree #familyChart .person .memorial-bird span {filter:grayscale(1) brightness(0) invert(1)!important;opacity:1!important}
+
+/* Arbre animé : même hommage bleu de paix que dans l'arbre familial. */
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo {
+ border:3px solid #659bc8!important;
+ outline:2px solid #b1d5ed!important;
+ background:#fffdf7!important;
+ box-shadow:0 0 0 1px #659bc8,0 4px 12px #21392344!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo img {
+ filter:none!important;-webkit-filter:none!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo:has(.living-memorial-bird){
+ background:#82b3d7!important;border-color:#4f93bd!important;outline-color:#c9e4f6!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-memorial-bird {
+ color:white!important;filter:grayscale(1) brightness(0) invert(1)!important;
+ font-size:calc(var(--diameter) * .47);line-height:1;
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -1352,6 +1370,18 @@ function drawLivingLeaves(){
  }
  group.innerHTML=nodes;group.dataset.drawn='true';
 }
+// Même présentation que l'arbre généalogique principal, sans toucher aux fiches.
+function livingDisplayName(p){
+ if(!p)return '';
+ const gen=Number(p.generation);
+ const surname=gen>=3?String(p.surname||'').replace(/\s+wandji$/i,'').trim():String(p.surname||'');
+ const first=String(p.firstname||'').trim();
+ if(gen===4)return familyTitleCase(first||surname);
+ const name=[surname,first].filter(Boolean).map((part,i)=>i===0&&gen<=2?part.toLocaleUpperCase('fr'):part).join(' ');
+ if(gen===1&&/sop wandji/i.test(surname)&&/antoine/i.test(first))return 'Papa '+name;
+ if(gen===1&&/kouamo/i.test(surname)&&/jacqueline/i.test(first))return 'Mama '+name;
+ return gen>=3?familyTitleCase(name):name;
+}
 function renderLivingTree(){
  if(!$('livingPortraits'))return;
  drawLivingLeaves();
@@ -1370,7 +1400,7 @@ function renderLivingTree(){
   const px=Math.min(95,Math.max(5,base[0]+(row%2?2:-2)*row)),py=Math.min(83,Math.max(9,base[1]+(row%3-1)*5));
   const diameter=gen===1?'64px':gen===2?'53px':gen===3?'42px':'34px';
   const img=p.photo?'<img src="'+familySafe(p.photo)+'" alt="">':p.deceased?'<span class="living-memorial-bird" aria-label="En mémoire de cette personne">🕊️</span>':'<span class="living-initial">'+familySafe((p.firstname||p.surname||'?').slice(0,1).toUpperCase())+'</span>';
-  parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" data-deceased="'+(p.deceased?'true':'false')+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.17).toFixed(2)+'s" title="'+familySafe(familyName(p))+'"><span class="living-photo">'+img+'</span><span class="living-person-name">'+familySafe(familyName(p))+'</span></button>');
+  parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" data-deceased="'+(p.deceased?'true':'false')+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.17).toFixed(2)+'s" title="'+familySafe(livingDisplayName(p))+'"><span class="living-photo">'+img+'</span><span class="living-person-name">'+familySafe(livingDisplayName(p))+'</span></button>');
  }
  }
  $('livingPortraits').innerHTML=parts.join('');
