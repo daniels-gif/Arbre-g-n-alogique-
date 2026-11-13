@@ -1747,7 +1747,7 @@ function renderFamilyEvents(){
  }else{
   document.querySelectorAll('[data-event-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.eventFilter===familyEventFilter)));
   $('familyAgendaHeading').textContent='Événements familiaux';
-  const events=FAMILY_EVENTS.filter(e=>familyEventFilter==='all'||(familyEventFilter==='future'?e.date>=today:e.date<today)).sort((a,b)=>familyEventFilter==='past'?b.date.localeCompare(a.date):a.date.localeCompare(b.date));
+  const events=FAMILY_EVENTS.filter(e=>familyEventFilter==='all'||(familyEventFilter==='future'?e.date>=familyEventToday():e.date<familyEventToday())).sort((a,b)=>familyEventFilter==='past'?b.date.localeCompare(a.date):a.date.localeCompare(b.date));
   const groups=new Map();for(const e of events){const m=e.date.slice(0,7);if(!groups.has(m))groups.set(m,[]);groups.get(m).push(e)}
   $('familyEventList').innerHTML=events.length?[...groups].map(([m,list])=>'<h4 class="family-events-month">'+familySafe(new Intl.DateTimeFormat('fr-CA',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(m+'-01T12:00:00Z')))+'</h4>'+list.map(familyEventCard).join('')).join(''):'<p class="family-event-empty">Aucun événement pour ce filtre.</p>';
  }
