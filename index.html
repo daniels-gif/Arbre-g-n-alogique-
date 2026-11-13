@@ -641,6 +641,13 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 /* Gris uniquement sur les portraits des défunts, jamais sur les photos des albums. */
 #memoryGallery .memory-tile img,#sopPublicMemories .sop-memory-card img,#familyBook img.book-photo{filter:none!important;-webkit-filter:none!important}
 #familyBook img.memorial-profile-photo{filter:grayscale(1)!important}
+
+/* Hommage aux défunts : bleu de paix, photo intacte ou colombe blanche. */
+#sopTree #familyChart .person img.deceased,
+#sopTree #familyChart .person .profile-photo.deceased {border:3px solid #659bc8!important;outline:2px solid #b1d5ed!important;filter:none!important;box-shadow:none!important}
+#sopTree #familyChart .person .memorial-bird,
+#sopTree #familyChart .person .round-avatar.memorial-bird {background:#82b3d7!important;border:3px solid #4f93bd!important;outline:2px solid #c9e4f6!important;color:#fff!important;filter:none!important}
+#sopTree #familyChart .person .memorial-bird span {filter:grayscale(1) brightness(0) invert(1)!important;opacity:1!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -803,7 +810,7 @@ const ADDITIONAL_GRANDCHILDREN=[
  {1:['Fosto','Stella']},
  {1:['Ntonmomba','Liliane'],2:['Tanko','Franck'],3:['Tanko','Patrick']},
  {1:['Yandjio','Raïssa'],4:['Chuegoc','Larry']},
- {1:['Sidie','Inès']},
+ {},
  {}
 ];
 function virtualChild(parent,index,slot){
@@ -815,7 +822,7 @@ function virtualChild(parent,index,slot){
  return {id:'virtual-'+index,parent_id:parent.id,surname,firstname,generation:3,deceased:index===6,status_verified:index===6,memorialBird:index===6,virtual:true};
 }
 function familyTitleCase(value){
- return String(value||'').toLocaleLowerCase('fr').replace(/(^|[\\s\-’'])(([a-zà-öø-ÿ]))/gi,(_,sep,letter)=>sep+letter.toLocaleUpperCase('fr'));
+ return String(value||'').toLocaleLowerCase('fr').replace(/(^|[\s\-’'])\p{L}/gu,part=>part.toLocaleUpperCase('fr'));
 }
 function person(p,parent,gen){
  const displaySurname=gen>=3?String(p?.surname||'').replace(/\s+wandji$/i,'').trim():p?.surname;
@@ -863,7 +870,8 @@ function confirmedChildCount(p,gen,branchIndex,slot){
 function descendantsMarkup(p,gen,branchIndex,slot){
  const actualKids=p.virtual?[]:children(p.id);
  const isPatrick=gen===3&&branchIndex===2&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='patrick';
- const kids=p.virtual?(isPatrick?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfrield',generation:4,virtual:true}]:[]):[...actualKids];
+ const deceasedFourth=gen===3&&branchIndex===0&&slot===3&&p.virtual&&p.deceased;
+ const kids=p.virtual?(isPatrick?[{id:'virtual-great-2',parent_id:p.id,surname:'Djonkou',firstname:'Wilfrield',generation:4,virtual:true}]:deceasedFourth?Array.from({length:2},(_,i)=>({id:'virtual-deceased-fourth-child-'+i,parent_id:p.id,generation:4,virtual:true,emptyChild:true})):[]):[...actualKids];
  const confirmed=confirmedChildCount(p,gen,branchIndex,slot);
  if(confirmed!==null){
    while(kids.length<confirmed)kids.push({id:'confirmed-child-'+branchIndex+'-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
@@ -877,9 +885,9 @@ function descendantsMarkup(p,gen,branchIndex,slot){
      while(kids.length<target)kids.push({id:'ngankwa-child-'+slot+'-'+kids.length,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
    }
    const isFostoStephanie=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='fosto'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='stéphanie';
-   if(gen===3&&!p.virtual&&!p.deceased&&!isFostoStephanie)kids.push({id:'new-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+   if(gen===3&&!p.virtual&&!p.deceased&&!isFostoStephanie&&branchIndex!==7)kids.push({id:'new-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  }
- if(gen===3&&!p.deceased&&actualKids.length===0&&kids.length===0)kids.push({id:'add-first-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
+ if(gen===3&&!p.deceased&&actualKids.length===0&&kids.length===0&&(branchIndex!==7||String(p.firstname||'').toLocaleLowerCase('fr')==='cabrel'))kids.push({id:'add-first-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  virtualPeople.set(p.id,p);
  return '<div class="descendant">'+(p.emptyChild?(person(null,p.parent_id,gen)):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
 }
