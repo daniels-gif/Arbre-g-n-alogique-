@@ -780,6 +780,12 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 .family-timeline time{font-size:12px;color:#71634d;display:block;margin-bottom:3px}
 .family-timeline strong{color:#355940}
 @media(max-width:620px){.family-guestbook,.family-timeline{margin:10px 8px;padding:10px}}
+
+.sop-access-suggestions{display:grid;gap:4px;margin:4px 0 10px;max-height:200px;overflow:auto;border:1px solid #d5e4d7;border-radius:12px;padding:5px;background:#fffdf8}
+.sop-access-suggestions[hidden]{display:none!important}
+.sop-access-suggestions button{width:100%;border:0;border-radius:8px;background:transparent;text-align:left;padding:10px 12px;font:inherit;color:#345540;cursor:pointer}
+.sop-access-suggestions button:hover,.sop-access-suggestions button:focus-visible{background:#eaf3e8;outline:2px solid #79a17b;outline-offset:-2px}
+#sopAccessSearch{width:100%}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -790,7 +796,8 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Avec un enfant inscrit et photographié, répondez à la question sur cet enfant. Sinon, utilisez votre jour et votre mois de naissance.</p>
-<form id="sopMemberGateForm"><label for="sopAccessMember">Choisissez votre fiche familiale</label><select id="sopAccessMember" required><option value="">Choisir mon nom</option></select>
+<form id="sopMemberGateForm"><label for="sopAccessSearch">Rechercher votre fiche familiale</label><input id="sopAccessSearch" type="search" autocomplete="off" maxlength="120" placeholder="Commencez à écrire votre nom…" aria-controls="sopAccessSuggestions" aria-autocomplete="list">
+<input id="sopAccessMember" type="hidden" value=""><div id="sopAccessSuggestions" class="sop-access-suggestions" role="listbox" aria-label="Noms correspondants" hidden></div>
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
 <div class="sop-family-day" id="sopGatePersonalBirthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" placeholder="Ex. : 15"><label for="sopAccessYear">Mois de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1" max="12" placeholder="Ex. : 4"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
@@ -1860,24 +1867,56 @@ $('sopFeedPosts').addEventListener('click',async e=>{
    Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
 let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
 function fillSopAccessMembers(){
- const select=$('sopAccessMember');
- const members=people.filter(p=>p&&p.id&&!p.deceased&&!p.virtual&&p.generation<=3&&p.photo).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
- select.innerHTML='<option value="">Choisir mon nom</option>'+members.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
- select.value='';
+ $('sopAccessMember').value='';
+ $('sopAccessSearch').value='';
+ $('sopAccessSuggestions').hidden=true;
+ $('sopAccessSuggestions').replaceChildren();
  $('sopAccessDay').value='';
  $('sopAccessYear').value='';
- $('sopAccessPreview').textContent='Sélectionnez votre nom pour continuer.';
+ $('sopAccessPreview').textContent='Écrivez au moins deux lettres de votre nom pour rechercher votre fiche.';
  $('sopGatePersonalBirthday').hidden=true;
  $('sopAccessDay').required=false;
  $('sopAccessYear').required=false;
 }
-$('sopAccessMember').addEventListener('change',()=>{
- const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
- $('sopAccessPreview').innerHTML=m?(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Portrait">':'')+'<strong>'+familySafe(familyName(m))+'</strong>':'Sélectionnez votre nom pour continuer.';
- $('sopGatePersonalBirthday').hidden=!m||registeredParent(m);
- $('sopAccessDay').required=!!m&&!registeredParent(m);
- $('sopAccessYear').required=!!m&&!registeredParent(m);
+function selectSopAccessMember(id){
+ const m=people.find(p=>String(p.id)===String(id)&&!p.deceased&&!p.virtual&&p.generation<=3&&p.photo);
+ if(!m)return;
+ $('sopAccessMember').value=String(m.id);
+ $('sopAccessSearch').value=familyName(m);
+ $('sopAccessSuggestions').hidden=true;
+ $('sopAccessSuggestions').replaceChildren();
+ $('sopAccessPreview').innerHTML=(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Portrait">':'')+'<strong>'+familySafe(familyName(m))+'</strong>';
+ const personal=!registeredParent(m);
+ $('sopGatePersonalBirthday').hidden=!personal;
+ $('sopAccessDay').required=personal;
+ $('sopAccessYear').required=personal;
  $('sopAccessError').textContent='';
+}
+$('sopAccessSearch').addEventListener('input',()=>{
+ const raw=$('sopAccessSearch').value.trim(),term=normalizeSopMemberName(raw),results=$('sopAccessSuggestions');
+ $('sopAccessMember').value='';
+ $('sopGatePersonalBirthday').hidden=true;
+ $('sopAccessDay').required=false;
+ $('sopAccessYear').required=false;
+ $('sopAccessPreview').textContent='Choisissez votre fiche parmi les résultats.';
+ results.replaceChildren();
+ if(term.length<2){results.hidden=true;$('sopAccessPreview').textContent='Écrivez au moins deux lettres de votre nom.';return}
+ const matches=people.filter(p=>p&&p.id&&!p.deceased&&!p.virtual&&p.generation<=3&&p.photo&&normalizeSopMemberName(familyName(p)).includes(term)).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr')).slice(0,6);
+ if(!matches.length){results.hidden=true;$('sopAccessPreview').textContent='Aucune fiche correspondante.';return}
+ results.innerHTML=matches.map(p=>'<button type="button" role="option" data-sop-access-id="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</button>').join('');
+ results.hidden=false;
+ $('sopAccessPreview').textContent='Sélectionnez le bon nom.';
+ $('sopAccessError').textContent='';
+});
+$('sopAccessSuggestions').addEventListener('click',e=>{
+ const option=e.target.closest('[data-sop-access-id]');if(option)selectSopAccessMember(option.dataset.sopAccessId);
+});
+$('sopAccessSearch').addEventListener('keydown',e=>{
+ if(e.key==='Escape'){$('sopAccessSuggestions').hidden=true;return}
+ if(e.key==='Enter'&&!$('sopAccessMember').value){
+  const first=$('sopAccessSuggestions').querySelector('[data-sop-access-id]');
+  if(first&&!$('sopAccessSuggestions').hidden){e.preventDefault();selectSopAccessMember(first.dataset.sopAccessId)}
+ }
 });
 function normalizeSopMemberName(name){
  return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,' ').trim().toLowerCase().replace(/\s+/g,' ');
