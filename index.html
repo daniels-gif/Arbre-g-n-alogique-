@@ -790,7 +790,7 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Avec un enfant inscrit et photographié, répondez à la question sur cet enfant. Sinon, utilisez votre jour et votre mois de naissance.</p>
-<form id="sopMemberGateForm"><label for="sopAccessMember">Nom et prénom sur votre fiche</label><input id="sopAccessMember" type="text" required autocomplete="name" maxlength="220" placeholder="Nom et prénom">
+<form id="sopMemberGateForm"><label for="sopAccessMember">Choisissez votre fiche familiale</label><select id="sopAccessMember" required><option value="">Choisir mon nom</option></select>
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
 <div class="sop-family-day" id="sopGatePersonalBirthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" placeholder="Ex. : 15"><label for="sopAccessYear">Mois de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1" max="12" placeholder="Ex. : 4"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
@@ -1048,7 +1048,7 @@ function render(){virtualPeople=new Map();const roots=people.filter(p=>p.generat
  const k=kids.find(member=>birthOrder(member)===j+1)||(kids.filter(member=>birthOrder(member)>98)[j]||null)||virtualChild(p,i,j);
  return k?descendantsMarkup(k,3,i,j):'<div class="descendant">'+person(null,p.id,3)+'</div>'
  }).join('');return '<div class="branch">'+person(p,null,2)+'<div class="vertical-line"></div><div class="children">'+third+'</div></div>'}).join('');$('loading').hidden=true;updateCounters();initFamilyTools();updateSopViews();requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()})}
-function updateCounters(){const online=document.body.dataset.offline!=='true';const unique=[...new Map([...people,...virtualPeople.values()].filter(p=>p.id&&[p.surname,p.firstname].some(name=>String(name||'').trim())).map(p=>[p.id,p])).values()];$('countTotal').textContent=online?unique.length:'—';for(const gen of [2,3,4])$('countGen'+gen).textContent=online?unique.filter(p=>p.generation===gen).length:'—'}
+function updateCounters(){const online=document.body.dataset.offline!=='true';const unique=[...new Map(people.filter(p=>p.id&&[p.surname,p.firstname].some(name=>String(name||'').trim())).map(p=>[p.id,p])).values()];$('countTotal').textContent=online?unique.length:'—';for(const gen of [2,3,4])$('countGen'+gen).textContent=online?unique.filter(p=>p.generation===gen).length:'—'}
 function animateInvitation(){const target=$('animatedInvite'),message='Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.';if(!target)return;if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){target.textContent=message;return}let i=0;const letters=Array.from(message);function next(){target.textContent=letters.slice(0,++i).join('');if(i<letters.length)setTimeout(next,32);else target.classList.add('finished')}next()}
 function drawFamilyLines(){const chart=$('familyChart'),svg=$('familyLines');if(!chart||!svg)return;const w=chart.scrollWidth,h=chart.scrollHeight;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('width',w);svg.setAttribute('height',h);const box=chart.getBoundingClientRect(),scale=box.width/chart.offsetWidth,mid=el=>{const r=el.getBoundingClientRect();return {x:(r.left-box.left+r.width/2)/scale,y:(r.top-box.top)/scale,b:(r.bottom-box.top)/scale}};const segments=[];const line=(x1,y1,x2,y2)=>segments.push(`<path d="M${x1} ${y1} L${x2} ${y2}"/>`);const connect=(parents,children)=>{if(!parents.length||!children.length)return;const ps=parents.map(mid),cs=children.map(mid);const fromX=ps.reduce((n,p)=>n+p.x,0)/ps.length;const startY=Math.max(...ps.map(p=>p.b))+5;const endY=Math.min(...cs.map(c=>c.y))-5;const barY=(startY+endY)/2;ps.forEach(p=>line(p.x,p.b,p.x,barY));if(cs.length>1)line(Math.min(...cs.map(c=>c.x)),barY,Math.max(...cs.map(c=>c.x)),barY);line(fromX,barY,fromX,startY);cs.forEach(c=>line(c.x,barY,c.x,c.y));};const founders=[...$('founders').querySelectorAll('.person')];const branches=[...$('tree').querySelectorAll(':scope > .branch')].filter(b=>!b.hidden);if(!$('familyChart').classList.contains('branch-focused'))connect(founders,branches.map(b=>b.querySelector(':scope > .person')).filter(Boolean));branches.forEach(b=>{const parent=b.querySelector(':scope > .person');const third=[...b.querySelectorAll(':scope > .children > .descendant > .person')];connect([parent],third);b.querySelectorAll('.descendant').forEach(d=>{const p=d.querySelector(':scope > .person');const fourth=[...d.querySelectorAll(':scope > .grandchildren > .descendant > .person')];connect([p],fourth)})});svg.innerHTML=segments.join('')};window.addEventListener('resize',()=>requestAnimationFrame(drawFamilyLines));window.addEventListener('beforeprint',drawFamilyLines);let editRequest=0,pinTarget=null,recoveryTarget=null,issuedCodes=[];
 function isFamilyConnected(){return [...profileAccess.values()].some(token=>!!token)}
@@ -1536,7 +1536,7 @@ function selectSopTab(page){
 }
 $('sopTabs').addEventListener('click',e=>{const tab=e.target.closest('[data-sop-tab]');if(tab)selectSopTab(tab.dataset.sopTab)});
 function livingPeople(){
- const all=people.filter(p=>p.id&&!p.virtual&&p.generation>=1&&p.generation<=4&&p.photo&&[p.surname,p.firstname].some(x=>String(x||'').trim()));
+ const all=[...people,...virtualPeople.values()].filter(p=>p.id&&p.generation>=1&&p.generation<=4&&!p.emptyChild&&[p.surname,p.firstname].some(x=>String(x||'').trim()));
  const known=new Set();return all.filter(p=>{const k=String(p.id);if(known.has(k))return false;known.add(k);return true}).sort((a,b)=>a.generation-b.generation||(Number(a.birth_rank)||Number(a.position)||999)-(Number(b.birth_rank)||Number(b.position)||999));
 }
 function drawLivingLeaves(){
@@ -1582,7 +1582,7 @@ function renderLivingTree(){
   const p=group[i],slots=positions[gen],base=slots[i%slots.length],row=Math.floor(i/slots.length);
   const px=Math.min(93,Math.max(7,base[0]+(row%2?2:-2)*row)),py=Math.min(81,Math.max(11,base[1]+(row%3-1)*5));
   const diameter=gen===1?'67px':gen===2?'55px':gen===3?'44px':'36px';
-  const img=p.photo?'<img src="'+familySafe(p.photo)+'" alt="">':p.deceased?'<span class="living-memorial-bird" aria-label="En mémoire de cette personne">🕊️</span>':'<span class="living-initial">'+familySafe((p.firstname||p.surname||'?').slice(0,1).toUpperCase())+'</span>';
+  const img=p.photo?'<img loading="lazy" src="'+familySafe(p.photo)+'" alt="">':p.virtual?'<span class="living-initial" aria-label="Nom indiqué, non inscrit">＋</span>':p.deceased?'<span class="living-memorial-bird" aria-label="En mémoire de cette personne">🕊️</span>':'<span class="living-initial">'+familySafe((p.firstname||p.surname||'?').slice(0,1).toUpperCase())+'</span>';
   parts.push('<button type="button" class="living-portrait" data-living-id="'+familySafe(p.id)+'" data-gen="'+gen+'" data-deceased="'+(p.deceased?'true':'false')+'" style="left:'+px+'%;top:'+py+'%;--diameter:'+diameter+';--delay:'+(sequence++*.12+Math.max(0,gen-1)*.36).toFixed(2)+'s" aria-label="Voir '+familySafe(livingDisplayName(p))+'" title="'+familySafe(livingDisplayName(p))+'"><span class="living-photo">'+img+'</span>'+(gen===1?'<span class="living-person-name">'+familySafe(livingDisplayName(p))+'</span>':'')+'</button>');
  }
  }
@@ -1687,7 +1687,7 @@ function replayLivingTree(){clearLivingLineage();$('livingPortraits').innerHTML=
 $('livingPortraits').addEventListener('click',e=>{
  const el=e.target.closest('[data-living-id]');if(!el)return;
  const p=livingPeople().find(m=>String(m.id)===el.dataset.livingId);
- if(p){highlightLivingLineage(p.id);showPublicPhoto(p);}
+ if(p){if(p.virtual){openSopTree();edit(p.id,p.parent_id,p.generation);return}highlightLivingLineage(p.id);showPublicPhoto(p);}
 });
 function fillSopMemorySelect(){
  const select=$('sopMemoryPerson');if(!select)return;
@@ -1860,22 +1860,35 @@ $('sopFeedPosts').addEventListener('click',async e=>{
    Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
 let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
 function fillSopAccessMembers(){
- $('sopAccessMember').value='';
+ const select=$('sopAccessMember');
+ const members=people.filter(p=>p&&p.id&&!p.deceased&&!p.virtual&&p.generation<=3&&p.photo).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
+ select.innerHTML='<option value="">Choisir mon nom</option>'+members.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
+ select.value='';
  $('sopAccessDay').value='';
  $('sopAccessYear').value='';
- $('sopAccessPreview').textContent='Votre fiche apparaîtra après vérification.';
+ $('sopAccessPreview').textContent='Sélectionnez votre nom pour continuer.';
+ $('sopGatePersonalBirthday').hidden=true;
+ $('sopAccessDay').required=false;
+ $('sopAccessYear').required=false;
 }
+$('sopAccessMember').addEventListener('change',()=>{
+ const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
+ $('sopAccessPreview').innerHTML=m?(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Portrait">':'')+'<strong>'+familySafe(familyName(m))+'</strong>':'Sélectionnez votre nom pour continuer.';
+ $('sopGatePersonalBirthday').hidden=!m||registeredParent(m);
+ $('sopAccessDay').required=!!m&&!registeredParent(m);
+ $('sopAccessYear').required=!!m&&!registeredParent(m);
+ $('sopAccessError').textContent='';
+});
 function normalizeSopMemberName(name){
  return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,' ').trim().toLowerCase().replace(/\s+/g,' ');
 }
 $('sopMemberGateForm').addEventListener('submit',async e=>{
  e.preventDefault();
- const entered=normalizeSopMemberName($('sopAccessMember').value);
+ const selected=$('sopAccessMember').value;
  const error=$('sopAccessError'),button=$('sopAccessContinue');
- if(!entered){error.textContent='Indiquez le nom et le prénom de votre fiche.';return}
- const matches=people.filter(p=>p&&p.id&&!p.deceased&&p.generation<=3&&!p.virtual&&p.photo&&normalizeSopMemberName(familyName(p))===entered);
- if(matches.length!==1){error.textContent='Fiche introuvable ou nom ambigu. Vérifiez le nom et le prénom.';return}
- const m=matches[0];error.textContent='';
+ const m=people.find(p=>String(p.id)===selected&&!p.deceased&&!p.virtual&&p.generation<=3&&p.photo);
+ if(!m){error.textContent='Choisissez votre fiche familiale.';return}
+ error.textContent='';
  if(registeredParent(m)){await beginChildLogin(m,'tab',null);return}
  const day=Number($('sopAccessDay').value),month=Number($('sopAccessYear').value);
  if(day<1||day>31||month<1||month>12){error.textContent='Indiquez votre jour et votre mois de naissance.';return}
