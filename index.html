@@ -1684,6 +1684,7 @@ function selectSopTab(page){
    $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
    $('sopChatIdentity').textContent='Profil connecté : '+familyName(sopChatPerson);refreshSopChat();
  }
+ if(page==='home')requestAnimationFrame(()=>{layoutLivingPortraits();if(selectedLivingLineage)requestAnimationFrame(()=>highlightLivingLineage(selectedLivingLineage))});
  if(page==='tree')requestAnimationFrame(()=>{if(!sopTreeFirstOpen){sopTreeFirstOpen=true;fitTree()}else drawFamilyLines()});
  window.scrollTo({top:0,behavior:'instant'});
 }
@@ -1761,7 +1762,7 @@ function layoutLivingPortraits(){
  });
  const founders=items.filter(el=>el.dataset.gen==='1');
  for(let i=0;i<founders.length;i++){
-  const el=founders[i],x=founders.length===1?50:founders.length===2?(i===0?34:66):14+72*(i+.5)/founders.length,y=compact?77:78;
+  const el=founders[i],x=founders.length===1?50:founders.length===2?(i===0?34:66):14+72*(i+.5)/founders.length,y=compact?68:78;
   const size=sizes[1];
   el.style.left=x+'%';el.style.top=y+'%';el.style.setProperty('--diameter',size+'px');
   occupied.push({x:width*x/100,y:height*y/100,size:size+6});
