@@ -650,10 +650,10 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
-<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Sélectionnez votre fiche familiale déjà enregistrée avec votre nom et votre photo.</p>
-<form id="sopMemberGateForm"><label for="sopAccessMember">Votre nom</label><select id="sopAccessMember" required><option value="">Choisir une fiche</option></select>
-<div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Sélectionnez votre fiche.</div>
-<label for="sopAccessCode">Votre code personnel (4 chiffres)</label><input id="sopAccessCode" type="password" inputmode="numeric" autocomplete="off" maxlength="4" pattern="[0-9]{2}|[0-9]{4}" required placeholder="Votre code personnel"><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
+<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Saisissez votre nom tel qu’il est inscrit sur votre fiche, puis votre code personnel à 4 chiffres.</p>
+<form id="sopMemberGateForm"><label for="sopAccessMember">Nom et prénom sur votre fiche</label><input id="sopAccessMember" type="text" required autocomplete="name" maxlength="220" placeholder="Nom et prénom">
+<div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
+<label for="sopAccessCode">Votre code personnel (4 chiffres)</label><input id="sopAccessCode" type="password" inputmode="numeric" autocomplete="off" minlength="4" maxlength="4" pattern="[0-9]{4}" required placeholder="Votre code personnel"><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
 <p class="sop-gate-note">Pas encore inscrit ? Ajoutez votre fiche sur l’arbre généalogique pour obtenir un code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
@@ -1606,37 +1606,37 @@ $('sopFeedPosts').addEventListener('click',async e=>{
 
 /* Les rubriques familiales s’ouvrent après sélection d’une fiche avec nom et photo.
    Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
-let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
-function fillSopAccessMembers(){
- const select=$('sopAccessMember'),old=select.value;
- const eligible=people.filter(p=>p&&!p.deceased&&p.code_set&&p.id).sort((a,b)=>familyName(a).localeCompare(familyName(b),'fr'));
- select.innerHTML='<option value="">Choisir une fiche</option>'+eligible.map(p=>'<option value="'+familySafe(p.id)+'">'+familySafe(familyName(p))+'</option>').join('');
- if(eligible.some(p=>String(p.id)===old))select.value=old;
- updateSopAccessPreview();
+let sofunction fillSopAccessMembers(){
+ $('sopAccessMember').value='';
+ $('sopAccessCode').value='';
+ $('sopAccessPreview').textContent='Votre fiche apparaîtra après vérification.';
 }
-function updateSopAccessPreview(){
- const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
- $('sopAccessPreview').innerHTML=m&&m.code_set&&!m.deceased?(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo de la fiche">':'')+'<strong>'+familySafe(familyName(m))+'</strong>':'<span>Sélectionnez votre nom pour continuer.</span>';
+function normalizeSopMemberName(name){
+ return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9]+/g,' ').trim().toLowerCase().replace(/\s+/g,' ');
 }
-$('sopAccessMember').addEventListener('change',updateSopAccessPreview);
 $('sopMemberGateForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!$('sopMemberGateForm').reportValidity())return;
- const m=people.find(p=>String(p.id)===$('sopAccessMember').value);
- const code=$('sopAccessCode').value;
+ const entered=normalizeSopMemberName($('sopAccessMember').value);
+ const code=$('sopAccessCode').value.trim();
  const error=$('sopAccessError'),button=$('sopAccessContinue');
- if(!m||m.deceased||!m.code_set){error.textContent='Choisissez une fiche enregistrée possédant un code personnel.';return}
+ const matches=people.filter(p=>p&&p.id&&!p.deceased&&p.code_set&&normalizeSopMemberName(familyName(p))===entered);
+ if(matches.length!==1){error.textContent='Nom ou code non reconnu. Saisissez le nom et le prénom figurant sur votre fiche.';return}
+ const m=matches[0];
  button.disabled=true;error.textContent='';
  try{
   const data=await api('rpc/batcha_open_with_code',{p_id:m.id,p_code:code});
-  if(data.error)throw Error(data.error);
-  if(!data.access)throw Error('Accès refusé : vérifiez votre code personnel.');
+  if(data.error||!data.access)throw Error('Nom ou code non reconnu.');
   cacheOpenedProfile(data);
   sopChatPerson=m;
+  $('sopAccessPreview').innerHTML=(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo du membre">':'')+'<strong>'+familySafe(familyName(m))+'</strong>';
   $('sopAccessCode').value='';
   if(data.personal_code){issuedCodes=[{name:familyName(m),code:data.personal_code}];showCodes('Votre ancien code a été remplacé par un code à 4 chiffres. Conservez-le pour vos prochaines connexions.')}
   const dest=sopPendingTab;sopPendingTab='chat';
   selectSopTab(dest);
- }catch(err){error.textContent=err.message||'Code personnel incorrect.'}
+ }catch(err){error.textContent='Nom ou code non reconnu.'}
+ finally{button.disabled=false}
+});
+nt=err.message||'Code personnel incorrect.'}
  finally{button.disabled=false}
 });
 function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
