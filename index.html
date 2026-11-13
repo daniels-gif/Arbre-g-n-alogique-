@@ -704,12 +704,12 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
-<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Si votre fiche comporte une photo et votre jour et mois de naissance, vous pouvez consulter les rubriques familiales sans utiliser votre code personnel. La modification de votre profil reste verrouillée.</p>
+<div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Si votre fiche comporte une photo et votre jour de naissance, vous pouvez consulter les rubriques familiales sans utiliser votre code personnel. La modification de votre profil reste verrouillée.</p>
 <form id="sopMemberGateForm"><label for="sopAccessMember">Nom et prénom sur votre fiche</label><input id="sopAccessMember" type="text" required autocomplete="name" maxlength="220" placeholder="Nom et prénom">
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
-<div class="birth-parts sop-family-birthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" required placeholder="Jour"><label for="sopAccessMonth">Mois de naissance *</label><select id="sopAccessMonth" required><option value="">Choisir le mois</option><option value="1">Janvier</option><option value="2">Février</option><option value="3">Mars</option><option value="4">Avril</option><option value="5">Mai</option><option value="6">Juin</option><option value="7">Juillet</option><option value="8">Août</option><option value="9">Septembre</option><option value="10">Octobre</option><option value="11">Novembre</option><option value="12">Décembre</option></select></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
+<div class="sop-family-day"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" required placeholder="Ex. : 15"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
-<p class="sop-gate-note">Pas encore de photo ou de date d’anniversaire sur votre fiche ? Complétez-les sur l’arbre familial avec votre code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
+<p class="sop-gate-note">Pas encore de photo ou de jour de naissance sur votre fiche ? Complétez-les sur l’arbre familial avec votre code personnel.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP Wandji · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>L’arbre de vie de la famille</h2><p>Les portraits apparaissent doucement, des grands-parents aux arrière-petits-enfants.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
 <div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
@@ -1611,7 +1611,7 @@ async function refreshFamilyFeed(){
  if(!profileToken&&!familyVisit){$('sopFeedPosts').innerHTML='<p class="family-branch-empty">Identifiez votre fiche familiale pour lire les actualités.</p>';return}
  familyFeedBusy=true;
  try{
-  familyFeedItems=profileToken?await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileToken}):await api('rpc/batcha_family_feed_read',{p_person_id:sopChatPerson.id,p_day:familyVisit.day,p_month:familyVisit.month});
+  familyFeedItems=profileToken?await api('rpc/batcha_feed_read',{p_person_id:sopChatPerson.id,p_access:profileToken}):await api('rpc/batcha_family_feed_read',{p_person_id:sopChatPerson.id,p_day:familyVisit.day});
   $('sopFeedIdentity').textContent='Fiche sélectionnée : '+familyName(sopChatPerson);
   renderFamilyFeed();
   $('sopFeedStatus').textContent='';
@@ -1723,7 +1723,6 @@ let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignatu
 function fillSopAccessMembers(){
  $('sopAccessMember').value='';
  $('sopAccessDay').value='';
- $('sopAccessMonth').value='';
  $('sopAccessPreview').textContent='Votre fiche apparaîtra après vérification.';
 }
 function normalizeSopMemberName(name){
@@ -1732,17 +1731,17 @@ function normalizeSopMemberName(name){
 $('sopMemberGateForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!$('sopMemberGateForm').reportValidity())return;
  const entered=normalizeSopMemberName($('sopAccessMember').value);
- const day=Number($('sopAccessDay').value),month=Number($('sopAccessMonth').value);
+ const day=Number($('sopAccessDay').value);
  const error=$('sopAccessError'),button=$('sopAccessContinue');
  const matches=people.filter(p=>p&&p.id&&!p.deceased&&!p.virtual&&p.photo&&normalizeSopMemberName(familyName(p))===entered);
  if(matches.length!==1){error.textContent='Nom introuvable ou ambigu. Vérifiez le nom et le prénom inscrits sur votre fiche.';return}
  const m=matches[0];
  button.disabled=true;error.textContent='';
  try{
-  const eligible=await api('rpc/batcha_family_visitor_eligible',{p_person_id:m.id,p_day:day,p_month:month});
-  if(eligible!==true)throw Error('Photo ou date de naissance absente ou différente.');
+  const eligible=await api('rpc/batcha_family_visitor_eligible',{p_person_id:m.id,p_day:day});
+  if(eligible!==true)throw Error('Photo ou jour de naissance absent ou différente.');
   sopChatPerson=m;
-  sopFamilyVisit={id:m.id,day,month};
+  sopFamilyVisit={id:m.id,day};
   $('sopAccessPreview').innerHTML=(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo du membre">':'')+'<strong>'+familySafe(familyName(m))+'</strong>';
   const dest=sopPendingTab;sopPendingTab='chat';
   selectSopTab(dest);
