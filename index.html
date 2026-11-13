@@ -814,9 +814,14 @@ function virtualChild(parent,index,slot){
  const [surname,firstname]=FIRST_GRANDCHILDREN[index];
  return {id:'virtual-'+index,parent_id:parent.id,surname,firstname,generation:3,deceased:index===6,status_verified:index===6,memorialBird:index===6,virtual:true};
 }
+function familyTitleCase(value){
+ return String(value||'').toLocaleLowerCase('fr').replace(/(^|[\\s\-’'])(([a-zà-öø-ÿ]))/gi,(_,sep,letter)=>sep+letter.toLocaleUpperCase('fr'));
+}
 function person(p,parent,gen){
  const displaySurname=gen>=3?String(p?.surname||'').replace(/\s+wandji$/i,'').trim():p?.surname;
- const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe(gen===4?(String(p.firstname||'').trim()||String(displaySurname||'').trim().split(/\s+/)[0]):[displaySurname,p.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' '))):'Ajouter';
+ const rawName=gen===4?(String(p?.firstname||'').trim()||String(displaySurname||'').trim().split(/\s+/)[0]):[displaySurname,p?.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' ');
+ const founderTitle=gen===1&&/sop wandji/i.test(String(p?.surname||''))&&/antoine/i.test(String(p?.firstname||''))?'Papa ':gen===1&&/kouamo/i.test(String(p?.surname||''))&&/jacqueline/i.test(String(p?.firstname||''))?'Mama ':'';
+ const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe(founderTitle+(gen>=3?familyTitleCase(rawName):rawName))):'Ajouter';
  const memorial=!!p?.deceased;
  const photo=memorial&&!p?.photo?'<span class="round-avatar memorial-bird" aria-label="En mémoire de cette personne décédée"><span aria-hidden="true">🕊️</span></span>':p?.photo?'<img class="profile-photo '+(p.deceased?'deceased':'')+'" src="'+safe(p.photo)+'" alt="Photo de la personne">':'<span class="emoji round-avatar" aria-label="Photo non renseignée">+</span>';
  const attrs=' data-id="'+safe(p?.id||'')+'" data-parent="'+safe(parent||'')+'" data-gen="'+gen+'"';
