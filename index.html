@@ -698,6 +698,31 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 #sopHome .living-portrait[data-gen="3"] .living-person-name,#sopHome .living-portrait[data-gen="4"] .living-person-name{display:inline-block!important}
 .sop-family-day{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.sop-family-day label{font-size:13px;margin:0}.sop-family-day input{grid-row:2;min-width:0}
 #childLoginOverlay,#noChildLoginOverlay{z-index:17}.sop-child-challenge-fields{grid-template-columns:1fr 1fr}.sop-child-challenge-fields input{width:100%;min-width:0}
+
+/* Consultation publique : arbre seul, agrandi et sans export. */
+body.guest-tree-view #sopTree{padding:0!important;margin:0!important;max-width:none!important;width:100%!important}
+body.guest-tree-view #sopTree .family-counters,
+body.guest-tree-view #sopTree .tree-export-dropdown,
+body.guest-tree-view #sopTree .actions,
+body.guest-tree-view #sopTree .explorer-accordion,
+body.guest-tree-view #sopTree .landscape-hint,
+body.guest-tree-view #sopTree #loading[hidden],
+body.guest-tree-view #sopChatShortcut,
+body.guest-tree-view #sopTree .tree-compact-actions .landscape-tools{display:none!important}
+body.guest-tree-view #sopTree .sop-tree-intro{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 18px;margin:0!important}
+body.guest-tree-view #sopTree .sop-tree-intro h1{font-size:clamp(16px,3vw,25px);margin:0}
+body.guest-tree-view #sopTree .sop-tree-login{display:inline-flex!important}
+body:not(.guest-tree-view) #sopTree .sop-tree-login{display:none!important}
+body.guest-tree-view #sopTree .family-tree{max-width:none!important;width:100%!important;margin:0!important;padding:4px 0 14px!important;min-height:calc(100dvh - 145px)!important}
+body.guest-tree-view #sopTree .tree-scroll{height:calc(100dvh - 165px)!important;max-height:none!important;overflow:auto!important;touch-action:pan-x pan-y}
+body.guest-tree-view #sopTree .tree-visible-controls{justify-content:center!important}
+body.guest-tree-view #sopTree .tree-compact-actions{padding:4px 10px!important}
+body.guest-tree-view #sopTree .family-chart{margin:0 auto}
+@media print{
+ body:not(.book-print-mode) #sopTree,
+ body.guest-tree-view #sopTree,
+ body.guest-tree-view #familyBook{display:none!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -736,7 +761,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 </section>
 </section>
 <section class="sop-page" id="sopTree" data-sop-page="tree" hidden>
-<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’arbre animé</button><h1>Arbre généalogique · SOP Wandji</h1></div>
+<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Arbre généalogique · SOP Wandji</h1><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
@@ -1200,7 +1225,7 @@ async function proposeMemorialPhoto(){
  }catch(err){$('memoryStatus').textContent='Proposition non envoyée : '+err.message}
  finally{button.disabled=false}
 }
-async function makeFamilyBook(){
+async function makeFamilyBook(){if(!isFamilyConnected())return guestLoginRequired();
  await fetchMemories();
  const all=[...people].sort((a,b)=>a.generation-b.generation||(a.position||0)-(b.position||0));
  const id=$('branchSelect').value, descendantOf=p=>{
@@ -1302,7 +1327,7 @@ async function createTreePosterJpegData(){
   requestAnimationFrame(drawFamilyLines);
  }
 }
-async function downloadTreeJpegHD(){
+async function downloadTreeJpegHD(){if(!isFamilyConnected())return guestLoginRequired();
  if(posterBusy)return;posterBusy=true;
  const btn=$('downloadTreeJpeg');
  if(btn){btn.disabled=true;btn.textContent='Création du JPEG HD…'}
@@ -1317,7 +1342,7 @@ async function downloadTreeJpegHD(){
   if(btn){btn.disabled=false;btn.textContent='📷 Télécharger JPEG HD'}
  }
 }
-async function downloadTreePdf(size){
+async function downloadTreePdf(size){if(!isFamilyConnected())return guestLoginRequired();
  if(posterBusy)return;posterBusy=true;
  const btn=$('downloadTreePdf');
  if(btn){btn.disabled=true;btn.textContent='Création du PDF…'}
@@ -1422,6 +1447,7 @@ function selectSopTab(page){
  if(!['home','tree','events','memories','chat','news'].includes(page))page='home';
  const awaiting=SOP_PRIVATE_TABS.includes(page)&&!sopHasAccess();
  currentSopPage=page;
+ document.body.classList.toggle('guest-tree-view',page==='tree'&&!isFamilyConnected());
  $('sopMemberGate').hidden=!awaiting;
  if(awaiting){
    sopPendingTab=page;
