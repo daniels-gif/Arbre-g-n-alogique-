@@ -1606,7 +1606,8 @@ $('sopFeedPosts').addEventListener('click',async e=>{
 
 /* Les rubriques familiales s’ouvrent après sélection d’une fiche avec nom et photo.
    Cela n’est pas une preuve d'identité : aucune donnée privée n’est communiquée ici. */
-let sofunction fillSopAccessMembers(){
+let sopChatPerson=null,sopPendingTab='chat',sopChatBusy=false,sopChatLastSignature='';
+function fillSopAccessMembers(){
  $('sopAccessMember').value='';
  $('sopAccessCode').value='';
  $('sopAccessPreview').textContent='Votre fiche apparaîtra après vérification.';
