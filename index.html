@@ -846,13 +846,21 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
  font-size:13px;line-height:1.3;white-space:normal;
 }
 @media(max-width:620px){#sopHome .living-tree .sop-hero-actions>button{flex:0 0 auto!important;padding:10px 9px!important;font-size:12px;line-height:1.25}}
+
+/* Navigation légère : icônes seules, lisibles et accessibles au clavier ou au toucher. */
+#sopTabs.sop-tabs{display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:clamp(5px,1.6vw,11px);max-width:440px;margin:6px auto 5px;padding:5px 9px}
+#sopTabs.sop-tabs[hidden]{display:none!important}
+#sopTabs .sop-tab{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:clamp(42px,11.4vw,52px);height:clamp(42px,11.4vw,52px);min-width:0;min-height:0;max-width:none;padding:0;border-radius:15px;line-height:1;font-size:clamp(21px,5.3vw,26px);box-sizing:border-box}
+#sopTabs .sop-tab span{display:block;line-height:1;pointer-events:none}
+#sopTabs .sop-tab:focus-visible{outline:3px solid #bda466;outline-offset:2px}
+@media(max-width:620px){#sopTabs.sop-tabs{display:flex;grid-template-columns:none;gap:5px;padding:5px 4px;max-width:100%;margin:4px auto}#sopTabs .sop-tab{width:clamp(40px,13vw,49px);height:clamp(40px,13vw,49px);padding:0;border-radius:13px;font-size:23px}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
-<button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
-<button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
-<button type="button" class="sop-tab" data-sop-tab="news">📰 <span>Actualités</span></button>
-<button type="button" class="sop-tab" data-sop-tab="events">📅 <span>Événements</span></button>
-<button type="button" class="sop-tab" data-sop-tab="memories">📷 <span>Souvenirs</span></button>
-<button type="button" class="sop-tab" data-sop-tab="chat">💬 <span>Salon familial</span></button>
+<button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><span aria-hidden="true">🏡</span></button>
+<button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><span aria-hidden="true">🌳</span></button>
+<button type="button" class="sop-tab" data-sop-tab="news" aria-label="Actualités" title="Actualités"><span aria-hidden="true">📰</span></button>
+<button type="button" class="sop-tab" data-sop-tab="events" aria-label="Événements" title="Événements"><span aria-hidden="true">📅</span></button>
+<button type="button" class="sop-tab" data-sop-tab="memories" aria-label="Souvenirs" title="Souvenirs"><span aria-hidden="true">📷</span></button>
+<button type="button" class="sop-tab" data-sop-tab="chat" aria-label="Salon familial" title="Salon familial"><span aria-hidden="true">💬</span></button>
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Avec un enfant inscrit et photographié, répondez à la question sur cet enfant. Sinon, utilisez votre jour et votre mois de naissance.</p>
