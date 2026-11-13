@@ -1593,7 +1593,7 @@ function selectSopTab(page){
 }
 $('sopTabs').addEventListener('click',e=>{const tab=e.target.closest('[data-sop-tab]');if(tab)selectSopTab(tab.dataset.sopTab)});
 function livingPeople(){
- const all=[...people,...virtualPeople.values()].filter(p=>p.id&&p.generation>=1&&p.generation<=4&&!p.emptyChild&&[p.surname,p.firstname].some(x=>String(x||'').trim()));
+ const all=people.filter(p=>p.id&&!p.virtual&&p.generation>=1&&p.generation<=4&&!p.emptyChild&&[p.surname,p.firstname].some(x=>String(x||'').trim()));
  const known=new Set();return all.filter(p=>{const k=String(p.id);if(known.has(k))return false;known.add(k);return true}).sort((a,b)=>a.generation-b.generation||(Number(a.birth_rank)||Number(a.position)||999)-(Number(b.birth_rank)||Number(b.position)||999));
 }
 function drawLivingLeaves(){
