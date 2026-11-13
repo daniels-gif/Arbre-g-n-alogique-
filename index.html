@@ -760,12 +760,10 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
   <label for="sopFeedImage">Ajouter une photo (facultatif)</label>
   <input type="file" id="sopFeedImage" accept="image/jpeg,image/png,image/webp">
   <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie"><label for="sopFeedVideoUrl">Lien d’un Reel ou Short (facultatif)</label><input type="url" id="sopFeedVideoUrl" placeholder="https://www.youtube.com/shorts/… ou Instagram/TikTok" maxlength="500"><small>Collez un lien YouTube Shorts, Instagram Reels ou TikTok. La vidéo reste hébergée sur le service d’origine.</small>
-  <label for="sopFeedCode">Code personnel de votre fiche (4 chiffres)</label>
-  <input id="sopFeedCode" type="password" maxlength="4" pattern="[0-9]{2}|[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Votre code à 4 chiffres" aria-describedby="sopFeedCodeHelp">
-  <p id="sopFeedCodeHelp" class="sop-feed-note">Lecture des actualités : nom et jour de naissance. Pour publier ou modifier, saisissez le code de votre fiche. Aucun bouton de partage hors du site n’est proposé.</p>
+  <p class="sop-feed-note">Votre publication sera enregistrée et validée dans l’historique privé.</p>
   <div class="sop-feed-buttons">
    <button type="submit" class="action" id="sopFeedPublish">Publier dans le fil</button>
-   <button type="button" class="action" id="sopFeedUnlock">🔐 Ouvrir le fil</button><button type="button" class="action" id="sopFeedRefresh">Actualiser les actualités</button>
+   <button type="button" class="action" id="sopFeedRefresh">Actualiser les actualités</button>
   </div>
   <p id="sopFeedStatus" role="status"></p>
  </form>
@@ -819,7 +817,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <div id="sopChatRoom" hidden>
  <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
- <form id="sopChatCompose" class="chat-family-compose"><label for="sopChatWriteCode">Code personnel pour envoyer un message (4 chiffres)</label><input id="sopChatWriteCode" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" autocomplete="off" placeholder="Code de votre fiche"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
+ <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
 
 </div>
@@ -831,7 +829,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <div id="memoryGallery" class="memory-gallery"></div>
 <div id="memoryEditor" hidden>
 <h3>Compléter mon histoire</h3>
-<p>Seule une personne ayant déverrouillé cette fiche peut enregistrer son récit et ses photos.</p>
+<p>Une personne connectée peut proposer son récit et ses photos. La publication est validée depuis l’historique privé.</p>
 <textarea id="memoryText" rows="5" maxlength="2500" placeholder="Racontez un souvenir, votre parcours, une anecdote familiale…"></textarea>
 <label class="heritage-check"><input type="checkbox" id="memoryPublish"> J’accepte que ce récit soit visible par les visiteurs du site et dans le livre familial.</label>
 <button type="button" class="action" onclick="saveMemoryStory()">Enregistrer mon récit</button>
@@ -844,8 +842,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <h3>Proposer une photo souvenir</h3>
 <p>Un membre de la famille peut proposer une photo. Sa publication attend la validation d’un responsable de l’historique privé.</p>
 <label for="memoryProposer">Votre fiche familiale</label><select id="memoryProposer"></select>
-<label for="memoryProposerCode">Votre code à 4 chiffres (inutile si votre fiche est déjà ouverte)</label>
-<input id="memoryProposerCode" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" placeholder="••••">
+
 <label for="memoryMemorialTitle">Titre de la photo (facultatif)</label><input id="memoryMemorialTitle" maxlength="100">
 <label for="memoryMemorialFile">Photo souvenir</label><input id="memoryMemorialFile" type="file" accept="image/jpeg,image/png,image/webp">
 <label class="heritage-check"><input type="checkbox" id="memoryMemorialConsent"> J’autorise la publication de cette photo après validation.</label>
@@ -1135,9 +1132,9 @@ async function openMemory(id){
  if(p.deceased){
   const living=people.filter(m=>!m.deceased&&!m.virtual&&m.code_set);
   $('memoryProposer').innerHTML='<option value="">Choisir votre fiche</option>'+living.map(m=>'<option value="'+familySafe(m.id)+'">'+familySafe(familyName(m))+'</option>').join('');
-  const available=living.find(m=>profileAccess.has(m.id));
+  const available=living.find(m=>String(m.id)===String(sopChatPerson?.id)&&profileAccess.has(m.id))||living.find(m=>profileAccess.has(m.id));
   if(available)$('memoryProposer').value=available.id;
-  $('memoryProposerCode').value='';$('memoryMemorialFile').value='';$('memoryMemorialTitle').value='';$('memoryMemorialConsent').checked=false;
+  $('memoryMemorialFile').value='';$('memoryMemorialTitle').value='';$('memoryMemorialConsent').checked=false;
  }
  $('memoryStatus').textContent=p.deceased?'Proposez une photo souvenir : elle attendra la validation de l’historique privé.':allowed?'Vous pouvez modifier vos souvenirs.':'Pour ajouter des souvenirs, ouvrez votre fiche avec votre code personnel.';
  $('memoryText').value='';
@@ -1163,7 +1160,7 @@ async function saveMemoryStory(){
  try{
  await api('rpc/batcha_memories_save_story',{p_person_id:memoryPerson.id,p_access:profileAccess.get(memoryPerson.id),p_text:$('memoryText').value,p_publish:$('memoryPublish').checked});
  await fetchMemories();$('memoryStory').textContent=memories.biographies.find(x=>x.person_id===memoryPerson.id)?.narrative||'Ce récit est privé jusqu’à sa publication.';
- $('memoryStatus').textContent='Récit enregistré.';
+ $('memoryStatus').textContent='Enregistré';
  }catch(err){$('memoryStatus').textContent='Enregistrement impossible : '+err.message}
 }
 async function addMemoryPhoto(){
@@ -1176,30 +1173,24 @@ async function addMemoryPhoto(){
  const data=await compressFamilyFeedPhoto(file);
  await api('rpc/batcha_memories_add_photo',{p_person_id:memoryPerson.id,p_access:profileAccess.get(memoryPerson.id),p_title:$('memoryPhotoTitle').value,p_photo:data});
  $('memoryPhotoFile').value='';$('memoryPhotoTitle').value='';$('memoryPhotoConsent').checked=false;
- await fetchMemories();renderMemoryGallery();$('memoryStatus').textContent='Photo ajoutée à l’album familial.';
+ await fetchMemories();renderMemoryGallery();$('memoryStatus').textContent='Enregistré';
  }catch(err){$('memoryStatus').textContent=err.message}
 }
 async function proposeMemorialPhoto(){
- const target=memoryPerson,personId=$('memoryProposer').value,code=$('memoryProposerCode').value.trim(),file=$('memoryMemorialFile').files[0],button=$('memoryMemorialSend');
+ const target=memoryPerson,personId=sopChatPerson?.id||$('memoryProposer').value,file=$('memoryMemorialFile').files[0],button=$('memoryMemorialSend');
  if(!target?.deceased){$('memoryStatus').textContent='Sélectionnez un album mémoriel.';return}
  if(!personId){$('memoryStatus').textContent='Choisissez votre fiche familiale.';return}
  if(!file){$('memoryStatus').textContent='Choisissez une photo à proposer.';return}
  if(!$('memoryMemorialConsent').checked){$('memoryStatus').textContent='Confirmez votre accord pour la publication.';return}
- if(code&&!/^\d{4}$/.test(code)){$('memoryStatus').textContent='Le code doit comporter 4 chiffres.';return}
+
  button.disabled=true;$('memoryStatus').textContent='Envoi de votre proposition…';
  try{
-  let access=profileAccess.get(personId);
-  if(code){
-   const result=await api('rpc/batcha_open_with_code',{p_id:personId,p_code:code});
-   if(result.error||!result.access)throw Error(result.error||'Code personnel incorrect.');
-   access=result.access;profileAccess.set(personId,access);cacheOpenedProfile(result);
-   if(result.personal_code){issuedCodes=[{name:familyName(result.profile),code:result.personal_code}];showCodes('Nouveau code personnel à 4 chiffres : conservez-le.')}
-  }
-  if(!access)throw Error('Saisissez le code à 4 chiffres de votre propre fiche.');
+  const access=profileAccess.get(personId);
+  if(!access)throw Error('Connectez-vous pour ajouter un souvenir.');
   const data=await compressFamilyFeedPhoto(file);
   await api('rpc/batcha_memorial_propose_photo',{p_person_id:target.id,p_submitter_id:personId,p_access:access,p_title:$('memoryMemorialTitle').value.trim(),p_photo:data});
-  $('memoryMemorialFile').value='';$('memoryMemorialTitle').value='';$('memoryProposerCode').value='';$('memoryMemorialConsent').checked=false;
-  $('memoryStatus').textContent='Photo reçue. Elle sera visible après approbation par un responsable de l’historique privé.';
+  $('memoryMemorialFile').value='';$('memoryMemorialTitle').value='';$('memoryMemorialConsent').checked=false;
+  $('memoryStatus').textContent='Enregistré';
  }catch(err){$('memoryStatus').textContent='Proposition non envoyée : '+err.message}
  finally{button.disabled=false}
 }
@@ -1710,37 +1701,22 @@ $('sopFeedImage').addEventListener('change',()=>{
  const url=URL.createObjectURL(file);preview.dataset.tempUrl=url;preview.src=url;preview.hidden=false;
 });
 $('sopFeedRefresh').addEventListener('click',refreshFamilyFeed);
-$('sopFeedUnlock').addEventListener('click',async()=>{
- const member=sopChatPerson,code=$('sopFeedCode').value.trim(),status=$('sopFeedStatus');
- if(!member){status.textContent='Sélectionnez votre profil familial.';return}
- if(!code&&!profileAccess.get(member.id)){status.textContent='Connectez-vous à votre compte.';return}
- try{
-  if(code){const data=await api('rpc/batcha_open_with_code',{p_id:member.id,p_code:code});if(data.error||!data.access)throw Error(data.error||'Code non reconnu.');profileAccess.set(member.id,data.access);$('sopFeedCode').value='';if(data.personal_code){issuedCodes=[{name:familyName(member),code:data.personal_code}];showCodes('Votre code passe à 4 chiffres : notez ce nouveau code.')}}
-  await refreshFamilyFeed();
- }catch(err){status.textContent=err.message}
-});
 $('sopFeedComposerToggle').addEventListener('toggle',()=>{if($('sopFeedComposerToggle').open)$('sopFeedNotice').textContent=''});
 $('sopFeedCompose').addEventListener('submit',async e=>{
  e.preventDefault();const member=sopChatPerson,button=$('sopFeedPublish'),status=$('sopFeedStatus');
  if(!member){status.textContent='Sélectionnez d’abord votre fiche familiale.';return}
- const body=$('sopFeedText').value.trim(),file=$('sopFeedImage').files[0],code=$('sopFeedCode').value.trim(),clipUrl=$('sopFeedVideoUrl').value.trim();
+ const body=$('sopFeedText').value.trim(),file=$('sopFeedImage').files[0],clipUrl=$('sopFeedVideoUrl').value.trim();
  if(!body&&!file&&!clipUrl){status.textContent='Écrivez une actualité, choisissez une photo ou collez un lien vidéo.';return}
  if(clipUrl&&!familyClipFromBody(clipUrl)){status.textContent='Collez un lien valide YouTube Shorts, Instagram Reels ou TikTok.';return}
  if((body.length+(clipUrl?clipUrl.length+1:0))>1200){status.textContent='Texte et lien : 1200 caractères maximum.';return}
  button.disabled=true;status.textContent='Préparation de votre publication…';
  try{
-  let access=profileAccess.get(member.id);
-  if(code){
-   const result=await api('rpc/batcha_open_with_code',{p_id:member.id,p_code:code});
-   if(result.error||!result.access)throw Error(result.error||'Code personnel non reconnu.');
-   access=result.access;profileAccess.set(member.id,access);
-   if(result.personal_code){issuedCodes=[{name:familyName(member),code:result.personal_code}];showCodes('Code personnel actualisé : notez vos 4 chiffres.');}
-  }
-  if(!access)throw Error('Connectez-vous à votre compte pour publier.');
+  const access=profileAccess.get(member.id);
+  if(!access)throw Error('Connectez-vous pour publier.');
   if(file&&await sopIsMonochromePhoto(file))throw Error('Photo en noir et blanc refusée. Choisissez une photo en couleur.');
   const image=await compressFamilyFeedPhoto(file);
   const publication=await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:[body,clipUrl].filter(Boolean).join('\n'),p_image:image});
-  $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedCode').value='';$('sopFeedVideoUrl').value='';
+  $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedVideoUrl').value='';
   const preview=$('sopFeedImagePreview');preview.hidden=true;preview.removeAttribute('src');
   if(preview.dataset.tempUrl){URL.revokeObjectURL(preview.dataset.tempUrl);delete preview.dataset.tempUrl}
   status.textContent='';$('sopFeedNotice').textContent=publication.status==='pending'?'Enregistré':'Publié';$('sopFeedComposerToggle').open=false;
@@ -1879,21 +1855,14 @@ async function refreshSopChat(){
 }
 $('sopChatCompose').addEventListener('submit',async e=>{
  e.preventDefault();if(!sopChatPerson)return;
- const message=$('sopChatText').value.trim(),code=$('sopChatWriteCode').value.trim();
+ const message=$('sopChatText').value.trim();
  if(!message||message.length>500)return;
  $('sopChatSend').disabled=true;$('sopChatStatus').textContent='';
  try{
-  let access=profileAccess.get(sopChatPerson.id);
-  if(code){
-   const verified=await api('rpc/batcha_open_with_code',{p_id:sopChatPerson.id,p_code:code});
-   if(verified.error||!verified.access)throw Error('Code personnel non reconnu.');
-   cacheOpenedProfile(verified);
-   access=verified.access;
-   if(verified.personal_code){issuedCodes=[{name:familyName(sopChatPerson),code:verified.personal_code}];showCodes('Notez votre nouveau code personnel à 4 chiffres.')}
-  }
-  if(!access)throw Error('Saisissez le code personnel généré lors de votre inscription pour envoyer un message.');
+  const access=profileAccess.get(sopChatPerson.id);
+  if(!access)throw Error('Connectez-vous pour envoyer un message.');
   await api('rpc/batcha_chat_send',{p_person_id:sopChatPerson.id,p_access:access,p_message:message});
-  $('sopChatText').value='';$('sopChatWriteCode').value='';await refreshSopChat();
+  $('sopChatText').value='';await refreshSopChat();
  }catch(err){$('sopChatStatus').textContent=err.message}
  finally{$('sopChatSend').disabled=false}
 });
