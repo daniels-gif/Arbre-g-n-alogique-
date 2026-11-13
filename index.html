@@ -1636,9 +1636,6 @@ $('sopMemberGateForm').addEventListener('submit',async e=>{
  }catch(err){error.textContent='Nom ou code non reconnu.'}
  finally{button.disabled=false}
 });
-nt=err.message||'Code personnel incorrect.'}
- finally{button.disabled=false}
-});
 function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
 function fillSopChatMembers(){
  const select=$('sopChatMember');if(!select)return;
