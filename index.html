@@ -637,6 +637,10 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 /* Photos des défunts en gris, fichiers originaux conservés. */
 .person img.profile-photo.deceased,#livingPortraits .living-portrait[data-deceased="true"] .living-photo img,.child-memorial-photo{filter:grayscale(1)!important}
 #livingPortraits .living-portrait[data-deceased="false"] .living-photo img{filter:none!important}
+
+/* Gris uniquement sur les portraits des défunts, jamais sur les photos des albums. */
+#memoryGallery .memory-tile img,#sopPublicMemories .sop-memory-card img,#familyBook img.book-photo{filter:none!important;-webkit-filter:none!important}
+#familyBook img.memorial-profile-photo{filter:grayscale(1)!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -1053,7 +1057,7 @@ async function makeFamilyBook(){
  return members.length?'<h2>'+gen+'ᵉ génération</h2>'+members.map(p=>{
  const bio=memories.biographies.find(x=>x.person_id===p.id);
  const imgs=memories.photos.filter(x=>x.person_id===p.id).slice(0,3);
- return '<article>'+(p.photo?'<img src="'+familySafe(p.photo)+'" alt="">':'')+'<h3>'+familySafe(familyName(p))+'</h3>'+(bio?'<p>'+familySafe(bio.narrative).replace(/\n/g,'<br>')+'</p>':'')+imgs.map(x=>'<figure><img class="book-photo" src="'+familySafe(x.photo_data)+'" alt=""><figcaption>'+familySafe(x.title)+'</figcaption></figure>').join('')+'</article>';
+ return '<article>'+(p.photo?'<img class="'+(p.deceased?'memorial-profile-photo':'')+'" src="'+familySafe(p.photo)+'" alt="">':'')+'<h3>'+familySafe(familyName(p))+'</h3>'+(bio?'<p>'+familySafe(bio.narrative).replace(/\n/g,'<br>')+'</p>':'')+imgs.map(x=>'<figure><img class="book-photo" src="'+familySafe(x.photo_data)+'" alt=""><figcaption>'+familySafe(x.title)+'</figcaption></figure>').join('')+'</article>';
  }).join(''):'';
  }).join('');
  document.body.classList.add('book-print-mode');
