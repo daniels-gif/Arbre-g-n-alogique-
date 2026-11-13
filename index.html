@@ -838,9 +838,19 @@ const CONFIRMED_CHILD_COUNTS=[
  {branch:4,slot:3,terms:['patrick'],count:2},
  {branch:5,slot:0,terms:['dany'],count:3}
 ];
+// Nouveaux effectifs communiqués, par nom et branche, sans changer les fiches.
+const NEW_CHILD_COUNTS=[
+ [0,'mbiakop prisca',1],[0,'kouamou warren',1],
+ [1,'wandji franck',0],[1,'monthe arlette',3],[1,'d. michelle',3],
+ [2,'djofang josiane',2],
+ [3,'fotso romeo',3],[3,'fotso adrianna',0],
+ [7,'edouard-nathan',0],[7,'anne-keline k.',0],[7,'emmanuel mathieu',0]
+];
 function confirmedChildCount(p,gen,branchIndex,slot){
  if(gen!==3||!p)return null;
  const normalized=[p.surname,p.firstname].filter(Boolean).join(' ').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr');
+ const named=NEW_CHILD_COUNTS.find(e=>e[0]===branchIndex&&e[1].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr')===normalized);
+ if(named)return named[2];
  const entry=CONFIRMED_CHILD_COUNTS.find(e=>e.branch===branchIndex&&e.slot===slot&&e.terms.some(t=>normalized.includes(t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('fr'))));
  return entry?entry.count:null;
 }
@@ -863,6 +873,7 @@ function descendantsMarkup(p,gen,branchIndex,slot){
    const isFostoStephanie=gen===3&&(p.surname||'').trim().toLocaleLowerCase('fr')==='fosto'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='stéphanie';
    if(gen===3&&!p.virtual&&!p.deceased&&!isFostoStephanie)kids.push({id:'new-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  }
+ if(gen===3&&!p.virtual&&!p.deceased&&actualKids.length===0&&kids.length===0)kids.push({id:'add-first-child-'+p.id,parent_id:p.id,generation:4,virtual:true,emptyChild:true});
  virtualPeople.set(p.id,p);
  return '<div class="descendant">'+(p.emptyChild?(person(null,p.parent_id,gen)):person(p,p.parent_id,gen))+(kids.length?'<div class="grandchildren">'+kids.map(k=>descendantsMarkup(k,gen+1,branchIndex,slot)).join('')+'</div>':'')+'</div>';
 }
@@ -870,6 +881,8 @@ function render(){virtualPeople=new Map();const roots=people.filter(p=>p.generat
  // MONTHE Gisèle : respecter la position familiale (CHIEMOUO Danièle = 4e enfant).
  // Conserver les autres branches et les emplacements déjà affichés.
  const isMonthe=(p.surname||'').trim().toLocaleLowerCase('fr')==='monthe'&&(p.firstname||'').trim().toLocaleLowerCase('fr')==='gisèle';
+ const sameRank=kids.filter(member=>birthOrder(member)===j+1);
+ if(sameRank.length>1)return sameRank.map(k=>descendantsMarkup(k,3,i,j)).join('');
  const k=kids.find(member=>birthOrder(member)===j+1)||(kids.filter(member=>birthOrder(member)>98)[j]||null)||virtualChild(p,i,j);
  return k?descendantsMarkup(k,3,i,j):'<div class="descendant">'+person(null,p.id,3)+'</div>'
  }).join('');return '<div class="branch">'+person(p,null,2)+'<div class="vertical-line"></div><div class="children">'+third+'</div></div>'}).join('');$('loading').hidden=true;updateCounters();initFamilyTools();updateSopViews();requestAnimationFrame(()=>{if(!zoomReady)fitTree();else drawFamilyLines()})}
