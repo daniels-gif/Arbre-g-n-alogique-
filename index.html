@@ -666,6 +666,34 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
  color:white!important;filter:grayscale(1) brightness(0) invert(1)!important;
  font-size:calc(var(--diameter) * .47);line-height:1;
 }
+/* Harmonisation du thème : vert sauge, champagne et or ; portraits des défunts en gris. */
+#sopTree #familyChart .person img.deceased,
+#sopTree #familyChart .person img.profile-photo.deceased{
+ filter:grayscale(1)!important;-webkit-filter:grayscale(1)!important;
+ border:3px solid #9d987e!important;outline:2px solid #dbd5bd!important;box-shadow:none!important;
+}
+#sopTree #familyChart .person .memorial-bird,
+#sopTree #familyChart .person .round-avatar.memorial-bird{
+ background:#d9ddcc!important;border:3px solid #9b9f83!important;
+ outline:2px solid #e8e3d1!important;color:#59664d!important;
+}
+#sopTree #familyChart .person .memorial-bird span{
+ filter:grayscale(1)!important;opacity:1!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo{
+ border:3px solid #9d987e!important;outline:2px solid #dbd5bd!important;
+ background:#fffdf7!important;box-shadow:0 4px 12px #21392333!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo img{
+ filter:grayscale(1)!important;-webkit-filter:grayscale(1)!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-photo:has(.living-memorial-bird){
+ background:#d9ddcc!important;border-color:#9b9f83!important;outline-color:#e8e3d1!important;
+}
+#livingPortraits .living-portrait[data-deceased="true"] .living-memorial-bird{
+ color:#59664d!important;filter:grayscale(1)!important;
+}
+.living-portrait[data-gen="3"]{--generation-color:#6c845b;--generation-halo:#e2ead8}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
