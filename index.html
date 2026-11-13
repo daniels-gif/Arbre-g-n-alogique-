@@ -826,7 +826,7 @@ function familyTitleCase(value){
 }
 function person(p,parent,gen){
  const displaySurname=gen>=3?String(p?.surname||'').replace(/\s+wandji$/i,'').trim():p?.surname;
- const rawName=gen===4?(String(p?.firstname||'').trim()||String(displaySurname||'').trim().split(/\s+/)[0]):[displaySurname,p?.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' ');
+ const rawName=gen===4?(String(p?.firstname||'').trim()||String(displaySurname||'').trim()):[displaySurname,p?.firstname].filter(Boolean).map((v,i)=>i===0&&gen<=2?v.toLocaleUpperCase('fr'):v).join(' ');
  const founderTitle=gen===1&&/sop wandji/i.test(String(p?.surname||''))&&/antoine/i.test(String(p?.firstname||''))?'Papa ':gen===1&&/kouamo/i.test(String(p?.surname||''))&&/jacqueline/i.test(String(p?.firstname||''))?'Mama ':'';
  const label=p?(p.virtual&&p.deceased&&!p.firstname?'':safe(founderTitle+(gen>=3?familyTitleCase(rawName):rawName))):'Ajouter';
  const memorial=!!p?.deceased;
