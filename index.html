@@ -887,6 +887,37 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
  #sopHome .living-tree .sop-hero-actions>button{min-height:48px!important;padding:12px 10px!important;font-size:clamp(12px,3.5vw,15px);border-radius:20px}
 }
 @media(prefers-reduced-motion:reduce){#sopHome .living-replay{transition:none}}
+
+/* Correctif de l'accueil uniquement — aucun changement aux routes ni aux données. */
+#sopHome{box-sizing:border-box;width:100%;max-width:900px;overflow-x:clip}
+#sopHome .living-garden-frame{box-sizing:border-box}
+#sopHome .living-scene{box-sizing:border-box;width:100%;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:5/3!important;overflow:hidden}
+#sopHome .living-svg{display:block;width:100%;height:100%;aspect-ratio:5/3}
+#sopHome .living-portrait{z-index:5;max-width:110px}
+#sopHome .living-portrait .living-photo{box-sizing:border-box;width:var(--diameter);height:var(--diameter)}
+#sopHome .living-portrait[data-gen="1"]{z-index:9;max-width:min(42%,180px)}
+#sopHome .living-portrait[data-gen="1"] .living-person-name{display:block!important;box-sizing:border-box;max-width:140px;font:700 clamp(8px,1.8vw,11px)/1.2 system-ui,sans-serif;padding:3px 6px;margin-top:4px;white-space:normal;overflow-wrap:break-word;background:#fffdf6;color:#315840}
+#sopHome .living-leaf-add{z-index:30!important;pointer-events:auto;border-width:1.5px}
+#sopHome .living-replay-row{padding-top:7px!important}
+#sopHome .living-tree .sop-hero-actions{display:flex;flex-direction:column;align-items:stretch;gap:9px;margin:13px 0 4px}
+#sopHome .living-tree .sop-hero-actions>button{box-sizing:border-box;flex:0 0 auto!important;width:100%;height:auto!important;min-height:48px!important;padding:11px 13px!important;white-space:normal}
+#sopMain{padding-bottom:max(100px,calc(80px + env(safe-area-inset-bottom)))}
+@media(max-width:620px){
+ #sopHome{padding:0 8px 10px}
+ #sopHome .living-garden-frame{padding:8px 8px 7px;border-radius:18px}
+ #sopHome .living-scene{min-height:0!important;aspect-ratio:5/3!important;border-radius:13px}
+ #sopHome .living-portrait[data-gen="1"] .living-person-name{font-size:8px;max-width:105px;padding:2px 4px}
+ #sopHome .living-leaf-add{font-size:9px!important;padding:5px 6px!important;line-height:1.1}
+ #sopHome .living-leaf-add-a{left:4%;top:45%}
+ #sopHome .living-leaf-add-b{left:78%;top:45%}
+ #sopHome .living-leaf-add-c{left:42%;top:3%}
+ #sopHome .living-tree .sop-hero-actions>button{min-height:46px!important;padding:10px!important}
+ .sop-chat-shortcut{right:9px;bottom:calc(12px + env(safe-area-inset-bottom));width:49px;height:49px;min-height:49px;padding:0;gap:0;box-sizing:border-box}
+ .sop-chat-shortcut span:first-child{font-size:24px}
+ .sop-chat-shortcut span:last-child{display:none}
+ #sopMain{padding-bottom:max(108px,calc(92px + env(safe-area-inset-bottom)))}
+}
+@media(max-width:359px){#sopHome .living-portrait[data-gen="1"] .living-person-name{max-width:90px;font-size:7px}#sopHome .living-leaf-add{font-size:8px!important}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><span aria-hidden="true">🏡</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><span aria-hidden="true">🌳</span></button>
@@ -1709,7 +1740,55 @@ function renderLivingTree(){
  }
  }
  $('livingPortraits').innerHTML=parts.join('');
+ layoutLivingPortraits();
  if(selectedLivingLineage)requestAnimationFrame(()=>highlightLivingLineage(selectedLivingLineage));
+}
+
+
+/* Affichage harmonisé des fiches sur l’arbre animé, en respectant les liens existants. */
+function layoutLivingPortraits(){
+ const scene=$('livingScene'),layer=$('livingPortraits');
+ if(!scene||!layer||!scene.clientWidth||!scene.clientHeight)return;
+ const width=scene.clientWidth,height=scene.clientHeight,compact=width<550;
+ const items=[...layer.querySelectorAll('.living-portrait')];
+ if(!items.length)return;
+ const factor=Math.max(.68,Math.min(1,Math.sqrt(width*height/(items.length*960))));
+ const sizes={1:compact?43:65,2:compact?35:53,3:compact?31:43,4:compact?27:36};
+ const occupied=[];
+ const region=scene.getBoundingClientRect();
+ const controls=[...scene.querySelectorAll('.living-leaf-add')].filter(el=>el.offsetWidth).map(el=>{
+  const r=el.getBoundingClientRect();return{x:r.left+r.width/2-region.left,y:r.top+r.height/2-region.top,w:r.width,h:r.height};
+ });
+ const founders=items.filter(el=>el.dataset.gen==='1');
+ for(let i=0;i<founders.length;i++){
+  const el=founders[i],x=founders.length===1?50:founders.length===2?(i===0?34:66):14+72*(i+.5)/founders.length,y=compact?77:78;
+  const size=sizes[1];
+  el.style.left=x+'%';el.style.top=y+'%';el.style.setProperty('--diameter',size+'px');
+  occupied.push({x:width*x/100,y:height*y/100,size:size+6});
+ }
+ for(const [index,el] of items.entries()){
+  const gen=Number(el.dataset.gen);if(gen===1)continue;
+  const baseX=parseFloat(el.style.left),baseY=parseFloat(el.style.top),size=Math.round(sizes[gen]*factor);
+  let chosen=null,best=Infinity;
+  const columns=compact?17:23,rows=compact?11:13;
+  for(let row=0;row<rows;row++)for(let col=0;col<columns;col++){
+   const x=6+88*(col+.5)/columns,y=9+58*(row+.5)/rows,px=width*x/100,py=height*y/100;
+   let penalty=0;
+   for(const other of occupied){
+    const overlap=(size+other.size)*.49+2-Math.hypot(px-other.x,py-other.y);
+    if(overlap>0)penalty+=overlap*overlap*4;
+   }
+   for(const btn of controls){
+    const dx=Math.max(0,Math.abs(px-btn.x)-btn.w/2),dy=Math.max(0,Math.abs(py-btn.y)-btn.h/2);
+    const overlap=size/2+5-Math.hypot(dx,dy);
+    if(overlap>0)penalty+=overlap*overlap*22;
+   }
+   const dist=(x-baseX)**2*(width/100)**2+(y-baseY)**2*(height/100)**2;
+   const score=penalty+.15*dist+((row*13+col*7+index*3)%11)*.4;
+   if(score<best){best=score;chosen={x,y,px,py}}
+  }
+  if(chosen){el.style.left=chosen.x.toFixed(2)+'%';el.style.top=chosen.y.toFixed(2)+'%';el.style.setProperty('--diameter',size+'px');occupied.push({x:chosen.px,y:chosen.py,size});}
+ }
 }
 
 /* Lignée mise en lumière sur l'arbre animé, avec un tracé non interactif. */
@@ -1764,7 +1843,7 @@ function highlightLivingLineage(id){
  }
  layer.innerHTML=lines.join('');
 }
-window.addEventListener('resize',()=>{if(selectedLivingLineage)requestAnimationFrame(()=>highlightLivingLineage(selectedLivingLineage))});
+window.addEventListener('resize',()=>requestAnimationFrame(()=>{layoutLivingPortraits();if(selectedLivingLineage)requestAnimationFrame(()=>highlightLivingLineage(selectedLivingLineage))}));
 
 /* Albums regroupés selon les branches réelles, sans copier ni modifier les photos. */
 function familyRootFor(person){
