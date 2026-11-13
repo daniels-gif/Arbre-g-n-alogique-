@@ -336,7 +336,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 #sopHome #animatedInvite{color:#a32734}
 #sopHome .invitation-line #animatedInvite:not(.finished):after{color:#a32734}
 #sopHome .living-tree{max-width:1160px;margin:12px auto 25px}
-#sopHome .living-scene{max-height:none;aspect-ratio:1000/850}
+#sopHome .living-scene{max-height:680px;aspect-ratio:1000/600}
 #sopHome .living-caption{padding:13px 20px 3px}
 .sop-hero-actions{display:flex;gap:11px;justify-content:center;align-items:center;flex-wrap:wrap;margin:2px auto 18px;padding:0 11px}
 .sop-hero-primary,.sop-hero-secondary{border-radius:25px;padding:13px 20px;font:700 14px system-ui,sans-serif;cursor:pointer;min-height:45px}
@@ -787,18 +787,37 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 .sop-access-suggestions button:hover,.sop-access-suggestions button:focus-visible{background:#eaf3e8;outline:2px solid #79a17b;outline-offset:-2px}
 #sopAccessSearch{width:100%}
 
-/* Arbre de vie élancé : tronc agrandi verticalement, largeur contenue. */
-#sopHome .living-tree{max-width:900px}
-#sopHome .living-scene{width:100%;aspect-ratio:1000/850;max-height:none;min-height:0}
+/* Proportions originales retrouvées ; accès à la famille toujours bien visibles. */
+#sopHome .living-tree{max-width:1160px}
+#sopHome .living-scene{width:100%;aspect-ratio:1000/600;max-height:680px;min-height:0}
 #sopHome .sop-hero-actions{position:relative;z-index:8;margin:12px auto 7px;padding:0 16px}
-#sopHome .sop-hero-actions button{min-height:47px;box-shadow:0 3px 10px #335a3620}
-#sopHome .living-hint{padding:0 13px 10px}
+#sopHome .sop-hero-actions button{min-height:46px}
+#sopHome .living-hint{padding:0 13px 9px}
 @media(max-width:620px){
- #sopHome .living-scene{aspect-ratio:auto;height:clamp(420px,116vw,610px);min-height:420px}
+ #sopHome .living-scene{aspect-ratio:1.25;height:auto;min-height:280px;max-height:none}
  #sopHome .sop-hero-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:8px auto 5px;padding:0 9px}
- #sopHome .sop-hero-actions button{min-width:0;min-height:46px;padding:10px 8px;font-size:12px;line-height:1.25}
+ #sopHome .sop-hero-actions button{min-width:0;min-height:45px;padding:10px 8px;font-size:12px;line-height:1.25}
  #sopHome .sop-hero-actions button:last-child{grid-column:1/-1}
 }
+
+/* Racines dessinées dans le SVG original ; lumière animée sans vidéo ni bibliothèque. */
+.living-root-system{pointer-events:none}
+.living-root-bark{stroke:#876a43;stroke-width:9;opacity:.82}
+.living-root-light{stroke:#f5dc8b;stroke-width:4;opacity:.9;stroke-dasharray:24 40;animation:livingRootPulse 5s linear infinite;filter:drop-shadow(0 0 4px #ffdf78)}
+.living-root-light-two{animation-delay:-2.5s}
+.living-root-spark{animation:livingSpark 2.8s ease-in-out infinite}
+.living-root-spark-delay{animation-delay:-1.3s}
+@keyframes livingRootPulse{0%{stroke-dashoffset:0;opacity:.35}45%{opacity:1}100%{stroke-dashoffset:-128;opacity:.35}}
+@keyframes livingSpark{0%,100%{opacity:.2;r:2}50%{opacity:1;r:3.5}}
+.living-bottom-legend{display:flex;align-items:center;justify-content:center;gap:7px 12px;flex-wrap:wrap;padding:8px 14px;margin:0 auto;color:#4d6652;background:#f7faf0;border-top:1px solid #e0e9d7;font:500 10px system-ui,sans-serif}
+.living-bottom-legend>span{display:inline-flex;align-items:center;gap:4px}
+.living-bottom-title{font-weight:750;color:#3a5c45}
+.living-bottom-legend .legend-dot{display:inline-block;flex:0 0 7px;width:7px;height:7px;border-radius:50%}
+.living-bottom-source{border-left:1px solid #d9e3d5;padding-left:9px;color:#657667}
+.living-bottom-source img{width:55px;height:30px;object-fit:cover;border-radius:5px;border:1px solid #cbd6c6}
+.living-bottom-source small{font-size:9px;line-height:1.15}
+@media(max-width:620px){.living-bottom-legend{font-size:9px;gap:5px 10px;padding:7px 9px}.living-bottom-source img{width:42px;height:24px}.living-bottom-source small{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.living-root-light,.living-root-spark{animation:none!important;opacity:.7}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -818,23 +837,29 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>Notre jardin des générations</h2><p>Des racines aux branches, nos générations s’épanouissent comme des fruits.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
 <div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()">＋ M’enregistrer sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()">Voir l’arbre généalogique</button><button type="button" class="sop-hero-primary" onclick="selectSopTab('news')">🌿 Entrer dans notre univers familial</button></div>
 <div id="livingScene" class="living-scene">
-<svg class="living-svg" viewBox="0 0 1000 850" preserveAspectRatio="none" aria-hidden="true"><defs>
+<svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
 <linearGradient id="livingTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#765239"/><stop offset=".5" stop-color="#aa865b"/><stop offset="1" stop-color="#5e422d"/></linearGradient>
 <radialGradient id="livingSky"><stop offset="0" stop-color="#fcfbec"/><stop offset="1" stop-color="#e8f0df"/></radialGradient>
-</defs><rect width="1000" height="850" fill="url(#livingSky)"/>
-<ellipse cx="498" cy="824" rx="240" ry="17" fill="#879a71" opacity=".19"/>
+</defs><rect width="1000" height="600" fill="url(#livingSky)"/>
+<ellipse cx="498" cy="574" rx="240" ry="17" fill="#879a71" opacity=".19"/>
 <g class="living-wood" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path d="M496 822 C489 730 497 643 496 572 C487 493 508 412 496 332 L488 200" stroke="url(#livingTrunk)" stroke-width="50"/>
+<path d="M496 572 C487 493 508 412 496 332 L488 200" stroke="url(#livingTrunk)" stroke-width="50"/>
 <path d="M496 434 Q393 350 276 335 Q182 323 103 256" stroke="#806041" stroke-width="29"/>
 <path d="M499 433 Q617 344 737 320 Q829 288 913 241" stroke="#806041" stroke-width="28"/>
 <path d="M494 368 Q356 272 265 204 Q183 178 119 123" stroke="#896a46" stroke-width="22"/>
 <path d="M494 370 Q641 261 746 202 Q829 165 888 116" stroke="#896a46" stroke-width="22"/>
 <path d="M494 306 Q468 216 478 93" stroke="#96744c" stroke-width="20"/>
 <path d="M273 332 Q238 283 186 256 M277 334 Q196 365 136 401 M740 320 Q769 265 806 239 M741 321 Q829 369 871 395 M265 202 Q265 155 221 111 M746 203 Q756 151 797 117 M479 165 Q414 121 389 91 M481 169 Q545 124 569 81" stroke="#95734c" stroke-width="11"/>
+</g><g class="living-root-system" aria-hidden="true" fill="none" stroke-linecap="round">
+<path class="living-root-bark" d="M495 550 C466 553 443 573 413 577 Q380 584 347 591 M495 550 Q536 554 571 577 Q599 584 640 591 M495 556 Q481 575 481 599 M496 561 Q520 574 527 598 M459 561 Q445 561 431 567 Q398 570 378 579 M538 562 Q564 559 581 569 Q607 580 624 579"/>
+<path class="living-root-light living-root-light-one" d="M495 550 C466 553 443 573 413 577 Q380 584 347 591 M495 556 Q481 575 481 599 M459 561 Q445 561 431 567 Q398 570 378 579"/>
+<path class="living-root-light living-root-light-two" d="M495 550 Q536 554 571 577 Q599 584 640 591 M496 561 Q520 574 527 598 M538 562 Q564 559 581 569 Q607 580 624 579"/>
+<circle class="living-root-spark" cx="414" cy="577" r="3" fill="#f5d57a"/>
+<circle class="living-root-spark living-root-spark-delay" cx="572" cy="577" r="3" fill="#f5d57a"/>
 </g><g id="livingLeaves"></g>
 </svg>
 <svg class="living-lineage-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"><g id="livingLineagePaths"></g></svg><div id="livingPortraits" class="living-portraits"></div><button type="button" class="living-leaf-add living-leaf-add-a" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-b" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-c" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button>
-</div><p class="living-hint">🌿 Cliquez sur « Ajouter » pour ouvrir l’arbre, puis sur un rond + de votre branche pour vous enregistrer.</p>
+</div><div class="living-bottom-legend" role="group" aria-label="Légende et source de l’arbre généalogique"><span class="living-bottom-title">Légende</span><span><i class="legend-dot legend-g1" aria-hidden="true"></i>Fondateurs</span><span><i class="legend-dot legend-g2" aria-hidden="true"></i>Enfants</span><span><i class="legend-dot legend-g3" aria-hidden="true"></i>Petits-enfants</span><span><i class="legend-dot legend-g4" aria-hidden="true"></i>Arrière-petits-enfants</span><span><i class="legend-dot legend-deceased" aria-hidden="true"></i>Défunts</span><span class="living-bottom-source" title="Photo de la source familiale historique recadrée, noms non modifiés"><img loading="lazy" decoding="async" width="66" height="37" src="data:image/jpeg;base64,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" alt="Photographie originale de l’arbre historique recadrée"><small>Source familiale historique</small></span></div><p class="living-hint">🌿 Cliquez sur « Ajouter » pour ouvrir l’arbre, puis sur un rond + de votre branche pour vous enregistrer.</p>
 
 </section>
 </section>
