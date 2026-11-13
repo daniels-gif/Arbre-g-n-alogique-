@@ -830,6 +830,12 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
  #sopHome .invitation-line{font-size:clamp(16px,4.1vw,20px);line-height:1.23;min-height:0;margin:0 auto 3px;max-width:95%}
  #sopHome .living-tree{margin-top:4px}
 }
+
+/* Les 3 accès suivent l’arbre, chacun sur une ligne sur mobile comme sur ordinateur. */
+#sopHome .living-tree .sop-hero-actions{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:9px;max-width:480px;margin:9px auto 19px;padding:0 13px}
+#sopHome .living-tree .sop-hero-actions button{display:block;width:100%;max-width:none;min-height:46px;padding:11px 14px;font-size:clamp(12px,2.5vw,14px);line-height:1.35}
+#sopHome .living-tree .sop-hero-actions button:last-child{grid-column:auto}
+@media(max-width:620px){#sopHome .living-tree .sop-hero-actions{display:flex;flex-direction:column;gap:8px;max-width:450px;margin:8px auto 16px;padding:0 12px}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
@@ -847,7 +853,6 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
 <p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Invitation à compléter notre arbre"><p class="sop-hero-kicker">Famille SOP WANDJI &amp; KWAMOUO Jacqueline · Notre arbre de vie</p><p class="invitation-line"><span class="sr-only">Aidez-nous à remplir notre arbre généalogique en vous enregistrant. Enfants, petits-enfants et arrière-petits-enfants.</span><span id="animatedInvite" aria-hidden="true"></span></p></section><section class="living-tree" aria-label="Aperçu de notre arbre de vie">
 <div class="living-caption"><div><span class="living-kicker">NOS RACINES, NOTRE HISTOIRE</span><h2>Notre jardin des générations</h2><p>Des racines aux branches, nos générations s’épanouissent comme des fruits.</p></div><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button><button type="button" class="living-replay" onclick="replayLivingTree()">↻ Revoir</button></div>
-<div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()">＋ M’enregistrer sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()">Voir l’arbre généalogique</button><button type="button" class="sop-hero-primary" onclick="selectSopTab('news')">🌿 Entrer dans notre univers familial</button></div>
 <div id="livingScene" class="living-scene">
 <svg class="living-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><defs>
 <linearGradient id="livingTrunk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#765239"/><stop offset=".5" stop-color="#aa865b"/><stop offset="1" stop-color="#5e422d"/></linearGradient>
@@ -872,6 +877,7 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </svg>
 <svg class="living-lineage-svg" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true"><g id="livingLineagePaths"></g></svg><div id="livingPortraits" class="living-portraits"></div><button type="button" class="living-leaf-add living-leaf-add-a" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-b" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button><button type="button" class="living-leaf-add living-leaf-add-c" onclick="openSopTree()" title="Ouvrir l’arbre pour choisir un rond + et s’enregistrer">＋ Ajouter</button>
 </div><p class="living-hint">🌿 Cliquez sur « Ajouter » pour ouvrir l’arbre, puis sur un rond + de votre branche pour vous enregistrer.</p>
+<div class="sop-hero-actions"><button type="button" class="sop-hero-primary" onclick="openSopTree()">＋ M’enregistrer sur l’arbre</button><button type="button" class="sop-hero-secondary" onclick="openSopTree()">Voir l’arbre généalogique</button><button type="button" class="sop-hero-primary" onclick="selectSopTab('news')">🌿 Entrer dans notre univers familial</button></div>
 
 </section>
 </section>
