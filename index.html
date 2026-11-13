@@ -918,6 +918,83 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
  #sopMain{padding-bottom:max(108px,calc(92px + env(safe-area-inset-bottom)))}
 }
 @media(max-width:359px){#sopHome .living-portrait[data-gen="1"] .living-person-name{max-width:90px;font-size:7px}#sopHome .living-leaf-add{font-size:8px!important}}
+
+/* Présentations ciblées onglets 2–5, sans nouveau stockage. */
+#sopTree .sop-tree-intro h1,#sopEvents .sop-section-heading h1,#sopNews .sop-section-heading h1,#sopMemories .sop-section-heading h1{color:#315e45}
+#sopTree .family-tree-subtitle{font-size:14px;color:#6e806a;margin:7px 0 11px}
+#sopTree .family-counters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+#sopTree .family-counters>span{min-width:0;border:1px solid #cddfc7;background:#eff4e9;border-radius:12px;padding:9px 5px;text-align:center}
+#sopTree .family-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:5px;max-width:580px;margin:10px auto;padding:5px;border-radius:17px;background:#e9f0e4}
+#sopTree .family-mode-switch button{border:0;padding:12px 7px;border-radius:12px;background:transparent;color:#305e46;font-weight:700}
+#sopTree .family-mode-switch button.active{background:#315e45;color:white}
+#sopTree .family-branch-picker{max-width:580px;margin:9px auto 15px;padding:13px;border-radius:16px;background:#fffdf6;border:1px solid #cbdcc3;text-align:center}
+#sopTree .family-branch-picker[hidden]{display:none!important}
+#sopTree .family-branch-picker h2{font-size:17px;color:#315e45}
+#sopTree #familyBranchPerson{display:block;max-width:100%;width:100%;min-height:44px;padding:8px;border:1px solid #c4d6bd;border-radius:10px;background:#fff}
+#sopTree .family-branch-mode .tree{display:flex!important;min-width:0;gap:0}
+#sopTree .family-branch-mode .tree>.branch[hidden]{display:none!important}
+#sopTree .family-branch-mode .connector-main{display:none}
+#photoOverlay .family-person-info{border-top:1px solid #d5e3cd;padding-top:10px;text-align:left;margin-top:13px;font-size:13px}
+#photoOverlay .family-person-info button{border:1px solid #b5cfb0;padding:10px;border-radius:10px;color:#315e45;background:#eef5e9}
+#sopNews .sop-feed-shell{max-width:780px;padding:7px}
+#sopNews .sop-feed-post{background:#fffdf8;border-color:#d5e1d1;padding:13px;border-radius:17px}
+#sopNews .sop-feed-reactions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+#sopNews .sop-feed-picture{cursor:zoom-in}
+#sopNews .family-feed-shortcuts{display:flex;justify-content:space-around;gap:7px;margin:0 0 16px}
+#sopNews .family-feed-shortcuts button{flex:1;border:1px solid #c9dcc3;color:#315e45;background:#fffdf8;border-radius:13px;min-height:42px;font-weight:700}
+.family-feed-viewer[hidden]{display:none!important}
+.family-feed-viewer{position:fixed;inset:0;z-index:5000;background:#131814;color:#fff;display:flex;flex-direction:column;overflow:auto}
+.family-feed-viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:9px 14px}
+.family-feed-viewer-bar button{color:white;background:#354238;border:0;border-radius:50%;font-size:24px;width:42px;height:42px}
+.family-feed-viewer-image{flex:1;display:flex;align-items:center;justify-content:center;min-height:150px}
+.family-feed-viewer-image img{max-width:100%;max-height:60dvh;object-fit:contain}
+.family-feed-viewer-caption{background:#202a23;padding:14px;max-height:35dvh;overflow-y:auto}
+.family-feed-viewer-caption span{display:block;font-size:12px;color:#ccd6ce;margin-top:3px}
+.family-feed-viewer-caption button{border:1px solid #829a82;background:#334736;color:white;padding:9px 12px;border-radius:10px}
+.family-feed-viewer-options[hidden]{display:none!important}
+body.family-viewer-open{overflow:hidden}
+#sopEvents .family-event-mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:5px;margin:0 0 16px;background:#eaf1e5;border-radius:16px}
+#sopEvents .family-event-mode-switch button{border:0;border-radius:12px;background:transparent;min-height:43px;color:#315c44;font-weight:750}
+#sopEvents .family-event-mode-switch button[aria-pressed=true]{background:#315e45;color:white}
+#sopEvents .events-layout{grid-template-columns:1fr}
+#sopEvents .family-month-nav{flex-wrap:wrap}
+#sopEvents .family-month-today{font-size:12px;width:auto;height:auto;min-height:37px;border-radius:9px;padding:7px}
+#sopEvents .family-calendar .cal-day{cursor:pointer;font:600 14px system-ui,sans-serif;min-height:41px}
+#sopEvents .family-calendar .cal-day.selected{border:2px solid #37634a}
+#sopEvents .family-calendar .cal-day.today{background:#315e45;color:white}
+#sopEvents .family-calendar .cal-day .event-dot{background:#b99959}
+#sopEvents .family-event-list-filters{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+#sopEvents .family-event-list-filters[hidden]{display:none}
+#sopEvents .family-event-list-filters button{padding:9px 13px;border:1px solid #cdddc4;border-radius:20px;background:#f2f6ee;color:#315c44}
+#sopEvents .family-event-list-filters button[aria-pressed=true]{background:#315e45;color:white}
+#sopEvents .family-event-empty{padding:16px;background:#f4f8f1;border-radius:12px;color:#647868}
+#sopEvents .family-event-detail{border:0;background:#315e45;color:white;border-radius:10px;padding:9px 12px;margin-top:8px;cursor:pointer}
+#familyEventDialog{border:1px solid #d1dec8;border-radius:18px;background:#fffdf7;color:#31563e;max-width:min(94vw,520px);padding:20px}
+#familyEventDialog::backdrop{background:#142a1d99}
+#familyEventDialog button{border:1px solid #c8dbc3;border-radius:10px;padding:9px;background:#edf4e9;color:#315e45}
+#sopMemories .family-memorial-search{max-width:790px;margin:10px auto 17px;padding:14px;border:1px solid #d5e2cd;background:#fffdf8;border-radius:17px}
+#sopMemories .family-memorial-search>label{display:block;color:#365c44;font-weight:700;font-size:13px}
+#sopMemories #memorialSearch{width:100%;min-height:45px;box-sizing:border-box;border:1px solid #c4d7be;border-radius:12px;margin:7px 0 10px;padding:10px;background:white}
+#sopMemories .family-memorial-filters{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#sopMemories .family-memorial-filters label{font-size:12px;color:#507254}
+#sopMemories .family-memorial-filters select{width:100%;min-height:41px;padding:6px;border:1px solid #c4d7be;border-radius:10px;background:white}
+#sopMemories #memorialFilterStatus{font-size:12px;color:#718473;margin-bottom:0}
+#sopMemories #familyMemorialGallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#sopMemories #familyMemorialGallery .family-branch-tile{min-width:0;border:1px solid #d1e0ca;border-radius:17px;background:#fffdf9;padding:11px}
+#sopMemories #familyMemorialGallery .family-branch-tile img{width:min(100%,130px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:50%;margin:auto}
+#sopMemories #familyMemorialGallery .family-branch-tile strong{overflow-wrap:anywhere}
+#sopMemories #familyMemorialGallery .family-branch-tile[hidden]{display:none!important}
+@media(max-width:720px){
+ #sopTree .family-counters{gap:4px}
+ #sopTree .family-counters>span{font-size:10px;padding:7px 3px}
+ #sopMemories #familyMemorialGallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ #sopEvents .family-events{padding:11px;margin:8px}
+ #sopEvents .family-calendar{gap:3px}
+ #sopEvents .family-calendar .cal-day{font-size:12px;min-height:40px}
+ #sopEvents .family-month-nav{gap:6px}
+ #sopMain{padding-bottom:max(90px,calc(75px + env(safe-area-inset-bottom)))}
+}
+
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><span aria-hidden="true">🏡</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><span aria-hidden="true">🌳</span></button>
@@ -972,9 +1049,12 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </section>
 </section>
 <section class="sop-page" id="sopTree" data-sop-page="tree" hidden>
-<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Arbre généalogique · SOP WANDJI &amp; KWAMOUO Jacqueline</h1><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
+<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Notre arbre généalogique</h1><p class="family-tree-subtitle">Les racines de notre histoire familiale.</p><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
-<p id="loading">Chargement de la famille…</p><section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
+<p id="loading">Chargement de la famille…</p>
+<div class="family-mode-switch" id="familyViewModes" role="group" aria-label="Mode de l’arbre"><button type="button" data-family-mode="full" class="active" aria-pressed="true">🌳 Vue entière</button><button type="button" data-family-mode="branch" aria-pressed="false">🌿 Vue par branche</button></div>
+<div class="family-branch-picker" id="familyBranchPicker" hidden><h2>Explorer une branche familiale</h2><label for="familyBranchPerson">Choisir une personne ou une branche</label><select id="familyBranchPerson"><option value="">Sélectionner une branche…</option></select><p id="familyBranchStatus" role="status"></p><button type="button" class="action" id="familyBranchReturn">← Revenir à la vue entière</button></div>
+<section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
  <div class="heritage-line">
  <label>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
@@ -992,9 +1072,9 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 </section>
 
 <section class="sop-page" id="sopNews" data-sop-page="news" hidden>
-<header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>📰 Fil d’actualité SOP Wandji</h1><p>Un espace commun pour partager les moments importants de la famille, des textes, des photos et des vidéos courtes.</p></header>
+<header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>Actualités familiales</h1><p>Les nouvelles qui font vivre notre famille.</p></header>
 <div class="sop-feed-shell"><details class="family-guestbook"><summary>💚 Livre d’or familial — laisser un mot</summary><form id="familyGuestbookForm"><label for="familyGuestbookMessage">Votre message à la famille</label><textarea id="familyGuestbookMessage" maxlength="450" rows="3" required placeholder="Un mot pour nos racines, nos proches et nos générations…"></textarea><button type="submit" class="action">Envoyer pour validation</button><p id="familyGuestbookStatus" role="status"></p></form></details>
- <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>＋ Publier une actualité <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
+ <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>✎ Quoi de neuf dans la famille ? <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
  <form id="sopFeedCompose" class="sop-feed-composer">
   <h2>Partager une actualité</h2>
   <p id="sopFeedIdentity">Sélectionnez votre fiche familiale pour consulter le fil.</p>
@@ -1011,23 +1091,25 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
   <p id="sopFeedStatus" role="status"></p>
  </form>
  </details>
+ <div class="family-feed-shortcuts"><button type="button" id="familyOpenPhotoComposer">📷 Photo</button><button type="button" id="familyOpenVideoComposer">🎬 Vidéo</button><button type="button" id="familyOpenTextComposer">✎ Publier</button></div>
  <p id="sopFeedNotice" class="sop-feed-note" role="status"></p>
  <p id="familyNewSinceVisit" class="family-new-since-visit" hidden></p><div id="sopFeedPosts" class="sop-feed-posts" aria-live="polite"><p>Chargement des actualités familiales…</p></div>
 </div>
 </section>
 <section class="sop-page" id="sopEvents" data-sop-page="events" hidden>
-<header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les dates importantes pour nous retrouver et célébrer.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
-<div class="family-events-heading">
+<header class="sop-section-heading"><span>LES RENDEZ-VOUS DE NOTRE FAMILLE</span><h1>Événements familiaux</h1><p>Les moments qui nous rassemblent.</p></header><section class="family-events" id="familyEvents" aria-label="Calendrier des événements familiaux">
+<div class="family-event-mode-switch" role="group" aria-label="Affichage des événements"><button type="button" id="familyCalendarMode" aria-pressed="true">📅 Calendrier</button><button type="button" id="familyListMode" aria-pressed="false">☷ Liste</button></div><div class="family-events-heading">
 <div><h2>Calendrier des événements familiaux</h2><p>Les grands rendez-vous de la famille SOP Wandji</p></div>
-<div class="family-month-nav"><button type="button" onclick="moveFamilyMonth(-1)" aria-label="Mois précédent">‹</button><strong id="familyMonthTitle">Décembre 2026</strong><button type="button" onclick="moveFamilyMonth(1)" aria-label="Mois suivant">›</button></div>
+<div class="family-month-nav"><button type="button" onclick="moveFamilyMonth(-1)" aria-label="Mois précédent">‹</button><strong id="familyMonthTitle">Décembre 2026</strong><button type="button" onclick="moveFamilyMonth(1)" aria-label="Mois suivant">›</button><button type="button" id="familyMonthToday" class="family-month-today">Aujourd’hui</button></div>
 </div>
-<div class="events-layout">
+<div class="family-event-list-filters" id="familyEventListFilters" hidden><button type="button" data-event-filter="future" aria-pressed="true">À venir</button><button type="button" data-event-filter="past" aria-pressed="false">Passés</button><button type="button" data-event-filter="all" aria-pressed="false">Tous</button></div><div class="events-layout" id="familyEventsLayout">
 <div class="family-calendar" id="familyCalendar" aria-label="Dates des événements"></div>
-<div class="family-agenda"><h3>Événements du mois</h3><div id="familyEventList"></div><div class="family-birthdays"><h3>🎂 Anniversaires du mois</h3><div id="familyBirthdayList"><p>Connectez-vous pour consulter les anniversaires renseignés.</p></div></div></div>
+<div class="family-agenda"><h3 id="familyAgendaHeading">Événements du mois</h3><div id="familyEventList"></div><div class="family-birthdays"><h3>🎂 Anniversaires du mois</h3><div id="familyBirthdayList"><p>Connectez-vous pour consulter les anniversaires renseignés.</p></div></div></div>
 </div><details class="family-timeline"><summary>📜 Notre histoire en quelques dates</summary><div id="familyTimelineItems"></div></details></section>
 </section>
 <section class="sop-page" id="sopMemories" data-sop-page="memories" hidden>
-<header class="sop-section-heading"><span>PHOTOS ET HISTOIRES</span><h1>Souvenirs de famille</h1><p>Retrouvons les souvenirs transmis de génération en génération.</p></header>
+<header class="sop-section-heading"><span>PHOTOS ET HISTOIRES</span><h1>Souvenirs &amp; Hommages</h1><p>La mémoire de ceux qui nous ont quittés.</p></header>
+<div class="family-memorial-search"><label for="memorialSearch">Rechercher un membre…</label><input type="search" id="memorialSearch" placeholder="Rechercher un membre…" autocomplete="off"><div class="family-memorial-filters"><label>Génération <select id="memorialGeneration"><option value="">Toutes</option><option value="1">1ʳᵉ</option><option value="2">2ᵉ</option><option value="3">3ᵉ</option><option value="4">4ᵉ</option></select></label><label>Branche familiale <select id="memorialBranch"><option value="">Toutes les branches</option></select></label></div><p id="memorialFilterStatus" role="status"></p></div>
 <div class="sop-memory-controls"><label>Personne <select id="sopMemoryPerson"><option value="">Choisir une personne enregistrée</option></select></label><button type="button" class="action" onclick="openMemorySelected()">Voir ou compléter sa fiche</button><button type="button" class="action" onclick="makeFamilyBook()">📖 Créer le livre familial PDF</button></div>
 <div class="family-quick-memory"><button type="button" class="action" onclick="quickFamilyMemory()">＋ Ajouter un souvenir</button><small>Photo ou récit · validation familiale avant publication</small></div><div id="sopPublicMemories" class="sop-public-memories" aria-live="polite"><p>Les souvenirs publiés apparaîtront ici.</p></div><div class="family-branch-tools">
  <label for="familyAlbumBranch">Albums de chaque branche</label>
@@ -1038,7 +1120,7 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
  <div id="familyBranchAlbums" class="family-branch-grid" aria-live="polite"></div>
  </section>
  <section class="family-branch-section" aria-label="Hommage aux personnes disparues">
- <h2>🕊️ Notre espace hommage</h2><p>Un souvenir respectueux de nos proches disparus. Lecture seule : les fiches demeurent protégées.</p>
+ <h2>🕊️ Notre galerie des hommages</h2><p>Un souvenir respectueux de nos proches disparus. Lecture seule : les fiches demeurent protégées.</p>
  <div id="familyMemorialGallery" class="family-branch-grid" aria-live="polite"></div>
  </section>
  
@@ -1634,23 +1716,43 @@ function moveFamilyMonth(direction){
  const d=new Date(Date.UTC(familyCalendarYear,familyCalendarMonth+direction,1));
  familyCalendarYear=d.getUTCFullYear();familyCalendarMonth=d.getUTCMonth();renderFamilyEvents();
 }
-function renderFamilyEvents(){
- const first=new Date(Date.UTC(familyCalendarYear,familyCalendarMonth,1));
- const lastDay=new Date(Date.UTC(familyCalendarYear,familyCalendarMonth+1,0)).getUTCDate();
- $('familyMonthTitle').textContent=new Intl.DateTimeFormat('fr-CA',{month:'long',year:'numeric',timeZone:'UTC'}).format(first);
- const eventDays=new Set(FAMILY_EVENTS.filter(e=>Number(e.date.slice(0,4))===familyCalendarYear&&Number(e.date.slice(5,7))===familyCalendarMonth+1).map(e=>Number(e.date.slice(8))));
- const offset=(first.getUTCDay()+6)%7;
- const heads=['L','M','M','J','V','S','D'].map(d=>'<span class="weekday">'+d+'</span>').join('');
- const cells=Array.from({length:offset},()=>'<span class="cal-blank"></span>').join('')+
- Array.from({length:lastDay},(_,i)=>{const n=i+1,has=eventDays.has(n);return '<span class="cal-day '+(has?'has-event':'')+'" '+(has?'aria-label="Événement familial le '+n+'"':'')+'>'+n+(has?'<span class="event-dot"></span>':'')+'</span>'}).join('');
- $('familyCalendar').innerHTML=heads+cells;
- const monthly=FAMILY_EVENTS.filter(e=>Number(e.date.slice(0,4))===familyCalendarYear&&Number(e.date.slice(5,7))===familyCalendarMonth+1).sort((a,b)=>a.date.localeCompare(b.date));
- $('familyEventList').innerHTML=monthly.length?monthly.map(ev=>{
- const day=new Date(ev.date+'T12:00:00Z');
- const dateLabel=new Intl.DateTimeFormat('fr-CA',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(day);
- return '<article class="family-event-card"><span class="event-date">'+familySafe(dateLabel)+'</span><strong>'+familySafe(ev.title)+'</strong><p>'+familySafe(ev.description)+'</p></article>';
- }).join(''):'<p>Aucun événement familial inscrit pour ce mois.</p>';
+
+let familyEventDisplay='calendar',familyEventFilter='future',familySelectedDay='';
+const familyEventToday=()=>{const now=new Date();return now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')};
+function familyEventDateLabel(iso){const d=new Date(iso+'T12:00:00Z');return new Intl.DateTimeFormat('fr-CA',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(d)}
+function familyEventCard(ev){
+ const date=familyEventDateLabel(ev.date);
+ const info=[ev.time,ev.place].filter(Boolean).map(familySafe).join(' · ');
+ return '<article class="family-event-card"><span class="event-date">'+familySafe(date)+'</span><strong>'+familySafe(ev.title)+'</strong>'+(info?'<p>'+info+'</p>':'')+(ev.description?'<p>'+familySafe(ev.description)+'</p>':'')+'<button type="button" class="family-event-detail" data-family-event-details="'+familySafe(ev.date)+'" data-family-event-title="'+familySafe(ev.title)+'">Voir les détails</button></article>';
 }
+function renderFamilyEvents(){
+ const now=new Date(),today=familyEventToday();
+ if(!familySelectedDay)familySelectedDay=today;
+ $('familyMonthTitle').textContent=new Intl.DateTimeFormat('fr-CA',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(Date.UTC(familyCalendarYear,familyCalendarMonth,1)));
+ const calendarMode=familyEventDisplay==='calendar',monthFirst=new Date(Date.UTC(familyCalendarYear,familyCalendarMonth,1)),last=new Date(Date.UTC(familyCalendarYear,familyCalendarMonth+1,0)).getUTCDate(),offset=(monthFirst.getUTCDay()+6)%7;
+ $('familyCalendarMode').setAttribute('aria-pressed',String(calendarMode));$('familyListMode').setAttribute('aria-pressed',String(!calendarMode));
+ $('familyEventListFilters').hidden=calendarMode;$('familyCalendar').hidden=!calendarMode;
+ $('familyMonthTitle').closest('.family-month-nav').hidden=!calendarMode;
+ const marked=new Set(FAMILY_EVENTS.map(e=>e.date));
+ const heads=['L','M','M','J','V','S','D'].map(d=>'<span class="weekday">'+d+'</span>').join('');
+ const days=Array.from({length:last},(_,i)=>{
+  const n=i+1,iso=familyCalendarYear+'-'+String(familyCalendarMonth+1).padStart(2,'0')+'-'+String(n).padStart(2,'0'),has=marked.has(iso);
+  return '<button type="button" class="cal-day '+(has?'has-event ':'')+(today===iso?'today ':'')+(familySelectedDay===iso?'selected':'')+'" data-family-day="'+iso+'" aria-pressed="'+(familySelectedDay===iso)+'" aria-label="'+n+' '+familySafe($('familyMonthTitle').textContent)+'">'+n+(has?'<span class="event-dot"></span>':'')+'</button>'
+ }).join('');
+ $('familyCalendar').innerHTML=heads+Array.from({length:offset},()=>'<span class="cal-blank"></span>').join('')+days;
+ if(calendarMode){
+  $('familyAgendaHeading').textContent='Événements du '+familyEventDateLabel(familySelectedDay);
+  const dayEvents=FAMILY_EVENTS.filter(e=>e.date===familySelectedDay);
+  $('familyEventList').innerHTML=dayEvents.length?dayEvents.map(familyEventCard).join(''):'<p class="family-event-empty">Aucun événement prévu pour cette date.</p>';
+ }else{
+  document.querySelectorAll('[data-event-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.eventFilter===familyEventFilter)));
+  $('familyAgendaHeading').textContent='Événements familiaux';
+  const events=FAMILY_EVENTS.filter(e=>familyEventFilter==='all'||(familyEventFilter==='future'?e.date>=today:e.date<today)).sort((a,b)=>familyEventFilter==='past'?b.date.localeCompare(a.date):a.date.localeCompare(b.date));
+  const groups=new Map();for(const e of events){const m=e.date.slice(0,7);if(!groups.has(m))groups.set(m,[]);groups.get(m).push(e)}
+  $('familyEventList').innerHTML=events.length?[...groups].map(([m,list])=>'<h4 class="family-events-month">'+familySafe(new Intl.DateTimeFormat('fr-CA',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(m+'-01T12:00:00Z')))+'</h4>'+list.map(familyEventCard).join('')).join(''):'<p class="family-event-empty">Aucun événement pour ce filtre.</p>';
+ }
+}
+
 renderFamilyEvents();
 
 
@@ -2528,4 +2630,131 @@ function renderFamilyTimeline(){
  const events=FAMILY_EVENTS.slice().filter(e=>e.date&&e.title).sort((a,b)=>a.date.localeCompare(b.date));
  box.innerHTML=events.length?events.map(event=>'<div class="family-timeline-item"><time>'+familySafe(new Date(event.date+'T12:00:00Z').toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}))+'</time><strong>'+familySafe(event.title)+'</strong><p>'+familySafe(event.description||'')+'</p></div>').join(''):'<p>Aucun événement historique n’a encore été ajouté.</p>';
 }
+
+/* Modules intégrés des onglets 2 à 5 : interface seulement, aucun accès en écriture supplémentaire. */
+(function(){
+'use strict';
+const afterLoad=()=>{
+ // Arbre complet : deux modes reposant sur le même graphe et les mêmes boutons.
+ const modes=document.getElementById('familyViewModes'),picker=document.getElementById('familyBranchPicker'),chooser=document.getElementById('familyBranchPerson');
+ const peopleList=()=>typeof people!=='undefined'&&Array.isArray(people)?people:[];
+ const selectedZoom=()=>Number(document.getElementById('treeZoom')?.value)||60;
+ let beforeBranchZoom=selectedZoom(),branchMode=false;
+ const getRoots=()=>typeof branchRoots==='function'?branchRoots():[];
+ const rootId=(person)=>{
+  const seen=new Set();let p=person;
+  for(let n=0;p&&n<8;n++){if(Number(p.generation)===2)return String(p.id);if(seen.has(String(p.id)))break;seen.add(String(p.id));p=peopleList().find(x=>String(x.id)===String(p.parent_id));}
+  return '';
+ };
+ function updateOptions(){
+  const prev=chooser.value;
+  chooser.replaceChildren(new Option('Choisir une branche…',''));
+  for(const p of getRoots())chooser.add(new Option((p.surname||'')+' '+(p.firstname||''),String(p.id)));
+  for(const p of peopleList().filter(p=>p.id&&Number(p.generation)>=3).sort((a,b)=>(a.surname+' '+a.firstname).localeCompare(b.surname+' '+b.firstname,'fr')))chooser.add(new Option('↳ '+(p.surname||'')+' '+(p.firstname||''),String(p.id)));
+  if([...chooser.options].some(o=>o.value===prev))chooser.value=prev;
+ }
+ function showBranch(id){
+  const person=peopleList().find(p=>String(p.id)===String(id)),root=person?rootId(person):'';
+  if(!root){document.getElementById('familyBranchStatus').textContent='Sélectionnez une branche familiale.';return}
+  setFamilyBranch(root);
+  const scroller=document.querySelector('#landscapeTree .tree-scroll'),chart=document.getElementById('familyChart');
+  const zoom=Math.min(115,Math.max(40,Math.floor((scroller.clientWidth-22)/Math.max(260,chart.scrollWidth)*100)));
+  setTreeZoom(zoom);
+  document.getElementById('familyBranchStatus').textContent='Branche de '+(peopleList().find(p=>String(p.id)===root)?.firstname||'la famille');
+  requestAnimationFrame(()=>{const match=[...chart.querySelectorAll('.person[data-id]')].find(el=>el.dataset.id===id)||chart.querySelector('.branch:not([hidden]) .person');match?.scrollIntoView({block:'nearest',inline:'center'});drawFamilyLines()});
+ }
+ function changeMode(next){
+  if(next==='branch'&&!branchMode)beforeBranchZoom=selectedZoom();
+  branchMode=next==='branch';
+  modes.querySelectorAll('[data-family-mode]').forEach(b=>{const active=b.dataset.familyMode===next;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+  picker.hidden=!branchMode;
+  document.getElementById('landscapeTree').classList.toggle('family-branch-mode',branchMode);
+  if(branchMode){updateOptions();const id=chooser.value||String(getRoots()[0]?.id||'');chooser.value=id;showBranch(id)}
+  else{setFamilyBranch('');setTreeZoom(beforeBranchZoom);requestAnimationFrame(drawFamilyLines);}
+ }
+ modes.addEventListener('click',e=>{const b=e.target.closest('[data-family-mode]');if(b)changeMode(b.dataset.familyMode)});
+ chooser.addEventListener('change',()=>showBranch(chooser.value));
+ document.getElementById('familyBranchReturn').addEventListener('click',()=>changeMode('full'));
+ const oldRender=render;render=function(){oldRender();updateOptions();if(branchMode)showBranch(chooser.value)};
+ updateOptions();
+ // Fiche individuelle : les données de filiation existantes, sans modifier les droits.
+ const photoPanel=document.querySelector('#photoOverlay .photo-panel'),section=document.createElement('div');section.className='family-person-info';photoPanel?.append(section);
+ const oldPhoto=showPublicPhoto;showPublicPhoto=function(p){
+  oldPhoto(p);section.replaceChildren();if(!p)return;
+  const parent=peopleList().find(x=>String(x.id)===String(p.parent_id)),children=peopleList().filter(x=>String(x.parent_id)===String(p.id));
+  const info=[['Génération',p.generation],['Parent',parent?[parent.surname,parent.firstname].filter(Boolean).join(' '):''],['Enfants',children.map(x=>[x.surname,x.firstname].filter(Boolean).join(' ').trim()).join(' · ')]];
+  for(const [k,v] of info){if(!v)continue;const line=document.createElement('p');line.textContent=k+' : '+v;section.append(line)}
+  const view=document.createElement('button');view.type='button';view.textContent='🌿 Voir sa branche';view.onclick=()=>{document.getElementById('photoOverlay').classList.remove('open');selectSopTab('tree');changeMode('branch');chooser.value=String(p.id);showBranch(String(p.id))};
+  section.append(view);
+ };
+ // Fil : raccourcis qui ouvrent le formulaire existant; aucune nouvelle écriture.
+ const toggle=document.getElementById('sopFeedComposerToggle');
+ for(const [id,field] of [['familyOpenPhotoComposer','sopFeedImage'],['familyOpenVideoComposer','sopFeedVideoUrl'],['familyOpenTextComposer','sopFeedText']]){
+  document.getElementById(id).addEventListener('click',()=>{toggle.open=true;document.getElementById(field).focus();});
+ }
+ // Photos du fil : visionneuse plein écran, retour au même défilement.
+ const viewer=document.createElement('div');viewer.className='family-feed-viewer';viewer.id='familyFeedViewer';viewer.hidden=true;
+ viewer.innerHTML='<div class="family-feed-viewer-bar"><button type="button" id="familyFeedViewerClose" aria-label="Fermer">×</button><strong>Photo familiale</strong><button type="button" id="familyFeedViewerMenu" aria-label="Options">⋮</button></div><div class="family-feed-viewer-image"><img id="familyFeedViewerImage" alt="Photographie familiale agrandie"></div><div class="family-feed-viewer-caption"><strong id="familyFeedViewerAuthor"></strong><span id="familyFeedViewerDate"></span><p id="familyFeedViewerText"></p><button type="button" id="familyFeedViewerBack">← Revenir à la publication</button><div class="family-feed-viewer-options" id="familyFeedViewerOptions" hidden><button type="button" id="familyFeedViewerDetails">Voir les détails</button></div></div>';
+ document.body.append(viewer);
+ let lastScroll=0;
+ function closeViewer(){viewer.hidden=true;document.body.classList.remove('family-viewer-open');document.getElementById('familyFeedViewerOptions').hidden=true;window.scrollTo(0,lastScroll)}
+ document.getElementById('sopFeedPosts').addEventListener('click',e=>{
+  const photo=e.target.closest('.sop-feed-picture');if(!photo)return;
+  const post=photo.closest('.sop-feed-post');lastScroll=window.scrollY;
+  document.getElementById('familyFeedViewerImage').src=photo.src;
+  document.getElementById('familyFeedViewerAuthor').textContent=post.querySelector('.sop-feed-post-header strong')?.textContent||'';
+  document.getElementById('familyFeedViewerDate').textContent=post.querySelector('time')?.textContent||'';
+  document.getElementById('familyFeedViewerText').textContent=post.querySelector('.sop-feed-body')?.textContent||'';
+  viewer.hidden=false;document.body.classList.add('family-viewer-open');
+ });
+ document.getElementById('familyFeedViewerClose').onclick=closeViewer;
+ document.getElementById('familyFeedViewerBack').onclick=closeViewer;
+ document.getElementById('familyFeedViewerMenu').onclick=()=>{const o=document.getElementById('familyFeedViewerOptions');o.hidden=!o.hidden};
+ document.getElementById('familyFeedViewerDetails').onclick=()=>document.getElementById('familyFeedViewerOptions').hidden=true;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!viewer.hidden)closeViewer()});
+ // Calendrier et liste : même source FAMILY_EVENTS, mêmes anniversaires et chronologie.
+ const cal=document.getElementById('familyCalendar');
+ const eventMode=(mode)=>{familyEventDisplay=mode;renderFamilyEvents()};
+ document.getElementById('familyCalendarMode').onclick=()=>eventMode('calendar');
+ document.getElementById('familyListMode').onclick=()=>eventMode('list');
+ document.querySelectorAll('[data-event-filter]').forEach(btn=>btn.onclick=()=>{familyEventFilter=btn.dataset.eventFilter;renderFamilyEvents()});
+ cal.addEventListener('click',e=>{const b=e.target.closest('[data-family-day]');if(!b)return;familySelectedDay=b.dataset.familyDay;renderFamilyEvents()});
+ document.getElementById('familyMonthToday').onclick=()=>{const n=new Date();familyCalendarYear=n.getFullYear();familyCalendarMonth=n.getMonth();familySelectedDay=familyEventToday();renderFamilyEvents()};
+ const details=document.createElement('dialog');details.id='familyEventDialog';details.innerHTML='<button type="button" id="familyEventDialogClose">× Fermer</button><h2 id="familyEventDialogTitle"></h2><div id="familyEventDialogBody"></div><button type="button" id="familyEventDialogBack">← Retour au calendrier</button>';document.body.append(details);
+ function closeEvent(){details.close()}
+ document.getElementById('familyEventDialogClose').onclick=closeEvent;
+ document.getElementById('familyEventDialogBack').onclick=()=>{closeEvent();familyEventDisplay='calendar';renderFamilyEvents()};
+ document.getElementById('familyEventList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-family-event-details]');if(!b)return;
+  const event=FAMILY_EVENTS.find(x=>x.date===b.dataset.familyEventDetails&&x.title===b.dataset.familyEventTitle);if(!event)return;
+  document.getElementById('familyEventDialogTitle').textContent=event.title;
+  document.getElementById('familyEventDialogBody').replaceChildren();
+  for(const [name,value] of [['Date',familyEventDateLabel(event.date)],['Heure',event.time],['Lieu',event.place],['Description',event.description]]){if(!value)continue;const p=document.createElement('p');p.textContent=name+' : '+value;document.getElementById('familyEventDialogBody').append(p)}
+  details.showModal();
+ });
+ // Hommages : filtrer les profils déclarés décédés, sans créer de liste distincte.
+ const search=document.getElementById('memorialSearch'),gen=document.getElementById('memorialGeneration'),branch=document.getElementById('memorialBranch');
+ const memorial=document.getElementById('familyMemorialGallery');
+ function refreshMemorialFilters(){
+  const old=branch.value;
+  branch.replaceChildren(new Option('Toutes les branches',''));
+  for(const p of getRoots())branch.add(new Option([p.surname,p.firstname].filter(Boolean).join(' '),String(p.id)));
+  branch.value=[...branch.options].some(o=>o.value===old)?old:'';
+  const term=search.value.trim().toLocaleLowerCase('fr');
+  let count=0;
+  for(const card of memorial.querySelectorAll('.family-branch-tile')){
+   const id=card.querySelector('[data-memorial-person]')?.dataset.memorialPerson;
+   const p=peopleList().find(x=>String(x.id)===String(id));if(!p)continue;
+   const name=[p.surname,p.firstname].filter(Boolean).join(' ').toLocaleLowerCase('fr');
+   const match=(!term||name.includes(term))&&(!gen.value||String(p.generation)===gen.value)&&(!branch.value||rootId(p)===branch.value);
+   card.hidden=!match;if(match)count++;
+  }
+  document.getElementById('memorialFilterStatus').textContent=count+' hommage(s) dans cette sélection';
+ }
+ for(const input of [search,gen,branch])input.addEventListener(input===search?'input':'change',refreshMemorialFilters);
+ const mo=new MutationObserver(refreshMemorialFilters);mo.observe(memorial,{childList:true});
+};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',afterLoad,{once:true});else afterLoad();
+})();
+
 </script></body></html>
