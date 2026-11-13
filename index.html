@@ -1512,7 +1512,7 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
   if(!access)throw Error('Saisissez le code personnel à 4 chiffres de votre fiche pour publier.');
   if(file&&await sopIsMonochromePhoto(file))throw Error('Photo en noir et blanc refusée. Choisissez une photo en couleur.');
   const image=await compressFamilyFeedPhoto(file);
-  await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:[body,clipUrl].filter(Boolean).join('\\n'),p_image:image});
+  await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:[body,clipUrl].filter(Boolean).join('\n'),p_image:image});
   $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedCode').value='';$('sopFeedVideoUrl').value='';
   const preview=$('sopFeedImagePreview');preview.hidden=true;preview.removeAttribute('src');
   if(preview.dataset.tempUrl){URL.revokeObjectURL(preview.dataset.tempUrl);delete preview.dataset.tempUrl}
