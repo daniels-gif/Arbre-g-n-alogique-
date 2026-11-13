@@ -1019,7 +1019,7 @@ async function proposeMemorialPhoto(){
  if(!personId){$('memoryStatus').textContent='Choisissez votre fiche familiale.';return}
  if(!file){$('memoryStatus').textContent='Choisissez une photo à proposer.';return}
  if(!$('memoryMemorialConsent').checked){$('memoryStatus').textContent='Confirmez votre accord pour la publication.';return}
- if(code&&!/^\\d{4}$/.test(code)){$('memoryStatus').textContent='Le code doit comporter 4 chiffres.';return}
+ if(code&&!/^\d{4}$/.test(code)){$('memoryStatus').textContent='Le code doit comporter 4 chiffres.';return}
  button.disabled=true;$('memoryStatus').textContent='Envoi de votre proposition…';
  try{
   let access=profileAccess.get(personId);
