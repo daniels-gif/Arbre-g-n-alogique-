@@ -995,6 +995,41 @@ body.family-viewer-open{overflow:hidden}
  #sopMain{padding-bottom:max(90px,calc(75px + env(safe-area-inset-bottom)))}
 }
 
+
+/* Salon familial : présentation compacte, sans changement du système de messages. */
+#sopChat .sop-section-heading h1{color:#315b43}
+#sopChat .chat-family-shell{max-width:800px;background:#fffdf8;border-color:#c9dac4;padding:14px;border-radius:18px}
+#sopChat .chat-family-heading{gap:9px;position:relative}
+#sopChat .chat-family-profile{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+#sopChat .chat-family-profile strong{font-size:16px;color:#315b43}
+#sopChat .chat-profile-avatar{width:44px;height:44px;min-width:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;border:2px solid #b9caa9;background:#eff4e8}
+#sopChat .chat-profile-avatar img{width:100%;height:100%;object-fit:cover}
+#sopChat .chat-family-exit{white-space:nowrap;font-size:12px;padding:9px}
+#sopChat .chat-coming-soon{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:10px 0 7px;border-bottom:1px solid #e0e9dc}
+#sopChat .chat-coming-soon span{border:1px solid #d8e1d4;border-radius:12px;background:#f2f4ef;color:#89938b;font-size:12px;padding:7px 9px;cursor:default;user-select:none}
+#sopChat .chat-coming-soon small{font-size:10px;color:#89938b;margin-left:auto}
+#sopChat .chat-family-messages{background:#f7f8f1;border-radius:13px;padding:13px 9px;gap:10px;min-height:280px;height:min(56dvh,535px);overscroll-behavior:contain}
+#sopChat .chat-family-message{max-width:85%;padding:10px 12px;border-radius:15px 15px 15px 4px;background:#fffdf8;border:1px solid #dfe4d9;box-shadow:0 1px 3px #173b2410}
+#sopChat .chat-family-message.mine{background:#deedda;border-color:#bfd6b8;border-radius:15px 15px 4px 15px}
+#sopChat .chat-family-message .author{font-size:11px;color:#526e55}
+#sopChat .chat-family-message .body{font-size:14px;line-height:1.55;white-space:pre-wrap;margin:5px 0}
+#sopChat .chat-family-message time{font-size:10px;display:block;text-align:right}
+#sopChat .chat-date-separator{align-self:center;color:#657c69;background:#e7eee3;border:1px solid #d5e2cf;border-radius:20px;padding:5px 11px;font-size:11px;margin:8px auto}
+#sopChat .chat-family-compose{background:#fffdf8;position:sticky;bottom:0;padding:10px 2px 4px;z-index:1}
+#sopChat .chat-family-compose textarea{background:#fff;border-radius:16px;min-height:49px;max-height:125px;font-size:16px}
+#sopChat .chat-family-compose button{background:#315e45;color:white;border:0;border-radius:13px;min-height:49px}
+@media(max-width:600px){
+ #sopChat .chat-family-shell{padding:8px;margin:9px auto}
+ #sopChat .chat-family-heading{flex-wrap:wrap}
+ #sopChat .chat-family-profile strong{font-size:14px}
+ #sopChat .chat-family-exit{margin-left:auto}
+ #sopChat .chat-coming-soon{gap:5px}
+ #sopChat .chat-coming-soon span{font-size:11px;padding:6px}
+ #sopChat .chat-coming-soon small{width:100%;text-align:right}
+ #sopChat .chat-family-messages{height:min(56dvh,560px);padding:8px 5px}
+ #sopChat .chat-family-message{max-width:92%}
+ #sopChat .chat-family-compose{padding-bottom:max(7px,env(safe-area-inset-bottom))}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><span aria-hidden="true">🏡</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><span aria-hidden="true">🌳</span></button>
@@ -1126,7 +1161,7 @@ body.family-viewer-open{overflow:hidden}
  
 </section>
 <section class="sop-page" id="sopChat" data-sop-page="chat" hidden>
-<header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>💬 Salon familial SOP Wandji</h1><p>Discutons entre membres de la famille.</p></header>
+<header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>Salon familial</h1><p>Les conversations qui nous rapprochent.</p></header>
 <div class="chat-family-shell">
 <div id="sopChatGate" class="chat-family-login">
  <h2>Entrer dans le salon</h2>
@@ -1140,7 +1175,8 @@ body.family-viewer-open{overflow:hidden}
 
 </div>
 <div id="sopChatRoom" hidden>
- <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
+ <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Salon familial · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
+<div class="chat-coming-soon" aria-label="Fonctionnalités prévues mais non disponibles"><span title="Appels audio à venir">☎ Audio</span><span title="Appels vidéo à venir">▣ Vidéo</span><span title="Messages vocaux à venir">🎙 Vocaux</span><span title="Discussions de groupe à venir">♧ Groupes</span><span title="Directs familiaux à venir">◉ Directs</span><small>Bientôt disponibles</small></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
  <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
@@ -1784,7 +1820,7 @@ function selectSopTab(page){
  if(page==='tree'&&!awaiting)fillFamilyRelations();
  if(page==='chat'&&!awaiting){
    $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
-   $('sopChatIdentity').textContent='Profil connecté : '+familyName(sopChatPerson);refreshSopChat();
+   $('sopChatIdentity').textContent='Profil connecté : '+familyName(sopChatPerson);refreshSopChatProfileVisual();refreshSopChat();
  }
  if(page==='home')requestAnimationFrame(()=>{layoutLivingPortraits();if(selectedLivingLineage)requestAnimationFrame(()=>highlightLivingLineage(selectedLivingLineage))});
  if(page==='tree')requestAnimationFrame(()=>{if(!sopTreeFirstOpen){sopTreeFirstOpen=true;fitTree()}else drawFamilyLines()});
@@ -2264,6 +2300,7 @@ $('sopChatLogin').addEventListener('submit',async e=>{
  sopChatPerson=member;
  $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
  $('sopChatIdentity').textContent='Profil choisi : '+familyName(member);
+ refreshSopChatProfileVisual();
  $('sopChatLoginMessage').textContent='';sopChatLastSignature='';
  const destination=sopPendingTab;
  sopPendingTab='chat';
@@ -2289,10 +2326,13 @@ async function refreshSopChat(){
  const signature=JSON.stringify(messages.map(m=>m.id));
  if(signature!==sopChatLastSignature){
  const area=$('sopChatMessages'),stick=area.scrollHeight-area.scrollTop-area.clientHeight<90;
+ let previousDate='';
  area.innerHTML=messages.length?messages.map(m=>{
  const own=String(m.person_id)===String(sopChatPerson.id);
- const datetime=new Date(m.created_at);
- return '<article class="chat-family-message'+(own?' mine':'')+'"><div class="author">'+familySafe(m.author)+'</div><p class="body">'+familySafe(m.message)+'</p><time datetime="'+familySafe(m.created_at)+'">'+familySafe(datetime.toLocaleString('fr-CA',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}))+'</time></article>';
+ const datetime=new Date(m.created_at),dateLabel=isNaN(datetime.getTime())?'':datetime.toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric'});
+ const separator=dateLabel&&dateLabel!==previousDate?'<div class="chat-date-separator">'+familySafe(dateLabel)+'</div>':'';
+ previousDate=dateLabel;
+ return separator+'<article class="chat-family-message'+(own?' mine':'')+'"><div class="author">'+familySafe(m.author)+'</div><p class="body">'+familySafe(m.message)+'</p><time datetime="'+familySafe(m.created_at)+'">'+(isNaN(datetime.getTime())?'':familySafe(datetime.toLocaleTimeString('fr-CA',{hour:'2-digit',minute:'2-digit'})))+'</time></article>';
  }).join(''):'<p class="chat-family-feedback">Aucun message pour le moment. Vous pouvez commencer la conversation !</p>';
  if(stick)area.scrollTop=area.scrollHeight;
  sopChatLastSignature=signature;
@@ -2631,6 +2671,15 @@ function renderFamilyTimeline(){
  box.innerHTML=events.length?events.map(event=>'<div class="family-timeline-item"><time>'+familySafe(new Date(event.date+'T12:00:00Z').toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}))+'</time><strong>'+familySafe(event.title)+'</strong><p>'+familySafe(event.description||'')+'</p></div>').join(''):'<p>Aucun événement historique n’a encore été ajouté.</p>';
 }
 
+/* Salon familial : photo du profil choisi, aucune modification des permissions. */
+function refreshSopChatProfileVisual(){
+ const target=document.getElementById('sopChatProfilePhoto');
+ if(!target)return;
+ target.replaceChildren();
+ const avatar=sopChatPerson?.photo;
+ if(avatar){const img=document.createElement('img');img.src=avatar;img.alt='Portrait du profil familial';img.loading='lazy';target.append(img)}
+ else target.textContent='🌿';
+}
 /* Modules intégrés des onglets 2 à 5 : interface seulement, aucun accès en écriture supplémentaire. */
 (function(){
 'use strict';
