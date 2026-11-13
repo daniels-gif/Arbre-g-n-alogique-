@@ -759,7 +759,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
   <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie"><label for="sopFeedVideoUrl">Lien d’un Reel ou Short (facultatif)</label><input type="url" id="sopFeedVideoUrl" placeholder="https://www.youtube.com/shorts/… ou Instagram/TikTok" maxlength="500"><small>Collez un lien YouTube Shorts, Instagram Reels ou TikTok. La vidéo reste hébergée sur le service d’origine.</small>
   <label for="sopFeedCode">Code personnel de votre fiche (4 chiffres)</label>
   <input id="sopFeedCode" type="password" maxlength="4" pattern="[0-9]{2}|[0-9]{4}" inputmode="numeric" autocomplete="off" placeholder="Votre code à 4 chiffres" aria-describedby="sopFeedCodeHelp">
-  <p id="sopFeedCodeHelp" class="sop-feed-note">Les actualités restent réservées aux membres qui déverrouillent leur fiche. Aucun bouton de partage hors du site n’est proposé.</p>
+  <p id="sopFeedCodeHelp" class="sop-feed-note">Lecture des actualités : nom et jour de naissance. Pour publier ou modifier, saisissez le code de votre fiche. Aucun bouton de partage hors du site n’est proposé.</p>
   <div class="sop-feed-buttons">
    <button type="submit" class="action" id="sopFeedPublish">Publier dans le fil</button>
    <button type="button" class="action" id="sopFeedUnlock">🔐 Ouvrir le fil</button><button type="button" class="action" id="sopFeedRefresh">Actualiser les actualités</button>
@@ -816,7 +816,7 @@ header.compact-header{padding:0;height:8px;min-height:0;border:0}header.compact-
 <div id="sopChatRoom" hidden>
  <div class="chat-family-heading"><div><strong>💬 Salon de la famille</strong><small id="sopChatIdentity"></small></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
- <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
+ <form id="sopChatCompose" class="chat-family-compose"><label for="sopChatWriteCode">Code personnel pour envoyer un message (4 chiffres)</label><input id="sopChatWriteCode" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" autocomplete="off" placeholder="Code de votre fiche"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
 
 </div>
@@ -1809,11 +1809,21 @@ async function refreshSopChat(){
 }
 $('sopChatCompose').addEventListener('submit',async e=>{
  e.preventDefault();if(!sopChatPerson)return;
- const message=$('sopChatText').value.trim();if(!message||message.length>500)return;
+ const message=$('sopChatText').value.trim(),code=$('sopChatWriteCode').value.trim();
+ if(!message||message.length>500)return;
  $('sopChatSend').disabled=true;$('sopChatStatus').textContent='';
  try{
- await api('rpc/batcha_chat_registered_send',{p_person_id:sopChatPerson.id,p_message:message});
- $('sopChatText').value='';await refreshSopChat();
+  let access=profileAccess.get(sopChatPerson.id);
+  if(code){
+   const verified=await api('rpc/batcha_open_with_code',{p_id:sopChatPerson.id,p_code:code});
+   if(verified.error||!verified.access)throw Error('Code personnel non reconnu.');
+   cacheOpenedProfile(verified);
+   access=verified.access;
+   if(verified.personal_code){issuedCodes=[{name:familyName(sopChatPerson),code:verified.personal_code}];showCodes('Notez votre nouveau code personnel à 4 chiffres.')}
+  }
+  if(!access)throw Error('Saisissez le code personnel généré lors de votre inscription pour envoyer un message.');
+  await api('rpc/batcha_chat_send',{p_person_id:sopChatPerson.id,p_access:access,p_message:message});
+  $('sopChatText').value='';$('sopChatWriteCode').value='';await refreshSopChat();
  }catch(err){$('sopChatStatus').textContent=err.message}
  finally{$('sopChatSend').disabled=false}
 });
