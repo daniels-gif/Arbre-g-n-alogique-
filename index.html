@@ -836,6 +836,16 @@ body.guest-tree-view #sopTree .family-simple-tools{display:none!important}
 #sopHome .living-tree .sop-hero-actions button{display:block;flex:0 0 auto;align-self:stretch;box-sizing:border-box;width:100%;max-width:none;height:auto;min-height:0;padding:12px 14px;font-size:clamp(12px,2.5vw,14px);line-height:1.35;white-space:normal}
 #sopHome .living-tree .sop-hero-actions button:last-child{grid-column:auto}
 @media(max-width:620px){#sopHome .living-tree .sop-hero-actions{display:flex;flex-direction:column;gap:8px;max-width:450px;margin:8px auto 16px;padding:0 12px}}
+
+/* Boutons sous l'arbre : empêcher l'ancien flex-basis mobile (180px) de les agrandir. */
+#sopHome .living-tree .sop-hero-actions{display:flex;flex-direction:column;align-items:center;gap:7px;max-width:480px;margin:8px auto 15px;padding:0 12px}
+#sopHome .living-tree .sop-hero-actions>button{
+ flex:0 0 auto!important;align-self:stretch;box-sizing:border-box;
+ width:100%;max-width:100%;height:auto!important;min-height:0!important;
+ padding:10px 12px!important;margin:0;border-radius:15px;
+ font-size:13px;line-height:1.3;white-space:normal;
+}
+@media(max-width:620px){#sopHome .living-tree .sop-hero-actions>button{flex:0 0 auto!important;padding:10px 9px!important;font-size:12px;line-height:1.25}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page">🏡 <span>Accueil</span></button>
 <button type="button" class="sop-tab" data-sop-tab="tree">🌳 <span>Arbre généalogique</span></button>
