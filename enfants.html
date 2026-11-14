@@ -65,7 +65,7 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 <input id="kidsPlayerName" type="text" required minlength="2" maxlength="35" autocomplete="nickname" placeholder="Prénom ou pseudonyme">
 <label for="kidsPlayerBirth">Date de naissance *</label>
 <input id="kidsPlayerBirth" type="date" required>
-<label class="kids-player-consent"><input type="checkbox" id="kidsPlayerApproval" required> Un parent ou tuteur autorise cette participation si le joueur est mineur.</label>
+<label class="kids-player-consent"><input type="checkbox" id="kidsPlayerApproval"> Un parent ou tuteur autorise cette participation si le joueur est mineur.</label>
 <button type="submit" class="btn">Créer le profil et jouer</button>
 <p class="small" id="kidsPlayerError" role="alert" aria-live="polite"></p>
 </form>
@@ -151,7 +151,7 @@ function ageYears(date){
  return years;
 }
 function activatePlayer(p){
- currentPlayer=p;
+ currentPlayer=p;window.sopKidVerified=true;
  el('kidsPlayerRegistration').hidden=true;
  el('kidsPlayerActive').hidden=false;
  el('kidsPlayerGreeting').textContent='⭐ Profil de joueur : '+p.name;
@@ -166,7 +166,7 @@ function removePlayer(){
  el('kidsContent').hidden=true;
  for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=true;
 }
-document.getElementById('kidsPlayerSwitch').addEventListener('click',removePlayer);
+document.getElementById('kidsPlayerSwitch').addEventListener('click',()=>{removePlayer();location.reload()});
 el('kidsPlayerForm').addEventListener('submit',event=>{
  event.preventDefault();
  const name=el('kidsPlayerName').value.trim(),birth=el('kidsPlayerBirth').value;
