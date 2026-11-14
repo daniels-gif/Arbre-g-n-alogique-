@@ -2091,7 +2091,23 @@ function animateInvitation(){const target=$('animatedInvite'),message='Aidez-nou
 function drawFamilyLines(){const chart=$('familyChart'),svg=$('familyLines');if(!chart||!svg)return;const w=chart.scrollWidth,h=chart.scrollHeight;svg.setAttribute('viewBox',`0 0 ${w} ${h}`);svg.setAttribute('width',w);svg.setAttribute('height',h);const box=chart.getBoundingClientRect(),scale=box.width/chart.offsetWidth,mid=el=>{const r=el.getBoundingClientRect();return {x:(r.left-box.left+r.width/2)/scale,y:(r.top-box.top)/scale,b:(r.bottom-box.top)/scale}};const segments=[];const line=(x1,y1,x2,y2)=>segments.push(`<path d="M${x1} ${y1} L${x2} ${y2}"/>`);const connect=(parents,children)=>{if(!parents.length||!children.length)return;const ps=parents.map(mid),cs=children.map(mid);const fromX=ps.reduce((n,p)=>n+p.x,0)/ps.length;const startY=Math.max(...ps.map(p=>p.b))+5;const endY=Math.min(...cs.map(c=>c.y))-5;const barY=(startY+endY)/2;ps.forEach(p=>line(p.x,p.b,p.x,barY));if(cs.length>1)line(Math.min(...cs.map(c=>c.x)),barY,Math.max(...cs.map(c=>c.x)),barY);line(fromX,barY,fromX,startY);cs.forEach(c=>line(c.x,barY,c.x,c.y));};const founders=[...$('founders').querySelectorAll('.person')];const branches=[...$('tree').querySelectorAll(':scope > .branch')].filter(b=>!b.hidden);if(!$('familyChart').classList.contains('branch-focused'))connect(founders,branches.map(b=>b.querySelector(':scope > .person')).filter(Boolean));branches.forEach(b=>{const parent=b.querySelector(':scope > .person');const third=[...b.querySelectorAll(':scope > .children > .descendant > .person')];connect([parent],third);b.querySelectorAll('.descendant').forEach(d=>{const p=d.querySelector(':scope > .person');const fourth=[...d.querySelectorAll(':scope > .grandchildren > .descendant > .person')];connect([p],fourth)})});svg.innerHTML=segments.join('')};window.addEventListener('resize',()=>requestAnimationFrame(drawFamilyLines));window.addEventListener('beforeprint',drawFamilyLines);let editRequest=0,pinTarget=null,recoveryTarget=null,issuedCodes=[];
 function isFamilyConnected(){return [...profileAccess.values()].some(token=>!!token)}
 function guestLoginRequired(){alert('Connectez-vous d’abord');return false}
-function cacheOpenedProfile(data){familyIdleLoggedOut=false;familyLastActivity=Date.now();for(const member of [data.profile,...data.children]){privateProfiles.set(member.id,member);profileAccess.set(member.id,data.access)}}
+function cacheOpenedProfile(data){
+ familyIdleLoggedOut=false;
+ familyLastActivity=Date.now();
+ for(const member of [data.profile,...data.children]){
+  privateProfiles.set(member.id,member);
+  profileAccess.set(member.id,data.access);
+ }
+ // La même connexion authentifiée donne accès aux autres onglets autorisés.
+ // Ne sélectionner que la personne qui vient de réussir la vérification serveur.
+ const member=data.profile&&people.find(p=>String(p.id)===String(data.profile.id));
+ if(member&&!member.deceased&&!member.virtual&&member.generation<=3&&member.photo){
+  sopChatPerson=member;
+  sopFamilyVisit=null;
+ }
+ const notice=document.getElementById('familyIdleNotice');
+ if(notice)notice.hidden=true;
+}
 
 /* Session familiale : déconnexion après 30 minutes réelles sans activité.
    Les jetons existants sont uniquement en mémoire. Ne touche pas à la base. */
@@ -2633,6 +2649,9 @@ const SOP_PRIVATE_TABS=['news','events','memories','chat'];
 let sopFamilyVisit=null;
 function sopHasAccess(){return !!(sopChatPerson&&!sopChatPerson.deceased&&sopChatPerson.generation<=3&&(profileAccess.get(sopChatPerson.id)||(sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id)))}
 function selectSopTab(page){
+ // Un changement d'onglet ne doit pas déclencher une nouvelle connexion :
+ // seul le délai réel d'inactivité termine la session.
+ if(page!=='home'&&familyHasSession())checkFamilyInactivity();
  if(!['home','tree','events','memories','chat','news'].includes(page))page='home';
  const awaiting=SOP_PRIVATE_TABS.includes(page)&&!sopHasAccess();
  currentSopPage=page;
