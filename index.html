@@ -1290,13 +1290,74 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
    overflow:visible!important;
  }
 }
+
+/* Navigation mobile style application native : 6 onglets au bas de l'écran,
+   fond blanc sans pastille, onglet sélectionné en vert. CSS uniquement. */
+@media(max-width:900px){
+ body{padding-bottom:calc(78px + env(safe-area-inset-bottom,0px))!important}
+ #sopTabs.sop-tabs.sop-tabs-cards{
+  display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  grid-template-rows:1fr!important;grid-auto-rows:auto!important;
+  position:fixed!important;left:0!important;right:0!important;
+  top:auto!important;bottom:0!important;z-index:200!important;
+  width:100%!important;max-width:none!important;min-width:0!important;
+  height:calc(67px + env(safe-area-inset-bottom,0px))!important;
+  min-height:0!important;max-height:none!important;aspect-ratio:auto!important;
+  margin:0!important;padding:5px 4px calc(5px + env(safe-area-inset-bottom,0px))!important;
+  gap:0!important;align-items:stretch!important;justify-items:stretch!important;
+  border:none!important;border-top:1px solid #d9ded7!important;border-radius:0!important;
+  background:#fff!important;box-shadow:0 -2px 10px #162d2410!important;
+  overflow:visible!important;
+ }
+ #sopTabs.sop-tabs.sop-tabs-cards[hidden]{display:none!important}
+ #sopTabs.sop-tabs.sop-tabs-cards .heritage-brand{display:none!important}
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab,
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab.active,
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab[aria-current=page]{
+  display:flex!important;flex-direction:column!important;
+  grid-column:auto!important;grid-row:1!important;
+  flex:initial!important;align-items:center!important;justify-content:center!important;
+  width:100%!important;min-width:0!important;max-width:none!important;
+  height:56px!important;min-height:56px!important;max-height:56px!important;
+  aspect-ratio:auto!important;border:none!important;border-radius:0!important;
+  margin:0!important;padding:3px 1px!important;gap:4px!important;
+  background:transparent!important;box-shadow:none!important;transform:none!important;
+  color:#5e6861!important;font:500 10px/1.1 system-ui,sans-serif!important;
+  text-shadow:none!important;text-align:center!important;
+ }
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab.active,
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab[aria-current=page]{
+  color:#075A43!important;font-weight:750!important;
+ }
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab svg{
+  display:block!important;width:23px!important;height:23px!important;
+  flex:0 0 23px!important;stroke:currentColor!important;
+ }
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab::after{
+  content:attr(data-mobile-label)!important;
+  display:block!important;max-width:100%!important;min-width:0!important;
+  color:inherit!important;font:inherit!important;letter-spacing:-.02em!important;
+  line-height:1.1!important;overflow:hidden!important;
+  white-space:nowrap!important;text-overflow:clip!important;
+ }
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab:hover{background:transparent!important}
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab:focus-visible{
+  outline:2px solid #B79A60!important;outline-offset:-3px!important;
+ }
+ #sopChatShortcut{display:none!important}
+ #sopMain{padding-bottom:15px!important}
+}
+@media(max-width:360px){
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab::after{font-size:9px!important}
+ #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab svg{width:21px!important;height:21px!important;flex-basis:21px!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
-<button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="news" aria-label="Actualités" title="Actualités"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h5v6H7zm8 0h3M15 10h3M7 16h11M7 19h11"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="events" aria-label="Événements" title="Événements"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><text x="12" y="18" text-anchor="middle" font-size="8" fill="currentColor" stroke="none" font-weight="700">17</text></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="memories" aria-label="Souvenirs & Hommages" title="Souvenirs & Hommages"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="14" r="4"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="chat" aria-label="Salon familial" title="Salon familial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3-.5L3 21l1.5-5.5a8.5 8.5 0 1 1 15.5-4Z"/><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="3"/></svg></button>
+<button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
+<button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
+<button type="button" class="sop-tab" data-sop-tab="news" data-mobile-label="Actus" aria-label="Actualités" title="Actualités"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h5v6H7zm8 0h3M15 10h3M7 16h11M7 19h11"/></svg></button>
+<button type="button" class="sop-tab" data-sop-tab="events" data-mobile-label="Agenda" aria-label="Événements" title="Événements"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><text x="12" y="18" text-anchor="middle" font-size="8" fill="currentColor" stroke="none" font-weight="700">17</text></svg></button>
+<button type="button" class="sop-tab" data-sop-tab="memories" data-mobile-label="Souvenirs" aria-label="Souvenirs & Hommages" title="Souvenirs & Hommages"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="14" r="4"/></svg></button>
+<button type="button" class="sop-tab" data-sop-tab="chat" data-mobile-label="Salon" aria-label="Salon familial" title="Salon familial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3-.5L3 21l1.5-5.5a8.5 8.5 0 1 1 15.5-4Z"/><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="3"/></svg></button>
 </nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Avec un enfant inscrit et photographié, répondez à la question sur cet enfant. Sinon, utilisez votre jour et votre mois de naissance.</p>
