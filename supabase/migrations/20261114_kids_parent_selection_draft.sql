@@ -1,5 +1,6 @@
 -- Phase 1 Espace Enfants. A NE PAS APPLIQUER AVANT SAUVEGARDE ET VALIDATION.
--- Sélection des enfants directs de moins de 18 ans, uniquement sous session parent vérifiée.
+-- Sélection des enfants directs de quatrième génération sous session parent vérifiée.
+-- L'âge précis n'est pas déduit si l'année de naissance est absente.
 -- Aucun détail de naissance, photo ni donnée privée de l'enfant n'est transmis.
 create or replace function public.batcha_parent_children(p_parent_id uuid,p_access uuid)
 returns jsonb
@@ -25,9 +26,8 @@ begin
  from public.batcha_people child
  where child.parent_id=p_parent_id
    and coalesce(child.deceased,false)=false
-   and child.birth_date is not null
-   and child.birth_date<=current_date
-   and child.birth_date>(current_date-interval '18 years')::date;
+   and child.generation = 4
+   and (child.birth_date is null or (child.birth_date <= current_date and child.birth_date > (current_date - interval '18 years')::date));
  return result;
 end;
 $function$;
