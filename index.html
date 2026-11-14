@@ -1578,6 +1578,14 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopTree .family-tree-more-menu>summary{width:28px;min-width:28px;height:35px}
 }
 @media print{#sopTree .family-tree-more-menu{display:none!important}}
+
+/* Essai passkey sans authentification trompeuse : vérification d'appareil seulement. */
+.family-biometric-test{border-top:1px solid #dce4db;margin-top:14px;padding:14px 0 5px;display:flex;flex-direction:column;gap:8px}
+.family-biometric-test .family-biometric-check{border:1px solid #a8c5b1;background:#f4f8f2;color:#183f32;border-radius:999px;min-height:43px;padding:10px 13px;font:650 13px system-ui,sans-serif;cursor:pointer}
+.family-biometric-test .family-biometric-check:hover{background:#e9f2e8}
+.family-biometric-test .family-biometric-check:focus-visible{outline:2px solid #b79a60;outline-offset:2px}
+.family-biometric-test #familyBiometricStatus{font:400 12px/1.5 system-ui,sans-serif;color:#465b4d;margin:0}
+.family-biometric-test #familyBiometricSignIn{min-height:38px;border:1px solid #dae0d6;background:#eff1ed;color:#6f7872;border-radius:999px;opacity:.75;cursor:not-allowed;font:500 12px system-ui,sans-serif}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1593,7 +1601,11 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
 <div class="sop-family-day" id="sopGatePersonalBirthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" placeholder="Ex. : 15"><label for="sopAccessYear">Mois de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1" max="12" placeholder="Ex. : 4"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
-<p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Notre jardin des générations">
+<p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><div class="family-biometric-test" role="group" aria-label="Essai biométrique">
+ <button type="button" id="familyBiometricCheck" class="family-biometric-check">🔐 Tester la compatibilité empreinte</button>
+ <p id="familyBiometricStatus" role="status" aria-live="polite">Essai facultatif : vérifie si cet appareil peut prendre en charge une clé d’accès. Ne connecte pas au profil.</p>
+ <button type="button" id="familyBiometricSignIn" disabled title="Non disponible : vérification serveur nécessaire">Connexion par empreinte — bientôt disponible</button>
+ </div><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Notre jardin des générations">
 <p class="sop-hero-kicker">FAMILLE SOP WANDJI &amp; KOUAMO JACQUELINE</p>
 <h1 class="family-garden-title">Notre jardin des générations</h1>
 <p class="family-garden-subtitle">Des racines qui nous unissent, des générations qui s’épanouissent.</p>
@@ -3559,4 +3571,27 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  byId('familyGameQuit').addEventListener('click',()=>display('start'));
  byId('familyGameReplay').addEventListener('click',()=>display('start'));
 })();
+
+/* Le test ne génère pas de credential, ne contacte pas la base et ne donne aucun accès. */
+document.getElementById('familyBiometricCheck')?.addEventListener('click',async function(){
+ const status=document.getElementById('familyBiometricStatus');
+ const button=this;
+ button.disabled=true;
+ status.textContent='Vérification des capacités du téléphone…';
+ try{
+  if(!window.isSecureContext||!window.PublicKeyCredential||!navigator.credentials){
+   status.textContent='Cet appareil ou ce navigateur ne permet pas le test WebAuthn sur cette page. Continuez avec votre code familial.';
+   return;
+  }
+  const available=typeof PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable==='function'
+   ?await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable():false;
+  if(available){
+   status.textContent='✅ Appareil compatible avec une authentification locale (empreinte, visage ou code de déverrouillage). La connexion au profil nécessite encore une vérification sécurisée du serveur. Utilisez votre connexion habituelle pour le moment.';
+  }else{
+   status.textContent='Une authentification biométrique intégrée n’a pas été détectée. Le code familial reste disponible.';
+  }
+ }catch(err){
+  status.textContent='Compatibilité non déterminée. Continuez avec la connexion familiale habituelle.';
+ }finally{button.disabled=false;}
+});
 </script></body></html>
