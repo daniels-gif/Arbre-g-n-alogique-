@@ -2199,7 +2199,7 @@ body.family-kids-mode #sopKids{display:block!important}
  <div class="panel">
  <button id="familyKidsPickerClose" type="button" aria-label="Fermer la sélection">✕ Fermer</button>
  <h2>🌈 Choisir un profil enfant</h2>
- <p>Les enfants enregistrés et liés au profil familial connecté peuvent jouer, y compris les trois derniers enfants de SOP Wandji Verkys. L’âge n’est pas déduit d’une date incomplète.</p>
+ <p>Les profils enfants enregistrés sont proposés aux membres connectés, dont les trois derniers enfants de SOP Wandji Verkys. Aucun âge n’est inventé à partir de dates incomplètes.</p>
  <p id="familyKidsPickerStatus" role="status"></p>
  <div id="familyKidsPickerList" class="family-kids-choices"></div>
  </div>
@@ -4312,23 +4312,23 @@ document.querySelectorAll('#sopProjects [data-project-view]').forEach(button=>{
    session parentale vérifiée côté serveur, jamais par une liste publique.
    La session adulte est effacée avant d'ouvrir l'interface enfant. */
 window.familyKidsModeActive=false;
-function parentKidsCredentials(){
+function memberKidsCredentials(){
  const person=typeof sopChatPerson!=='undefined'?sopChatPerson:null;
  const access=person&&profileAccess.get(person.id);
- return person&&typeof access==='string'&&access?{p_parent_id:person.id,p_access:access}:null;
+ return person&&typeof access==='string'&&access?{p_member_id:person.id,p_access:access}:null;
 }
 function updateKidsEntry(){
  const entry=document.getElementById('familyKidsEntry');
  if(entry)entry.hidden=window.familyKidsModeActive===true;
  const play=document.getElementById('familyKidsOpen');
- if(play)play.hidden=!parentKidsCredentials();
+ if(play)play.hidden=!memberKidsCredentials();
 }
 function familyKidsPickerClose(){
  const overlay=document.getElementById('familyKidsPicker');
  if(overlay)overlay.classList.remove('open');
 }
 async function familyKidsPickerOpen(){
- const credentials=parentKidsCredentials();
+ const credentials=memberKidsCredentials();
  if(!credentials){selectSopTab('news');return}
  const overlay=document.getElementById('familyKidsPicker');
  const status=document.getElementById('familyKidsPickerStatus');
@@ -4337,10 +4337,10 @@ async function familyKidsPickerOpen(){
  overlay.classList.add('open');list.replaceChildren();
  status.textContent='Vérification des profils autorisés…';
  try{
-  const items=await api('rpc/batcha_parent_children',credentials);
+  const items=await api('rpc/batcha_kids_profiles',credentials);
   if(!Array.isArray(items))throw Error('La liste parentale n’a pas été validée.');
-  if(!items.length){status.textContent='Aucun profil enfant lié à votre fiche n’est disponible. Vérifiez les liens familiaux avec un responsable.';return}
-  status.textContent='Sélectionnez un enfant. Les fonctions adultes seront verrouillées.';
+  if(!items.length){status.textContent='Aucun profil enfant enregistré n’est actuellement éligible. Un responsable familial pourra vérifier les inscriptions.';return}
+  status.textContent='Sélectionnez le profil enregistré d’un enfant pour jouer. Le retour aux rubriques adultes nécessitera une nouvelle connexion.';
   for(const kid of items){
    if(!kid||typeof kid.id!=='string'||typeof kid.firstname!=='string')continue;
    const button=document.createElement('button');
@@ -4354,7 +4354,7 @@ async function familyKidsPickerOpen(){
  }
 }
 async function familyKidsEnter(kid){
- const credentials=parentKidsCredentials();
+ const credentials=memberKidsCredentials();
  if(!credentials||!kid||typeof kid.id!=='string')return;
  const message=document.getElementById('familyKidsPickerStatus');
  if(message)message.textContent='Ouverture sécurisée du profil enfant…';
