@@ -1,24 +1,25 @@
-# Profil enfant — Version simplifiée sans fonctionnalité de profil enfant
+# Profil enfant — version test des jeux, éligibilité 18 ans et moins
 
-La demande familiale remplace le mécanisme de choix/connexion enfant :
-le titre visible est **Profil enfant**, sans compte enfant séparé ni sélection dans l’arbre.
+## Modifications confirmées
 
-## Fonctionnement de cette version
+- Les phrases « accessibles sans compte enfant » et « Tes activités ne demandent ni achat, ni photo, ni messagerie » ont été retirées de l'entête.
+- L’accès aux activités nécessite de créer un **profil de joueur temporaire** avec prénom ou pseudonyme et date de naissance.
+- Vérification locale de l’éligibilité : **18 ans ou moins**. Les âges 19 ans et plus sont refusés.
+- Pour les moins de 18 ans, le formulaire exige une confirmation parentale.
+- La date de naissance est utilisée uniquement pour calculer l'âge, puis effacée du formulaire et **non enregistrée**.
+- Seul le pseudonyme est conservé temporairement dans l’onglet via sessionStorage, avec une durée de vie de 6 heures.
+- Les jeux locaux existants restent disponibles après création du profil : calcul mental, mémoire, parenté, images, logique, dessin et cartes.
+- Le menu de changement de joueur efface le profil temporaire et renouvelle la page.
+- Aucune base Supabase modifiée, aucune session enfant reliée à l'arbre et aucun accès adulte accordé par ce profil.
 
-- Tous les visiteurs du site peuvent ouvrir la rubrique **Profil enfant**.
-- Jeux locaux accessibles sans connexion : calcul mental, mémoire, parenté, reconnaissance d’images, logique, dessin, cartes de fête.
-- Aucun résultat nominatif, aucune photo et aucun message n’est envoyé au serveur depuis cette rubrique.
-- Le sélecteur des générations 3–6, les jetons et les sessions enfants ont été retirés du frontend.
-- Aucun schéma Supabase n’a besoin d’être activé pour ces jeux.
-- Les modules de messages, actualités d’enfants, jeux à distance et publications sont toujours désactivés.
-- Les profils, l’arbre, le Salon, la Caisse, les Projets et les autres sections adultes existantes demeurent présents dans le code.
+## Avertissements avant une version définitive
 
-## À ne pas activer
+- La vérification d’âge est **côté navigateur uniquement** et ne représente pas une vérification d'identité inviolable.
+- Aucune reconnaissance du lien de parenté avec les fiches de l'arbre.
+- Pas de scores persistants partagés, classements inter-appareils, médias d'enfants, publications ni messagerie.
+- Pour rendre l'éligibilité fiable côté serveur, il faudra une base et un contrôle d'accès adapté, avec sauvegardes et tests.
+- Cette version ne touche pas à la production. Vérifier les jeux sur un téléphone réel avant publication.
 
-Le fichier SQL historique `supabase/migrations/20261114_kids_parent_selection_draft.sql` est **obsolète : NE PAS EXÉCUTER**. Il correspond à une conception abandonnée et n’est pas nécessaire à la rubrique simplifiée.
+## Contrôle de code
 
-## Vérifications
-
-- Contrôle de syntaxe JavaScript des trois fichiers : passé.
-- Navigation réelle sur Android/iPhone et test complet des jeux : à effectuer dans l’aperçu.
-- Production non modifiée : fusion ou publication conditionnée à la validation explicite.
+Syntaxe JavaScript vérifiée dans index.html, enfants.html et kids-extras.js.
