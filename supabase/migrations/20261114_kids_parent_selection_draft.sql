@@ -2,7 +2,7 @@
 -- Tout membre du site peut découvrir l'univers, sans consulter de données d'enfant.
 -- La sélection d'un profil enfant enregistré pour jouer nécessite une session familiale
 -- valide. Aucun âge n'est inventé quand la date de naissance est incomplète.
--- Éligibles: génération 4 et trois derniers enfants (rangs 4,5,6)
+-- Éligibles: générations 4, 5 et 6, y compris futures fiches, et trois derniers enfants (rangs 4,5,6)
 -- de SOP Wandji Verkys (génération 3), confirmés par la famille.
 -- Aucune publication ni score partagé n'est enregistré dans cette version.
 create table if not exists public.batcha_kids_sessions(
@@ -33,8 +33,7 @@ begin
  from public.batcha_people c
  where coalesce(c.deceased,false)=false
  and (
-  (c.generation=4 and (c.birth_date is null or
-     (c.birth_date<=current_date and c.birth_date>(current_date-interval '18 years')::date)))
+  (c.generation between 4 and 6)
   or (c.parent_id='588db644-8fc7-4213-add5-528a53a12eef'::uuid
       and c.generation=3 and c.birth_rank in(4,5,6))
  );
