@@ -1656,6 +1656,20 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopChat .chat-family-messages{height:clamp(190px,33dvh,320px)!important}
  #sopChat .chat-family-compose{gap:5px!important}
 }
+
+/* Différencier les modes de discussion du fil des messages écrits. */
+#sopChat .family-discussion-modes{background:transparent;border:0;border-bottom:1px solid #e0e5dc;padding:3px 2px 11px;margin:0 0 11px}
+#sopChat .family-discussion-modes h3{font:650 14px/1.3 system-ui,sans-serif;margin:0 0 9px;color:#315944;text-align:left}
+#sopChat .family-discussion-modes .chat-coming-soon{border:0!important;margin:0!important;padding:0!important;gap:6px!important;display:flex!important;flex-wrap:wrap!important}
+#sopChat .family-discussion-coming{display:block;text-align:right;margin:6px 3px 0;color:#79877c;font:400 11px/1.3 system-ui,sans-serif;letter-spacing:.7px}
+#sopChat .family-written-discussion{min-width:0}
+#sopChat .family-written-discussion .chat-family-heading{margin-bottom:8px}
+@media(max-width:600px){
+ #sopChat .family-discussion-modes{padding-bottom:8px;margin-bottom:8px}
+ #sopChat .family-discussion-modes h3{font-size:13px;margin-bottom:6px}
+ #sopChat .family-discussion-modes .chat-coming-soon span{font-size:11px!important;padding:5px 7px!important}
+ #sopChat .family-discussion-coming{margin-top:4px}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1830,11 +1844,17 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  <button type="button" disabled title="Bientôt disponible">🤝 Entraide</button>
 </nav>
 <div id="familySalonDiscussion">
- <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Salon familial · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
-<div class="chat-coming-soon" aria-label="Fonctionnalités prévues mais non disponibles"><span title="Appels audio à venir">☎ Audio</span><span title="Appels vidéo à venir">▣ Vidéo</span><span title="Messages vocaux à venir">🎙 Vocaux</span><span title="Discussions de groupe à venir">♧ Groupes</span><span title="Directs familiaux à venir">◉ Directs</span><small>Bientôt disponibles</small></div>
+ <section class="family-discussion-modes" aria-label="Modes de discussion">
+  <h3>Modes de discussion</h3>
+  <div class="chat-coming-soon" aria-label="Fonctionnalités de discussion prévues mais non disponibles"><span title="Appels audio à venir">☎ Audio</span><span title="Appels vidéo à venir">▣ Vidéo</span><span title="Messages vocaux à venir">🎙 Vocaux</span><span title="Discussions de groupe à venir">♧ Groupes</span><span title="Directs familiaux à venir">◉ Directs</span></div>
+  <small class="family-discussion-coming">Bientôt disponibles</small>
+ </section>
+ <section class="family-written-discussion" aria-label="Messages écrits">
+ <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Messages écrits · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
  <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
+ </section>
 </div>
 <section id="familySalonGames" hidden aria-label="Salle de jeux familiale">
  <header class="family-game-header"><span>UN MOMENT POUR NOUS RETROUVER</span><h2>La salle de jeux</h2><p>Jouons et découvrons ensemble, à notre rythme.</p></header>
