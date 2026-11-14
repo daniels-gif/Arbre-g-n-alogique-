@@ -2308,6 +2308,13 @@ function drawFamilyLines(){const chart=$('familyChart'),svg=$('familyLines');if(
 function isFamilyConnected(){return [...profileAccess.values()].some(token=>!!token)}
 function guestLoginRequired(){alert('Connectez-vous d’abord');return false}
 function cacheOpenedProfile(data){
+ // Conserver la preuve de connexion de la fiche effectivement déverrouillée :
+ // aucun profil enfant n'est attribué depuis une simple liste publique.
+ if(data&&data.profile&&data.access&&data.profile.id){
+  try{sessionStorage.setItem('sop-kids-family-auth-v1',JSON.stringify({
+   memberId:String(data.profile.id),access:String(data.access),issuedAt:Date.now()
+  }))}catch(_){}
+ }
  familyIdleLoggedOut=false;
  familyLastActivity=Date.now();
  for(const member of [data.profile,...data.children]){
@@ -2340,6 +2347,7 @@ function familyHasSession(){
  return profileAccess.size>0 || !!sopChatPerson || !!sopFamilyVisit;
 }
 function clearSavedFamilySession(){
+ try{sessionStorage.removeItem('sop-kids-family-auth-v1')}catch(_){}
  try{sessionStorage.removeItem(FAMILY_SESSION_KEY)}catch(_){}
 }
 function persistFamilySession(force=false){
