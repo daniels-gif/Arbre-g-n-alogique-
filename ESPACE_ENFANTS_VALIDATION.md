@@ -6,8 +6,10 @@ Base : branche principale `main`.
 
 ## Implémenté (branche de test uniquement)
 
-- Accès au sélecteur depuis l'accueil d'un adulte déjà connecté.
-- Préparation de l'API `batcha_parent_children` : session adulte vérifiée côté serveur et enfants directs de génération 4. L'année de naissance inconnue n'est pas inventée.
+- Accès libre à la page de découverte Espace Enfants depuis l'accueil familial : la visite ne révèle pas de données personnelles d'enfant.
+- Sélection d'un profil enfant pour jouer uniquement depuis une session familiale vérifiée.
+- Préparation des API `batcha_kids_profiles`, `batcha_kids_session_start`, `batcha_kids_session_check`, `batcha_kids_session_end` : session de membre familial vérifiée côté serveur et jeton enfant temporaire.
+- Éligibilité validée par requête non destructive : 11 profils enregistrés, incluant les 3 derniers enfants de SOP Wandji Verkys (rangs 4 à 6 de la troisième génération). Les autres profils éligibles appartiennent à la quatrième génération ; l'année de naissance inconnue n'est pas inventée.
 - Passage à une page dédiée `enfants.html` sans conserver les scripts et écrans du portail adulte.
 - Accueil personnalisé uniquement avec le prénom de l'enfant, conservé temporairement dans `sessionStorage`.
 - Calcul mental : 4 niveaux, 8 questions, correction et score local.
@@ -24,8 +26,8 @@ Base : branche principale `main`.
 ## Bloqueurs avant ouverture aux familles
 
 1. **Sauvegarde vérifiée :** une sauvegarde indépendante et restaurable de la base familiale n'a pas encore été confirmée.
-2. **RPC parent-enfant :** la migration SQL préparée dans `supabase/migrations/20261114_kids_parent_selection_draft.sql` n'a PAS été appliquée à Supabase ; vérifier sauvegarde et autorisations avant activation.
-3. **Parenté et autorité parentale :** `parent_id` permet d'établir une relation généalogique directe, mais ne suffit pas pour certifier tous les droits parentaux ; définir les modalités d'approbation avant tout partage de contenu.
+2. **RPC de sélection et de session enfant :** la migration SQL préparée dans `supabase/migrations/20261114_kids_parent_selection_draft.sql` n'a PAS été appliquée à Supabase ; vérifier sauvegarde et autorisations avant activation. En l'absence d'activation, seuls l'accueil de découverte et les descriptions des jeux sont accessibles, sans ouverture d'un profil enfant.
+3. **Droits des enfants :** la sélection des profils à des fins de jeux purement locaux est ouverte aux membres familiaux connectés. Cela ne constitue pas une autorisation de consulter ou de publier des informations privées au nom des enfants. Les publications, photos, messages et scores partagés exigent un contrôle parental et une modération côté serveur.
 4. **Âges :** les enfants de quatrième génération n'ont pas tous une année de naissance enregistrée. Ne pas deviner l'âge ; adapter le niveau avec le parent tant que les données ne sont pas complétées.
 5. **Contrôles réels :** tests parent valide, personne non autorisée, session expirée, retour adulte, Android, iPhone, tablette, clavier et lecteurs d'écran à effectuer.
 6. **Hébergement :** aperçu Vercel READY observé ; l'accès effectif au fichier `enfants.html` n'a pas pu être testé depuis un navigateur non authentifié.
@@ -47,3 +49,7 @@ Ce document est un contrôle de livraison de la phase 1, pas une validation de s
 ## Étape suivante après les tests
 
 La version contient des jeux **locaux** utilisables sans accès aux données confidentielles. Les fonctions communautaires pour enfants (actualités, messages, jeux asynchrones partagés, clubs, vidéothèque familiale) nécessitent un modèle d’autorisations parentales, une modération, un mécanisme de sauvegarde vérifié et des tests réels avant activation. Ne pas appeler cet état « point 13 intégralement terminé ».
+
+## Correction demandée : accès à l'univers sans distinction générationnelle
+
+Le bouton « Entrer dans l’Espace Enfants » est proposé à tous sur l'accueil de la branche test. Le sélecteur de jeu personnalisé est proposé aux membres connectés. Les trois derniers enfants de SOP Wandji Verkys figurent explicitement parmi les profils éligibles, malgré leur appartenance à la génération 3. La règle du seul rattachement direct au parent connecté est retirée pour les jeux locaux. Vérification du comportement réel requise après activation serveur.
