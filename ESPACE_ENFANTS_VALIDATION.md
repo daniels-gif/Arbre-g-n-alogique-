@@ -19,8 +19,8 @@ Date : 2026-11-14. Branche : `test-espace-enfants-phase1-2026-11-14`.
 - La fonction SQL (lecture seule du côté de la fiche familiale) est proposée dans `supabase/migrations/20261114_kids_game_eligibility_draft.sql`.
 - Aucun profil joueur supplémentaire n'est créé dans l'arbre.
 
-## Non encore activé
-La nouvelle fonction SQL **n'a pas été exécutée** dans Supabase. Sans elle, les jeux resteront verrouillés avec un message d'indisponibilité. Cette étape attend la sauvegarde et les tests de sécurité avant déploiement public. La validation de l'année déclarée et l'autorisation parentale ne sont pas prouvées par un simple formulaire.
+## Activation et limites
+La fonction SQL **a été activée** dans Supabase à la demande explicite de la famille. Vérifications effectuées : présence de la fonction, autorisations RPC, refus d'une session invalide et réponse d'une session familiale valide, sans exposer les informations personnelles dans le compte rendu. Aucun profil familial n'a été créé, édité ou supprimé. **La sauvegarde restaurable n'a toutefois pas été confirmée ; il reste une limite de protection du projet.** La validation de l'année déclarée et l'autorisation parentale ne sont pas prouvées par un simple formulaire.
 
 ## Contrôles
 Syntaxe JS des fichiers `index.html`, `enfants.html`, `kids-family-gate.js` et `kids-extras.js` vérifiée.
