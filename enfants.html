@@ -58,18 +58,15 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 <h1 id="kidsWelcome">Profil enfant</h1>
 </section>
 <section id="kidsPlayerRegistration" class="activity" aria-label="Créer un profil pour jouer">
-<h2>🎮 Créer mon profil de joueur</h2>
-<p>Jeux réservés aux personnes de 18 ans ou moins.</p>
-<form id="kidsPlayerForm">
-<label for="kidsPlayerName">Prénom ou pseudonyme *</label>
-<input id="kidsPlayerName" type="text" required minlength="2" maxlength="35" autocomplete="nickname" placeholder="Prénom ou pseudonyme">
-<label for="kidsPlayerBirth">Date de naissance *</label>
-<input id="kidsPlayerBirth" type="date" required>
-<label class="kids-player-consent"><input type="checkbox" id="kidsPlayerApproval"> Un parent ou tuteur autorise cette participation si le joueur est mineur.</label>
-<button type="submit" class="btn">Créer le profil et jouer</button>
-<p class="small" id="kidsPlayerError" role="alert" aria-live="polite"></p>
-</form>
-<p class="small">Ce profil de jeu est temporaire sur cet appareil. Il ne modifie pas l’arbre familial et n’enregistre pas la date de naissance.</p>
+<h2>🎮 Profil de joueur familial</h2>
+<p id="kidsPlayerStatus" role="status">Vérification de la fiche familiale…</p>
+<form id="kidsPlayerForm" hidden>
+<p id="kidsPlayerIdentity"></p>
+<div id="kidsYearSection" hidden><label for="kidsPlayerYear">Année de naissance à confirmer *</label>
+<input id="kidsPlayerYear" type="number" min="1900" max="2100" inputmode="numeric" placeholder="AAAA"></div>
+<label class="kids-player-consent"><input type="checkbox" id="kidsPlayerApproval"> Je confirme l'autorisation de mon parent ou tuteur si j'ai moins de 18 ans.</label>
+<button type="submit" class="btn">Vérifier et jouer</button>
+<p class="small" id="kidsPlayerError" role="alert" aria-live="polite"></p></form>
 </section>
 <section id="kidsPlayerActive" class="notice" hidden><strong id="kidsPlayerGreeting"></strong>
 <button type="button" class="btn" id="kidsPlayerSwitch">Changer de joueur</button></section>
@@ -137,55 +134,20 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 (function(){
 'use strict';
 const el=id=>document.getElementById(id);
-/* Profil de jeu local, sans lien aux données de l'arbre. La vérification de l'âge
-   dans le navigateur n'est pas une preuve d'identité ; fonctions sociales désactivées. */
+/* Le profil de jeu ne peut être activé que par le contrôle familial distant. */
 document.getElementById('backFamily').addEventListener('click',()=>location.replace('./'));
-const gameKey='sop-kids-player-local-v1';
 let currentPlayer=null;
-function ageYears(date){
- const today=new Date(),now=new Date(today.getFullYear(),today.getMonth(),today.getDate());
- const d=new Date(date+'T12:00:00');
- if(!Number.isFinite(d.getTime())||d.getFullYear()<1900||d>now)return null;
- let years=now.getFullYear()-d.getFullYear();
- if(now.getMonth()<d.getMonth()||(now.getMonth()===d.getMonth()&&now.getDate()<d.getDate()))years--;
- return years;
-}
-function activatePlayer(p){
- currentPlayer=p;window.sopKidVerified=true;
+window.activateVerifiedKidsPlayer=function(data){
+ if(!data||typeof data.name!=='string'||data.age>18)return;
+ currentPlayer={name:data.name};
+ window.sopKidVerified=true;
  el('kidsPlayerRegistration').hidden=true;
  el('kidsPlayerActive').hidden=false;
- el('kidsPlayerGreeting').textContent='⭐ Profil de joueur : '+p.name;
+ el('kidsPlayerGreeting').textContent='⭐ Profil de joueur : '+data.name;
  el('kidsContent').hidden=false;
  document.dispatchEvent(new Event('sop-kid-verified'));
-}
-function removePlayer(){
- currentPlayer=null;
- try{sessionStorage.removeItem(gameKey)}catch(_){}
- el('kidsPlayerRegistration').hidden=false;
- el('kidsPlayerActive').hidden=true;
- el('kidsContent').hidden=true;
- for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=true;
-}
-document.getElementById('kidsPlayerSwitch').addEventListener('click',()=>{removePlayer();location.reload()});
-el('kidsPlayerForm').addEventListener('submit',event=>{
- event.preventDefault();
- const name=el('kidsPlayerName').value.trim(),birth=el('kidsPlayerBirth').value;
- const years=ageYears(birth),approval=el('kidsPlayerApproval').checked;
- const error=el('kidsPlayerError');
- if(name.length<2||name.length>35){error.textContent='Indique un prénom ou pseudonyme valide.';return}
- if(years===null||years>18){error.textContent='Les jeux sont réservés aux personnes de 18 ans ou moins.';return}
- if(years<18&&!approval){error.textContent='Un parent ou tuteur doit autoriser la participation.';return}
- const player={name,createdAt:Date.now(),under19:true};
- try{sessionStorage.setItem(gameKey,JSON.stringify(player))}catch(_){}
- el('kidsPlayerBirth').value='';
- error.textContent='';
- activatePlayer(player);
-});
-try{
- const saved=JSON.parse(sessionStorage.getItem(gameKey)||'null');
- if(saved&&saved.under19===true&&typeof saved.name==='string'&&saved.name.length<=35&&
- Number.isFinite(saved.createdAt)&&Date.now()-saved.createdAt<6*60*60*1000)activatePlayer(saved);
-}catch(_){}
+};
+document.getElementById('kidsPlayerSwitch').addEventListener('click',()=>location.reload());
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=rnd(0,i);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
 function open(section){if(!currentPlayer)return;for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
@@ -246,4 +208,5 @@ el('familyNext').addEventListener('click',()=>{if(!fa)return;if(++fi<fq.length)f
 })();
 </script>
 <script src="./kids-extras.js" defer></script>
+<script src="./kids-family-gate.js" defer></script>
 </body></html>
