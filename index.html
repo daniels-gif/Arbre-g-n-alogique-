@@ -1125,7 +1125,7 @@ body.family-viewer-open{overflow:hidden}
 <div id="sopAccessPreview" class="sop-chat-member-preview" aria-live="polite">Votre fiche apparaîtra après vérification.</div>
 <div class="sop-family-day" id="sopGatePersonalBirthday"><label for="sopAccessDay">Jour de naissance *</label><input id="sopAccessDay" type="number" inputmode="numeric" min="1" max="31" placeholder="Ex. : 15"><label for="sopAccessYear">Mois de naissance *</label><input id="sopAccessYear" type="number" inputmode="numeric" min="1" max="12" placeholder="Ex. : 4"></div><p id="sopAccessError" class="sop-gate-note" role="alert"></p>
 <button type="submit" class="sop-hero-primary" id="sopAccessContinue">🔓 Accéder à cette rubrique</button></form>
-<p class="sop-gate-note">Les informations demandées sont celles enregistrées sur votre fiche familiale.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Notre jardin des générations">
+<p class="sop-gate-note">Votre photo n’a pas besoin d’être ajoutée une deuxième fois. Si votre date n’a pas encore été confirmée, un responsable familial doit la valider pour activer votre première connexion.</p><button type="button" class="sop-hero-secondary" onclick="selectSopTab('tree')">🌳 Ajouter ma fiche sur l’arbre</button><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour à l’accueil</button></div></section><section class="sop-page" id="sopHome" data-sop-page="home"><section class="family-intro" aria-label="Notre jardin des générations">
 <p class="sop-hero-kicker">FAMILLE SOP WANDJI &amp; KWAMOUO JACQUELINE</p>
 <h1 class="family-garden-title">Notre jardin des générations</h1>
 <p class="family-garden-subtitle">Des racines qui nous unissent, des générations qui s’épanouissent.</p>
@@ -2418,6 +2418,11 @@ $('sopMemberGateForm').addEventListener('submit',async e=>{
  if(!m){error.textContent='Choisissez votre fiche familiale.';return}
  error.textContent='';
  if(registeredParent(m)){await beginChildLogin(m,'tab',null);return}
+ const storedBirth=birthParts(m);
+ if(!storedBirth.day||!storedBirth.month){
+  error.textContent='Votre date de naissance doit être confirmée par un responsable familial avant la première connexion.';
+  return;
+ }
  const day=Number($('sopAccessDay').value),month=Number($('sopAccessYear').value);
  if(day<1||day>31||month<1||month>12){error.textContent='Indiquez votre jour et votre mois de naissance.';return}
  button.disabled=true;
@@ -2427,7 +2432,12 @@ $('sopMemberGateForm').addEventListener('submit',async e=>{
   cacheOpenedProfile(data);sopChatPerson=m;sopFamilyVisit=null;
   $('sopAccessPreview').innerHTML=(m.photo?'<img src="'+familySafe(m.photo)+'" alt="Photo du membre">':'')+'<strong>'+familySafe(familyName(m))+'</strong>';
   const dest=sopPendingTab;sopPendingTab='chat';selectSopTab(dest);
- }catch(err){error.textContent=err.message||'Accès refusé'}
+ }catch(err){
+  const raw=String(err?.message||'');
+  error.textContent=/non renseign|not (?:set|found)|missing.*(?:month|year)|mois.*ann[eé]e|birth.*(?:missing|null)/i.test(raw)
+   ?'Cette fiche nécessite une validation par un responsable familial avant la première connexion.'
+   :(raw||'Accès refusé');
+ }
  finally{button.disabled=false}
 });
 function eligibleSopChatMember(p){return p&&p.deceased!==true&&p.generation<=3&&p.id&&String(p.surname||'').trim()&&String(p.photo||'').trim()&&!p.virtual}
