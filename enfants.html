@@ -55,7 +55,7 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 <p>Un petit jardin pour apprendre, jouer, découvrir les liens familiaux et partager de beaux moments avec ses proches.</p>
 <p class="small">Tes activités ne demandent ni achat, ni photo, ni messagerie.</p>
 </section>
-<div class="notice" id="kidsGate" role="status" hidden>La sélection d'un profil enfant par un parent connecté est nécessaire. <a href="./">Retourner à l’accueil familial</a>.</div>
+<div class="notice" id="kidsGate" role="status">Bienvenue dans l’univers des enfants ! Toute la famille peut le découvrir. Pour jouer, un parent ou responsable connecté doit choisir le profil enregistré de l’enfant depuis <a href="./">l’accueil familial</a>.</div>
 <section id="kidsContent" hidden aria-label="Activités">
 <div class="cards">
 <article class="card"><div class="emoji">🔢</div><h2>Calcul mental</h2><p>Huit questions à ton niveau. Tu peux recommencer autant que tu veux.</p><button type="button" data-open="math">Jouer</button></article>
@@ -120,18 +120,51 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 (function(){
 'use strict';
 const el=id=>document.getElementById(id);
+const API="https://pmourvqtitnytomnduzd.supabase.co/rest/v1/";
+const API_KEY="sb_publishable_N4l5G_krbjL5fjsnUq5QgA_simvsW3V";
 let context=null;
 try{context=JSON.parse(sessionStorage.getItem('sop-kids-v1')||'null')}catch(_){}
-const valid=context&&context.version===1&&context.parentVerified===true&&typeof context.name==='string'
- &&context.name.length<=60&&Date.now()-context.issuedAt<60*60*1000&&Date.now()>=context.issuedAt;
-el('kidsGate').hidden=!!valid;el('kidsContent').hidden=!valid;
-if(valid){el('kidsWelcome').textContent='Bienvenue, '+context.name+' !'}
-function quit(){sessionStorage.removeItem('sop-kids-v1');location.replace('./')}
+async function kidsRpc(name,body){
+ const response=await fetch(API+'rpc/'+name,{
+ method:'POST',headers:{apikey:API_KEY,'Content-Type':'application/json'},
+ body:JSON.stringify(body)
+ });
+ const data=await response.json();
+ if(!response.ok)throw Error(data.message||'Accès non validé');
+ return data;
+}
+async function quit(){
+ const token=context&&context.version===2?context.token:null;
+ sessionStorage.removeItem('sop-kids-v1');
+ if(token){try{await kidsRpc('batcha_kids_session_end',{p_token:token})}catch(_){}}
+ location.replace('./');
+}
 el('backFamily').addEventListener('click',quit);
-if(!valid)return;
+// Le catalogue est visible pour tous, mais les jeux exigent une session enfant
+// créée côté serveur après vérification du parent et de sa relation à l'enfant.
+el('kidsContent').hidden=false;
+document.querySelectorAll('[data-open]').forEach(btn=>{btn.disabled=true;btn.title='Choisir un profil enfant enregistré pour jouer'});
+async function validateChild(){
+ if(!context||context.version!==2||typeof context.token!=='string'){
+  sessionStorage.removeItem('sop-kids-v1');return;
+ }
+ try{
+  const data=await kidsRpc('batcha_kids_session_check',{p_token:context.token});
+  if(!data||data.valid!==true||typeof data.name!=='string')throw Error('non vérifié');
+  window.sopKidVerified=true;
+  el('kidsGate').hidden=true;
+  el('kidsWelcome').textContent='Bienvenue, '+data.name+' !';
+  document.querySelectorAll('[data-open]').forEach(btn=>{btn.disabled=false;btn.removeAttribute('title')});
+  document.dispatchEvent(new Event('sop-kid-verified'));
+ }catch(_){
+  sessionStorage.removeItem('sop-kids-v1');
+  el('kidsGate').textContent='La session du profil enfant n’est pas active. Retournez à l’accueil familial et sélectionnez un profil enfant autorisé pour jouer.';
+ }
+}
+validateChild();
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=rnd(0,i);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
-function open(section){for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
+function open(section){if(window.sopKidVerified!==true)return;for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
 document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>open(button.dataset.open)));
 document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>{for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=true;document.querySelector('.cards').scrollIntoView({behavior:'smooth'})}));
 let mq=[],mi=0,ms=0,mAnswered=false;
