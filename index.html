@@ -2151,13 +2151,21 @@ body.family-kids-mode #sopKids{display:block!important}
  </div>
  <div class="family-kids-grid" aria-label="Activités pédagogiques">
   <article><span aria-hidden="true">🧠</span><h2>Jeux &amp; défis</h2><p>Quiz, mémoire et énigmes pour apprendre en s’amusant.</p><small>Bientôt disponible</small></article>
-  <article><span aria-hidden="true">🔢</span><h2>Calcul mental</h2><p>Des exercices progressifs adaptés aux enfants.</p><small>Bientôt disponible</small></article>
+  <article><span aria-hidden="true">🔢</span><h2>Calcul mental</h2><p>Des exercices progressifs adaptés aux enfants.</p><button type="button" class="family-kids-launch" id="kidsMathOpen">Jouer maintenant</button></article>
   <article><span aria-hidden="true">🗣️</span><h2>Nos langues</h2><p>Découvrir les mots et expressions validés par la famille.</p><small>Bientôt disponible</small></article>
   <article><span aria-hidden="true">🌍</span><h2>Nos origines</h2><p>Explorer l’histoire de SOP Wandji &amp; Kouamo Jacqueline.</p><small>Bientôt disponible</small></article>
   <article><span aria-hidden="true">🎨</span><h2>Atelier créatif</h2><p>Coloriages, dessins et activités en famille.</p><small>Bientôt disponible</small></article>
   <article><span aria-hidden="true">📖</span><h2>Contes &amp; histoires</h2><p>Écouter et découvrir des récits familiaux approuvés.</p><small>Bientôt disponible</small></article>
  </div>
- <p class="family-kids-privacy">Espace de découverte : aucune messagerie privée, publication, donnée financière ou fonction administrative.</p>
+ <section id="kidsMathPanel" class="kids-math-panel" hidden>
+<h2>🔢 Calcul mental</h2><p>Huit questions, pour gagner jusqu’à huit étoiles. Aucun résultat n’est publié.</p>
+<div id="kidsMathIntro"><label for="kidsMathLevel">Choisir un niveau</label>
+<select id="kidsMathLevel"><option value="small">Découverte (avec un adulte)</option><option value="easy">6–9 ans</option><option value="medium">10–13 ans</option><option value="hard">14–17 ans</option></select>
+<button type="button" id="kidsMathBegin">Commencer</button></div>
+<div id="kidsMathPlay" hidden><p id="kidsMathProgress"></p><h3 id="kidsMathQuestion"></h3><div id="kidsMathAnswers"></div><p id="kidsMathFeedback" role="status"></p><button id="kidsMathNext" type="button" hidden>Suivant</button></div>
+<div id="kidsMathDone" hidden><h3>⭐ Bravo !</h3><p id="kidsMathScore"></p><button type="button" id="kidsMathRestart">Rejouer</button></div>
+<button type="button" id="kidsMathClose">Fermer</button></section>
+<p class="family-kids-privacy">Espace de découverte : aucune messagerie privée, publication, donnée financière ou fonction administrative.</p>
 </section>
 </main><section id="familyBook" class="book-print-only" aria-label="Livre généalogique imprimable"></section><div class="overlay photo-overlay" id="photoOverlay" role="dialog" aria-modal="true" aria-label="Aperçu de la photo"><div class="photo-panel"><button type="button" class="photo-close" id="closePhoto" aria-label="Fermer">✕</button><div class="photo-display"><img id="largePhoto" alt="Photo de famille agrandie"><div id="largePhotoPlaceholder" hidden aria-label="Photo non renseignée">🕊️</div><button type="button" class="photo-edit" id="photoEdit" hidden title="Modifier cette fiche" aria-label="Modifier cette fiche">✎</button></div><p id="photoName"></p><button type="button" id="photoMemories" class="action" hidden onclick="openMemoryForPhoto()">Voir souvenirs et album</button></div></div><div class="overlay heritage-overlay" id="memoryOverlay" role="dialog" aria-modal="true" aria-label="Souvenirs et biographie"><div class="panel heritage-panel">
 <button type="button" class="heritage-close" onclick="closeMemory()">✕ Fermer</button><h2 id="memoryTitle">Histoires de famille</h2>
@@ -4365,4 +4373,50 @@ document.getElementById('familyKidsOpen')?.addEventListener('click',familyKidsPi
 document.getElementById('familyKidsPickerClose')?.addEventListener('click',familyKidsPickerClose);
 document.getElementById('familyKidsExit')?.addEventListener('click',familyKidsExit);
 
+</script><style>
+.kids-math-panel{max-width:730px;margin:20px auto;padding:22px;background:#fffdf3;border:1px solid #b5d3b3;border-radius:18px}
+.kids-math-panel[hidden],.kids-math-panel [hidden]{display:none!important}
+.kids-math-panel button,.family-kids-launch{padding:10px 16px;border-radius:12px;border:1px solid #8caf8d;background:#eaf4e6;color:#275b41;font-weight:600;cursor:pointer}
+.kids-math-panel select{display:block;max-width:100%;padding:10px;margin:10px 0}
+#kidsMathAnswers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+#kidsMathAnswers button{font-size:21px;padding:15px}
+#kidsMathAnswers button:disabled{opacity:.8}
+#kidsMathAnswers button.correct{background:#bbebbb}
+#kidsMathAnswers button.incorrect{background:#ffdfca}
+#kidsMathQuestion{font-size:28px}
+</style><script>
+(function(){
+const el=id=>document.getElementById(id);
+let quiz=[],index=0,score=0,answered=false;
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function question(level){
+ let x,y,op,result;
+ if(level==='small'){x=rand(1,5);y=rand(1,5);op='+';result=x+y}
+ else if(level==='easy'){x=rand(1,25);y=rand(1,25);op=Math.random()<.5?'+':'−';if(op==='−'&&y>x)[x,y]=[y,x];result=op==='+'?x+y:x-y}
+ else if(level==='medium'){x=rand(2,12);y=rand(2,12);op=Math.random()<.5?'×':'÷';if(op==='÷'){result=x;x*=y}else result=x*y}
+ else{x=rand(6,35);y=rand(2,12);op=Math.random()<.5?'×':'÷';if(op==='÷'){result=x;x*=y}else result=x*y}
+ const choices=new Set([result]);while(choices.size<4)choices.add(Math.max(0,result+rand(-8,8)));
+ return {text:x+' '+op+' '+y+' = ?',correct:result,choices:[...choices].sort(()=>Math.random()-.5)};
+}
+function stage(which){el('kidsMathIntro').hidden=which!=='intro';el('kidsMathPlay').hidden=which!=='play';el('kidsMathDone').hidden=which!=='done'}
+function draw(){
+ answered=false;const item=quiz[index];el('kidsMathProgress').textContent='Question '+(index+1)+' / '+quiz.length+' · '+score+' étoile(s)';
+ el('kidsMathQuestion').textContent=item.text;el('kidsMathFeedback').textContent='';el('kidsMathNext').hidden=true;
+ const box=el('kidsMathAnswers');box.replaceChildren();
+ for(const n of item.choices){
+  const button=document.createElement('button');button.type='button';button.textContent=n;
+  button.addEventListener('click',()=>{
+   if(answered)return;answered=true;if(n===item.correct)score++;
+   for(const b of box.children){b.disabled=true;if(Number(b.textContent)===item.correct)b.classList.add('correct');else if(b===button)b.classList.add('incorrect')}
+   el('kidsMathFeedback').textContent=n===item.correct?'Bravo, bonne réponse !':'La bonne réponse est '+item.correct+'. Continue !';
+   el('kidsMathNext').hidden=false;
+  });box.append(button);
+ }
+}
+el('kidsMathOpen')?.addEventListener('click',()=>{if(window.familyKidsModeActive!==true)return;el('kidsMathPanel').hidden=false;stage('intro');el('kidsMathPanel').scrollIntoView({block:'start',behavior:'smooth'})});
+el('kidsMathBegin')?.addEventListener('click',()=>{if(window.familyKidsModeActive!==true)return;quiz=Array.from({length:8},()=>question(el('kidsMathLevel').value));index=0;score=0;stage('play');draw()});
+el('kidsMathNext')?.addEventListener('click',()=>{if(!answered)return;if(++index<quiz.length)draw();else{el('kidsMathScore').textContent='Tu as gagné '+score+' étoile(s) sur 8 !';stage('done')}});
+el('kidsMathRestart')?.addEventListener('click',()=>stage('intro'));
+el('kidsMathClose')?.addEventListener('click',()=>{el('kidsMathPanel').hidden=true;stage('intro')});
+})();
 </script></body></html>
