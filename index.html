@@ -1534,6 +1534,16 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopHome .living-scene{aspect-ratio:1.13!important;min-height:300px!important}
  #sopHome .living-tree .sop-hero-actions{padding:0 10px!important}
 }
+
+/* Mise en page épurée : pas de grand pied de page décoratif.
+   La barre inférieure fixe reste la seule navigation mobile. */
+#sopMain{margin-bottom:0!important}
+#sopHome{padding-bottom:0!important}
+#sopHome .living-tree{margin-bottom:0!important}
+@media(max-width:900px){
+ #sopMain{padding-bottom:0!important}
+ #sopHome .living-tree .sop-hero-actions{margin-bottom:12px!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1736,7 +1746,7 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 </div>
 </div>
 </section>
-</main><section id="familyBook" class="book-print-only" aria-label="Livre généalogique imprimable"></section><footer>Famille SOP Wandji — Terre de nos racines, berceau de nos générations</footer><div class="overlay photo-overlay" id="photoOverlay" role="dialog" aria-modal="true" aria-label="Aperçu de la photo"><div class="photo-panel"><button type="button" class="photo-close" id="closePhoto" aria-label="Fermer">✕</button><div class="photo-display"><img id="largePhoto" alt="Photo de famille agrandie"><div id="largePhotoPlaceholder" hidden aria-label="Photo non renseignée">🕊️</div><button type="button" class="photo-edit" id="photoEdit" hidden title="Modifier cette fiche" aria-label="Modifier cette fiche">✎</button></div><p id="photoName"></p><button type="button" id="photoMemories" class="action" hidden onclick="openMemoryForPhoto()">Voir souvenirs et album</button></div></div><div class="overlay heritage-overlay" id="memoryOverlay" role="dialog" aria-modal="true" aria-label="Souvenirs et biographie"><div class="panel heritage-panel">
+</main><section id="familyBook" class="book-print-only" aria-label="Livre généalogique imprimable"></section><div class="overlay photo-overlay" id="photoOverlay" role="dialog" aria-modal="true" aria-label="Aperçu de la photo"><div class="photo-panel"><button type="button" class="photo-close" id="closePhoto" aria-label="Fermer">✕</button><div class="photo-display"><img id="largePhoto" alt="Photo de famille agrandie"><div id="largePhotoPlaceholder" hidden aria-label="Photo non renseignée">🕊️</div><button type="button" class="photo-edit" id="photoEdit" hidden title="Modifier cette fiche" aria-label="Modifier cette fiche">✎</button></div><p id="photoName"></p><button type="button" id="photoMemories" class="action" hidden onclick="openMemoryForPhoto()">Voir souvenirs et album</button></div></div><div class="overlay heritage-overlay" id="memoryOverlay" role="dialog" aria-modal="true" aria-label="Souvenirs et biographie"><div class="panel heritage-panel">
 <button type="button" class="heritage-close" onclick="closeMemory()">✕ Fermer</button><h2 id="memoryTitle">Histoires de famille</h2>
 <div id="memoryStory"></div>
 <div id="memoryGallery" class="memory-gallery"></div>
