@@ -1706,6 +1706,21 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 #familyStoryViewer .family-story-media a{display:inline-block;padding:25px 15px;color:#225a3f}
 #familyStoryViewer .family-story-card>p{font:400 14px/1.4 system-ui,sans-serif;overflow-wrap:anywhere}
 @media(max-width:600px){#sopNews .family-news-featured{gap:7px;margin-bottom:8px}#sopNews .family-stories,#sopNews .family-live-news{padding:9px 10px}}
+
+/* Story : formulaire réduit à l'essentiel, sans explications encombrantes. */
+#sopNews .sop-feed-composer.family-story-mode{padding:11px!important;gap:8px!important}
+#sopNews .family-story-mode #familyComposeHeading{font-size:clamp(23px,5.5vw,29px)!important;margin:0 0 3px!important}
+#sopNews .family-story-mode #sopFeedIdentity,
+#sopNews .family-story-mode .family-video-help,
+#sopNews .family-story-mode .family-publish-help,
+#sopNews .family-story-mode #sopFeedRefresh{display:none!important}
+#sopNews .family-story-mode .family-story-compose-notice{padding:0!important;margin:0 0 5px!important;background:transparent!important;border:0!important;font-size:12px!important;line-height:1.4!important}
+#sopNews .family-story-mode label{font-size:13px!important;font-weight:650!important;margin:3px 0 0!important}
+#sopNews .family-story-mode #sopFeedText{min-height:74px!important;height:74px!important;max-height:110px!important;font-size:15px!important;resize:vertical!important}
+#sopNews .family-story-mode #sopFeedImage{width:100%;max-width:100%!important;min-width:0;box-sizing:border-box;font-size:13px!important;overflow:hidden}
+#sopNews .family-story-mode #sopFeedVideoUrl{width:100%;max-width:100%!important;min-width:0;box-sizing:border-box;font-size:14px!important}
+#sopNews .family-story-mode .sop-feed-buttons{margin-top:4px!important}
+#sopNews .family-story-mode #sopFeedPublish{width:100%;max-width:100%;margin:0!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1820,14 +1835,14 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 <div class="sop-feed-shell"><details class="family-guestbook"><summary>💚 Livre d’or familial — laisser un mot</summary><form id="familyGuestbookForm"><label for="familyGuestbookMessage">Votre message à la famille</label><textarea id="familyGuestbookMessage" maxlength="450" rows="3" required placeholder="Un mot pour nos racines, nos proches et nos générations…"></textarea><button type="submit" class="action">Envoyer pour validation</button><p id="familyGuestbookStatus" role="status"></p></form></details>
  <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>✎ Quoi de neuf dans la famille ? <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
  <form id="sopFeedCompose" class="sop-feed-composer">
-  <h2 id="familyComposeHeading">Partager une actualité</h2><p id="familyStoryComposeNotice" class="family-story-compose-notice" hidden>Mode Story : ajoute une photo ou un lien vidéo. La story s’affichera pendant 24 h après publication ou validation. Elle restera conservée dans le système familial.</p>
+  <h2 id="familyComposeHeading">Partager une actualité</h2><p id="familyStoryComposeNotice" class="family-story-compose-notice" hidden>Visible 24 h après publication.</p>
   <p id="sopFeedIdentity">Sélectionnez votre fiche familiale pour consulter le fil.</p>
-  <label for="sopFeedText">Votre texte (facultatif avec une photo ou une vidéo)</label>
+  <label for="sopFeedText">Votre message (facultatif)</label>
   <textarea id="sopFeedText" maxlength="1200" placeholder="Une nouvelle, une réussite, une annonce, un moment à partager…"></textarea>
-  <label for="sopFeedImage">Ajouter une photo (facultatif)</label>
+  <label for="sopFeedImage">📷 Photo</label>
   <input type="file" id="sopFeedImage" accept="image/jpeg,image/png,image/webp">
-  <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie"><label for="sopFeedVideoUrl">Lien d’un Reel ou Short (facultatif)</label><input type="url" id="sopFeedVideoUrl" placeholder="https://www.youtube.com/shorts/… ou Instagram/TikTok" maxlength="500"><small>Collez un lien YouTube Shorts, Instagram Reels ou TikTok. La vidéo reste hébergée sur le service d’origine.</small>
-  <p class="sop-feed-note">Votre publication sera enregistrée et validée dans l’historique privé.</p>
+  <img id="sopFeedImagePreview" hidden alt="Aperçu de la photo choisie"><label for="sopFeedVideoUrl">🎬 Lien vidéo (facultatif)</label><input type="url" id="sopFeedVideoUrl" placeholder="https://www.youtube.com/shorts/… ou Instagram/TikTok" maxlength="500"><small class="family-video-help">YouTube Shorts, Instagram Reels ou TikTok.</small>
+  <p class="sop-feed-note family-publish-help">Publication soumise à validation familiale.</p>
   <div class="sop-feed-buttons">
    <button type="submit" class="action" id="sopFeedPublish">Publier dans le fil</button>
    <button type="button" class="action" id="sopFeedRefresh">Actualiser les actualités</button>
@@ -2953,6 +2968,12 @@ function setFamilyStoryComposer(active){
  const note=$('familyStoryComposeNotice'),heading=$('familyComposeHeading');
  if(note)note.hidden=!familyStoryComposer;
  if(heading)heading.textContent=familyStoryComposer?'Ajouter une story':'Partager une actualité';
+ const form=$('sopFeedCompose');
+ if(form)form.classList.toggle('family-story-mode',familyStoryComposer);
+ const publish=$('sopFeedPublish');
+ if(publish)publish.textContent=familyStoryComposer?'Publier la story':'Publier dans le fil';
+ const text=$('sopFeedText');
+ if(text)text.placeholder=familyStoryComposer?'Écrire un petit mot…':'Une nouvelle, une réussite, une annonce, un moment à partager…';
 }
 $('familyAddStory')?.addEventListener('click',()=>{
  if(!sopHasAccess()){guestLoginRequired();return}
