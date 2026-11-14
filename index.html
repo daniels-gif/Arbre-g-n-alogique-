@@ -1120,6 +1120,14 @@ body:not(.family-verified) #photoEdit,
 body:not(.family-verified) #photoMemories{display:none!important}
 .guest-empty-slot{display:flex;align-items:center;justify-content:center;min-height:32px;pointer-events:none}
 .guest-empty-dot{display:block;width:12px;height:12px;min-height:0;border-radius:50%;background:#dfe9dd;border:1px solid #c4d3c2;opacity:.65}
+
+/* Tournoi familial à distance : affichage seulement si la fonction serveur est disponible. */
+#familyTournamentPanel{background:#fffefa;border:1px solid #d6dfd2;border-radius:16px;padding:clamp(12px,3vw,22px)}
+#familyTournamentPanel[hidden],#familyTournamentInfo[hidden],#familyTournamentPlay[hidden],#familyTournamentBegin[hidden],#familyTournamentSubmitted[hidden],#familyTournamentLeaderboard[hidden]{display:none!important}
+#familyTournamentPanel h3{color:#214934;font:600 20px Georgia,serif}
+#familyTournamentRanks{display:grid;gap:8px}
+.family-tournament-rank{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #d8e3d5;padding:10px;border-radius:12px;background:#f7faf4}
+.family-tournament-rank b{font-size:19px}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1293,7 +1301,7 @@ body:not(.family-verified) #photoMemories{display:none!important}
   <button type="button" class="family-game-choice selected" data-game-view="free" aria-pressed="true">🎯 Jeux libres</button>
   <button type="button" class="family-game-choice" data-game-view="library" aria-pressed="false">📚 Bibliothèque</button>
   <button type="button" class="family-game-choice" disabled title="Synchronisation multijoueur à venir">📡 Parties en direct · bientôt</button>
-  <button type="button" class="family-game-choice" disabled title="Classements à venir">🏆 Classements · bientôt</button>
+  <button type="button" class="family-game-choice" id="familyTournamentTab" disabled title="Le tournoi nécessite une connexion familiale et son activation sécurisée">🏆 Tournoi familial</button>
  </div>
  <div id="familyGameFree">
   <div id="familyGameStart">
@@ -1311,6 +1319,25 @@ body:not(.family-verified) #photoMemories{display:none!important}
   </div>
   <div id="familyGameEnd" hidden><h3>Bravo, partie terminée !</h3><p id="familyGameScore" class="family-game-score"></p><p>Ton score est temporaire et n'est pas enregistré.</p><button type="button" class="action" id="familyGameReplay">Rejouer</button></div>
  </div>
+<div id="familyTournamentPanel" hidden>
+ <h3>🏆 Tournoi familial à distance</h3>
+ <p>Chacun répond au même quiz depuis son compte. Une seule participation par membre. Les trophées sont dévoilés à la clôture.</p>
+ <p class="family-game-feedback" id="familyTournamentStatus" role="status">Connexion au tournoi…</p>
+ <div id="familyTournamentInfo" hidden>
+  <strong id="familyTournamentTitle"></strong>
+  <p id="familyTournamentDates"></p>
+  <p id="familyTournamentCount"></p>
+  <div id="familyTournamentPlay" hidden>
+   <p id="familyTournamentProgress"></p>
+   <h3 id="familyTournamentQuestion"></h3>
+   <div id="familyTournamentAnswers" class="family-game-options"></div>
+   <div class="family-game-actions"><button id="familyTournamentNext" type="button" class="action" disabled>Suivant</button></div>
+  </div>
+  <button id="familyTournamentBegin" class="action" type="button" hidden>Participer au tournoi</button>
+  <div id="familyTournamentSubmitted" hidden><strong>✅ Participation enregistrée</strong><p>Le classement et les trophées seront visibles après la clôture du tournoi.</p></div>
+  <div id="familyTournamentLeaderboard" hidden><h3>🏅 Palmarès</h3><div id="familyTournamentRanks"></div></div>
+ </div>
+</div>
  <div id="familyGameLibrary" hidden>
   <div class="family-game-library">
    <article><h3>🎯 Quiz familial</h3><p>Disponible maintenant en mode libre.</p><button type="button" class="action" id="familyGameOpenQuiz">Jouer</button></article>
@@ -1319,7 +1346,7 @@ body:not(.family-verified) #photoMemories{display:none!important}
    <article><small>À venir</small><h3>👨‍👩‍👧‍👦 Défis des générations</h3><button disabled>Indisponible</button></article>
   </div>
  </div>
- <p class="family-game-note">Les jeux libres ne récupèrent aucune donnée des profils. Les parties multijoueurs et les classements seront activés après validation technique.</p>
+ <p class="family-game-note">Les jeux libres ne récupèrent aucune donnée des profils. Le tournoi à distance ne s’active que lorsque l’enregistrement sécurisé des résultats est disponible.</p>
 </section>
 </div>
 </div>
@@ -3116,4 +3143,93 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  byId('familyGameQuit').addEventListener('click',()=>display('start'));
  byId('familyGameReplay').addEventListener('click',()=>display('start'));
 })();
+
+/* Tournoi asynchrone : aucune réponse correcte n'est livrée au navigateur.
+   La participation est signée par la session familiale et notée côté serveur. */
+(function(){
+ const $t=id=>document.getElementById(id);
+ const tab=$t('familyTournamentTab'), panel=$t('familyTournamentPanel');
+ if(!tab||!panel)return;
+ let statusData=null, answers=[], position=0, saving=false;
+ function show(view){
+  for(const name of ['Free','Library'])$t('familyGame'+name).hidden=view!==name.toLowerCase();
+  panel.hidden=view!=='tournament';
+  document.querySelectorAll('#familySalonGames [data-game-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gameView===view)));
+  tab.setAttribute('aria-pressed',String(view==='tournament'));
+ }
+ function auth(){
+  const person=typeof sopChatPerson!=='undefined'?sopChatPerson:null;
+  const token=person&&profileAccess.get(person.id);
+  return person&&token?{p_person_id:person.id,p_access:token}:null;
+ }
+ function message(t){$t('familyTournamentStatus').textContent=t}
+ async function loadTournament(){
+  const credentials=auth();
+  tab.disabled=true;
+  if(!credentials){message('Déverrouillez votre fiche familiale pour participer au tournoi.');return}
+  try{
+   const data=await api('rpc/batcha_tournament_status',credentials);
+   if(!data||!data.available){message('Aucun tournoi n’est ouvert actuellement.');return}
+   statusData=data;tab.disabled=false;
+   $t('familyTournamentInfo').hidden=false;
+   $t('familyTournamentTitle').textContent=data.title||'Tournoi familial';
+   $t('familyTournamentDates').textContent='Clôture : '+new Date(data.ends_at).toLocaleDateString('fr-CA',{day:'numeric',month:'long',year:'numeric'});
+   $t('familyTournamentCount').textContent=String(data.participants||0)+' participation(s) enregistrée(s).';
+   $t('familyTournamentBegin').hidden=!data.open||data.submitted;
+   $t('familyTournamentSubmitted').hidden=!data.submitted;
+   $t('familyTournamentPlay').hidden=true;
+   $t('familyTournamentLeaderboard').hidden=data.open;
+   if(!data.open){
+    const ranks=$t('familyTournamentRanks');ranks.replaceChildren();
+    const list=Array.isArray(data.leaderboard)?data.leaderboard:[];
+    for(const p of list){
+     const row=document.createElement('div');row.className='family-tournament-rank';
+     const label=document.createElement('span'),score=document.createElement('strong');
+     label.textContent=(p.rank===1?'🏆':p.rank===2?'🥈':p.rank===3?'🥉':'🎗️')+' '+p.name;
+     score.textContent=p.score+' points';row.append(label,score);ranks.append(row);
+    }
+    if(!list.length)ranks.textContent='Aucune participation.';
+    message('Le tournoi est terminé.');
+   }else message(data.submitted?'Votre participation est enregistrée. Rendez-vous à la clôture pour les trophées.':'Le tournoi est ouvert. Bonne chance !');
+  }catch(e){statusData=null;tab.disabled=true;message('Tournoi bientôt disponible : enregistrement sécurisé à activer.')}
+ }
+ function drawQuestion(){
+  if(!statusData||!Array.isArray(statusData.questions))return;
+  const question=statusData.questions[position];
+  $t('familyTournamentProgress').textContent='Question '+(position+1)+' / '+statusData.questions.length;
+  $t('familyTournamentQuestion').textContent=question.question;
+  const box=$t('familyTournamentAnswers');box.replaceChildren();
+  $t('familyTournamentNext').disabled=true;
+  $t('familyTournamentNext').textContent=position===statusData.questions.length-1?'Valider mes réponses':'Suivant';
+  question.options.forEach((choice,i)=>{
+   const button=document.createElement('button');button.type='button';button.textContent=choice;
+   button.addEventListener('click',()=>{
+    answers[position]=i;
+    for(const b of box.children)b.setAttribute('aria-pressed',String(b===button));
+    $t('familyTournamentNext').disabled=false;
+   });box.append(button);
+  });
+ }
+ $t('familyTournamentBegin').addEventListener('click',()=>{
+  if(!statusData||statusData.submitted||!statusData.open||!statusData.questions?.length)return;
+  answers=[];position=0;$t('familyTournamentBegin').hidden=true;$t('familyTournamentPlay').hidden=false;drawQuestion();
+ });
+ $t('familyTournamentNext').addEventListener('click',async()=>{
+  if(saving||!Number.isInteger(answers[position]))return;
+  if(position<statusData.questions.length-1){position++;drawQuestion();return}
+  const credentials=auth();if(!credentials){message('Votre session a expiré. Déverrouillez votre fiche.');return}
+  saving=true;$t('familyTournamentNext').disabled=true;message('Enregistrement de votre participation…');
+  try{
+   const result=await api('rpc/batcha_tournament_submit',{...credentials,p_tournament_id:statusData.id,p_answers:answers});
+   if(!result.ok)throw Error('Enregistrement non confirmé.');
+   await loadTournament();
+  }catch(e){message(e.message||'Enregistrement impossible.');$t('familyTournamentNext').disabled=false}
+  finally{saving=false}
+ });
+ tab.addEventListener('click',()=>{if(!tab.disabled){show('tournament');loadTournament()}});
+ document.querySelector('#sopChatRoom [data-salon="games"]')?.addEventListener('click',loadTournament);
+ document.querySelectorAll('#familySalonGames [data-game-view]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.gameView)));
+ document.getElementById('familyGameOpenQuiz')?.addEventListener('click',()=>show('free'));
+})();
+
 </script></body></html>
