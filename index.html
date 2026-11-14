@@ -2196,7 +2196,7 @@ body.family-kids-mode #sopKids{display:block!important}
  <div class="panel">
  <button id="familyKidsPickerClose" type="button" aria-label="Fermer la sélection">✕ Fermer</button>
  <h2>🌈 Choisir un profil enfant</h2>
- <p>Seuls les enfants directs d’un parent authentifié, dont l’âge est vérifié côté serveur, sont proposés.</p>
+ <p>Seuls les profils de quatrième génération directement liés au parent authentifié sont proposés. L’âge reste à confirmer si l’année de naissance manque.</p>
  <p id="familyKidsPickerStatus" role="status"></p>
  <div id="familyKidsPickerList" class="family-kids-choices"></div>
  </div>
@@ -4334,7 +4334,7 @@ async function familyKidsPickerOpen(){
  try{
   const items=await api('rpc/batcha_parent_children',credentials);
   if(!Array.isArray(items))throw Error('La liste parentale n’a pas été validée.');
-  if(!items.length){status.textContent='Aucun profil enfant vérifié n’est disponible sur votre fiche. Les dates incomplètes devront être confirmées par les responsables.';return}
+  if(!items.length){status.textContent='Aucun profil enfant lié à votre fiche n’est disponible. Vérifiez les liens familiaux avec un responsable.';return}
   status.textContent='Sélectionnez un enfant. Les fonctions adultes seront verrouillées.';
   for(const kid of items){
    if(!kid||typeof kid.id!=='string'||typeof kid.firstname!=='string')continue;
@@ -4349,18 +4349,16 @@ async function familyKidsPickerOpen(){
  }
 }
 function familyKidsEnter(kid){
- if(!parentKidsCredentials()||!kid||!kid.id)return;
+ if(!parentKidsCredentials()||!kid||typeof kid.id!=='string'||typeof kid.firstname!=='string')return;
+ // L'interface enfant est un document séparé : aucun écran ni script adulte ne
+ // reste chargé. Seul le prénom est transmis pour l'accueil, jamais le jeton.
+ try{sessionStorage.setItem('sop-kids-v1',JSON.stringify({
+   version:1,parentVerified:true,name:kid.firstname.slice(0,60),issuedAt:Date.now()
+ }))}catch(_){alert('La navigation sécurisée vers l’espace enfant n’est pas disponible sur cet appareil.');return}
  familyKidsPickerClose();
- // Aucune copie de la session adulte : le visiteur doit se reconnecter pour en sortir.
  expireFamilySession();
  clearSavedFamilySession();
- window.familyKidsModeActive=true;
- document.body.classList.add('family-kids-mode');
- const greeting=document.getElementById('familyKidsGreeting');
- if(greeting)greeting.textContent='Bienvenue, '+kid.firstname+' !';
- const entry=document.getElementById('familyKidsEntry');if(entry)entry.hidden=true;
- selectSopTab('kids');
- window.scrollTo({top:0,behavior:'instant'});
+ location.assign('./enfants.html');
 }
 function familyKidsExit(){
  window.familyKidsModeActive=false;
