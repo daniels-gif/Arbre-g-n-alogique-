@@ -1670,6 +1670,18 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopChat .family-discussion-modes .chat-coming-soon span{font-size:11px!important;padding:5px 7px!important}
  #sopChat .family-discussion-coming{margin-top:4px}
 }
+
+/* Deux espaces distincts : albums familiaux et hommages, sans changement de données. */
+#sopMemories .family-memory-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;width:min(520px,calc(100% - 20px));margin:4px auto 12px;padding:4px;border-radius:16px;background:#eaf0e7;border:1px solid #dbe5d8}
+#sopMemories .family-memory-switch button{min-width:0;min-height:44px;border:0;border-radius:12px;background:transparent;color:#365a45;font:700 14px system-ui,sans-serif;cursor:pointer;padding:10px 9px}
+#sopMemories .family-memory-switch button[aria-selected="true"]{background:#fffdf8;color:#154a36;box-shadow:0 2px 8px #173d2820}
+#sopMemories .family-memory-switch button:focus-visible{outline:2px solid #b79a60;outline-offset:2px}
+#sopMemories .family-memory-panel[hidden]{display:none!important}
+#sopMemories .family-memory-panel{max-width:1100px;margin:0 auto}
+#sopMemories .family-memory-intro{color:#687e6b;font:400 13px/1.4 system-ui,sans-serif;margin:1px auto 12px;padding:0 12px;text-align:center}
+#sopMemories .family-memory-panel .family-branch-section{margin-top:12px}
+@media(max-width:600px){#sopMemories .family-memory-switch{margin:2px auto 9px}#sopMemories .family-memory-switch button{font-size:13px;min-height:42px}#sopMemories .family-memory-intro{font-size:12px;margin-bottom:9px}}
+@media print{#sopMemories .family-memory-switch{display:none!important}#sopMemories .family-memory-panel{display:block!important}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1803,9 +1815,14 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 </div><details class="family-timeline"><summary>📜 Notre histoire en quelques dates</summary><div id="familyTimelineItems"></div></details></section>
 </section>
 <section class="sop-page" id="sopMemories" data-sop-page="memories" hidden>
-<header class="sop-section-heading"><span>PHOTOS ET HISTOIRES</span><h1>Souvenirs &amp; Hommages</h1><p>La mémoire de ceux qui nous ont quittés.</p></header>
-<div class="family-memorial-search"><label for="memorialSearch">Rechercher un membre…</label><input type="search" id="memorialSearch" placeholder="Rechercher un membre…" autocomplete="off"><div class="family-memorial-filters"><label>Génération <select id="memorialGeneration"><option value="">Toutes</option><option value="1">1ʳᵉ</option><option value="2">2ᵉ</option><option value="3">3ᵉ</option><option value="4">4ᵉ</option></select></label><label>Branche familiale <select id="memorialBranch"><option value="">Toutes les branches</option></select></label></div><p id="memorialFilterStatus" role="status"></p></div>
-<div class="sop-memory-controls"><label>Personne <select id="sopMemoryPerson"><option value="">Choisir une personne enregistrée</option></select></label><button type="button" class="action" onclick="openMemorySelected()">Voir ou compléter sa fiche</button><button type="button" class="action" onclick="makeFamilyBook()">📖 Créer le livre familial PDF</button></div>
+<header class="sop-section-heading"><span>NOTRE PATRIMOINE FAMILIAL</span><h1>Souvenirs &amp; Hommages</h1><p>Préservons nos histoires, nos photos et la mémoire de nos proches.</p></header>
+<div class="family-memory-switch" role="tablist" aria-label="Choisir les souvenirs ou les hommages">
+ <button type="button" id="familyMemoryTabSouvenirs" role="tab" aria-controls="familyMemoryPanelSouvenirs" aria-selected="true" tabindex="0" data-memory-tab="souvenirs">📷 Souvenirs</button>
+ <button type="button" id="familyMemoryTabHommages" role="tab" aria-controls="familyMemoryPanelHommages" aria-selected="false" tabindex="-1" data-memory-tab="hommages">🕊️ Hommages</button>
+</div>
+<div id="familyMemoryPanelSouvenirs" class="family-memory-panel" role="tabpanel" aria-labelledby="familyMemoryTabSouvenirs">
+ <p class="family-memory-intro">Albums, récits et moments précieux de toutes les générations.</p>
+ <div class="sop-memory-controls"><label>Personne <select id="sopMemoryPerson"><option value="">Choisir une personne enregistrée</option></select></label><button type="button" class="action" onclick="openMemorySelected()">Voir ou compléter sa fiche</button><button type="button" class="action" onclick="makeFamilyBook()">📖 Créer le livre familial PDF</button></div>
 <div class="family-quick-memory"><button type="button" class="action" onclick="quickFamilyMemory()">＋ Ajouter un souvenir</button><small>Photo ou récit · validation familiale avant publication</small></div><div id="sopPublicMemories" class="sop-public-memories" aria-live="polite"><p>Les souvenirs publiés apparaîtront ici.</p></div><div class="family-branch-tools">
  <label for="familyAlbumBranch">Albums de chaque branche</label>
  <select id="familyAlbumBranch" onchange="renderFamilyBranches()"><option value="">Toutes les branches</option></select>
@@ -1814,11 +1831,15 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  <h2>📷 Albums par branche familiale</h2><p>Photos de profil et souvenirs déjà publiés, regroupés selon leur ascendance.</p>
  <div id="familyBranchAlbums" class="family-branch-grid" aria-live="polite"></div>
  </section>
+</div>
+<div id="familyMemoryPanelHommages" class="family-memory-panel" role="tabpanel" aria-labelledby="familyMemoryTabHommages" hidden>
+ <p class="family-memory-intro">Retrouver les proches disparus et honorer leur mémoire.</p>
+ <div class="family-memorial-search"><label for="memorialSearch">Rechercher un membre…</label><input type="search" id="memorialSearch" placeholder="Rechercher un membre…" autocomplete="off"><div class="family-memorial-filters"><label>Génération <select id="memorialGeneration"><option value="">Toutes</option><option value="1">1ʳᵉ</option><option value="2">2ᵉ</option><option value="3">3ᵉ</option><option value="4">4ᵉ</option></select></label><label>Branche familiale <select id="memorialBranch"><option value="">Toutes les branches</option></select></label></div><p id="memorialFilterStatus" role="status"></p></div>
  <section class="family-branch-section" aria-label="Hommage aux personnes disparues">
  <h2>🕊️ Notre galerie des hommages</h2><p>Un souvenir respectueux de nos proches disparus. Lecture seule : les fiches demeurent protégées.</p>
  <div id="familyMemorialGallery" class="family-branch-grid" aria-live="polite"></div>
  </section>
- 
+</div>
 </section>
 <section class="sop-page" id="sopChat" data-sop-page="chat" hidden>
 <header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>Salon familial</h1><p>Les conversations qui nous rapprochent.</p></header>
@@ -3780,4 +3801,25 @@ if('serviceWorker' in navigator && window.isSecureContext){
    .catch(err=>console.warn('PWA non activée sur cet appareil :',err.message));
  },{once:true});
 }
+
+function selectFamilyMemorySpace(space){
+ const target=space==='hommages'?'hommages':'souvenirs';
+ for(const mode of ['souvenirs','hommages']){
+  const label=mode==='souvenirs'?'Souvenirs':'Hommages';
+  const tab=document.getElementById('familyMemoryTab'+label),panel=document.getElementById('familyMemoryPanel'+label),active=mode===target;
+  if(tab){tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1}
+  if(panel)panel.hidden=!active;
+ }
+}
+document.querySelectorAll('#sopMemories [data-memory-tab]').forEach(tab=>{
+ tab.addEventListener('click',()=>selectFamilyMemorySpace(tab.dataset.memoryTab));
+ tab.addEventListener('keydown',event=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+  event.preventDefault();
+  const tabs=['souvenirs','hommages'],current=tabs.indexOf(tab.dataset.memoryTab);
+  const next=event.key==='Home'?0:event.key==='End'?1:(current+(event.key==='ArrowRight'?1:-1)+2)%2;
+  selectFamilyMemorySpace(tabs[next]);
+  document.getElementById('familyMemoryTab'+(next?'Hommages':'Souvenirs'))?.focus();
+ });
+});
 </script></body></html>
