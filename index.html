@@ -1041,6 +1041,21 @@ body.family-viewer-open{overflow:hidden}
 #sopTabs.sop-tabs-cards .sop-tab:focus-visible{outline:3px solid #b99d5e;outline-offset:3px}
 @media(max-width:650px){#sopTabs.sop-tabs.sop-tabs-cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(3px,1.1vw,7px);width:calc(100% - 12px);margin:6px auto;padding:clamp(5px,1.5vw,10px);border-radius:20px}#sopTabs.sop-tabs-cards .sop-tab{width:100%;height:auto;aspect-ratio:.96;border-width:1.5px;border-radius:clamp(9px,2.7vw,15px)}#sopTabs.sop-tabs-cards .sop-tab svg{width:clamp(20px,5.8vw,36px);height:clamp(20px,5.8vw,36px)}}
 @media(prefers-reduced-motion:reduce){#sopTabs.sop-tabs-cards .sop-tab{transition:none}}
+
+/* Expérience inclusive de consultation : recherche globale, sans filtre par branche. */
+#sopTree .family-mode-switch,#sopTree .family-branch-picker{display:none!important}
+#sopTree .family-name-search-bar{width:min(1100px,100%);margin:12px auto 18px;padding:16px 20px;background:#fffdf8;border:1px solid #d3daca;border-radius:17px;box-shadow:0 5px 18px #183f3210}
+#sopTree .family-name-search-bar label{display:block;font-weight:750;margin-bottom:8px;color:#183f32}
+#sopTree .family-name-search-bar input{width:100%;padding:14px 16px;font-size:16px;border:1px solid #8fa58d;border-radius:12px;background:white;color:#183f32}
+#sopTree .family-name-search-bar input:focus{outline:3px solid #b79a60;outline-offset:2px}
+#sopTree .family-search-hint{font-size:13px;color:#53695b;margin:8px 0 0}
+#sopTree .family-name-search-bar .heritage-results{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;max-height:250px;overflow:auto}
+#sopTree .family-name-search-bar .heritage-results[hidden]{display:none!important}
+#sopTree #landscapeTree{width:100%;max-width:none;margin:0 auto}
+#sopTree #landscapeTree .tree-scroll{height:clamp(500px,73vh,900px);max-height:none;overflow:auto;overscroll-behavior:contain}
+#sopTree .family-person-info p{margin:7px 0;color:#314e3d;line-height:1.45}
+#sopTree .family-person-info button{margin-top:10px}
+@media(max-width:650px){#sopTree .family-name-search-bar{padding:12px}#sopTree #landscapeTree .tree-scroll{height:clamp(400px,68dvh,780px)}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1098,15 +1113,16 @@ body.family-viewer-open{overflow:hidden}
 <div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Notre arbre généalogique</h1><p class="family-tree-subtitle">Les racines de notre histoire familiale.</p><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p>
+<div class="family-name-search-bar"><label for="memberSearch">🔎 Rechercher un membre par nom ou prénom</label><input id="memberSearch" type="search" placeholder="Saisir un nom ou un prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off" aria-controls="searchResults"><p class="family-search-hint">Toute la famille est accessible, sans sélectionner de branche.</p><div id="searchResults" role="status" class="heritage-results" hidden></div></div>
 <div class="family-mode-switch" id="familyViewModes" role="group" aria-label="Mode de l’arbre"><button type="button" data-family-mode="full" class="active" aria-pressed="true">🌳 Vue entière</button><button type="button" data-family-mode="branch" aria-pressed="false">🌿 Vue par branche</button></div>
 <div class="family-branch-picker" id="familyBranchPicker" hidden><h2>Explorer une branche familiale</h2><label for="familyBranchPerson">Choisir une personne ou une branche</label><select id="familyBranchPerson"><option value="">Sélectionner une branche…</option></select><p id="familyBranchStatus" role="status"></p><button type="button" class="action" id="familyBranchReturn">← Revenir à la vue entière</button></div>
 <section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
  <div class="heritage-line">
- <label>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
- <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
+ <label hidden>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
+ 
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
- </div><div id="searchResults" role="status" class="heritage-results" hidden></div><div class="family-simple-tools"><button type="button" class="action" onclick="showMyFamilyBranch()">🌿 Ma branche</button><details><summary>Découvrir notre lien de parenté</summary><div class="family-kinship-inputs"><select id="familyKinA" aria-label="Première personne"><option value="">Première personne</option></select><select id="familyKinB" aria-label="Deuxième personne"><option value="">Deuxième personne</option></select><button type="button" class="action" onclick="showFamilyRelation()">Voir le lien</button></div><p id="familyKinResult" role="status"></p></details></div>
+ </div><div class="family-simple-tools"><button type="button" class="action" onclick="showMyFamilyBranch()">🌿 Ma branche</button><details><summary>Découvrir notre lien de parenté</summary><div class="family-kinship-inputs"><select id="familyKinA" aria-label="Première personne"><option value="">Première personne</option></select><select id="familyKinB" aria-label="Deuxième personne"><option value="">Deuxième personne</option></select><button type="button" class="action" onclick="showFamilyRelation()">Voir le lien</button></div><p id="familyKinResult" role="status"></p></details></div>
  </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="guest-tree-legend" aria-label="Légende des générations et symboles">
 <span class="legend-tag">Légende</span>
 <span><i class="legend-dot legend-g1" aria-hidden="true"></i>Fondateurs</span>
@@ -2817,4 +2833,43 @@ const afterLoad=()=>{
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',afterLoad,{once:true});else afterLoad();
 })();
 
+
+/* Recherche générale : affiche les noms enregistrés indépendamment des branches. */
+(function(){
+ const normalizeFamilySearch=v=>String(v||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase('fr').trim();
+ const oldFocus=focusFamilyMember;
+ searchFamilyMember=function(term){
+  const out=document.getElementById('searchResults');if(!out)return;
+  const query=normalizeFamilySearch(term);
+  document.querySelectorAll('.person.search-match').forEach(el=>el.classList.remove('search-match'));
+  out.replaceChildren();if(!query){out.hidden=true;return}
+  const words=query.split(/\\s+/).filter(Boolean);
+  const found=people.filter(p=>p.id&&words.every(w=>normalizeFamilySearch([p.surname,p.firstname].filter(Boolean).join(' ')).includes(w))).slice(0,35);
+  out.hidden=false;
+  if(!found.length){out.textContent='Aucun membre trouvé pour cette recherche.';return}
+  for(const p of found){
+   const btn=document.createElement('button');btn.type='button';btn.className='family-search-result';
+   btn.textContent=[p.surname,p.firstname].filter(Boolean).join(' ')||'Membre enregistré';
+   btn.addEventListener('click',()=>{
+    setFamilyBranch('');
+    oldFocus(String(p.id));
+    showPublicPhoto(p);
+   });out.appendChild(btn)
+  }
+ };
+ const search=document.getElementById('memberSearch');
+ if(search&&search.value)searchFamilyMember(search.value);
+ const photo=document.querySelector('#photoOverlay .photo-panel .family-person-info');
+ if(photo){
+  const originalPhoto=showPublicPhoto;
+  showPublicPhoto=function(person){
+   originalPhoto(person);
+   const branchBtn=[...photo.querySelectorAll('button')].find(b=>b.textContent.includes('Voir sa branche'));
+   if(branchBtn){branchBtn.textContent='🌳 Retrouver sur l’arbre';branchBtn.onclick=()=>{
+     document.getElementById('photoOverlay').classList.remove('open');
+     selectSopTab('tree');setFamilyBranch('');oldFocus(String(person.id));
+   }}
+  }
+ }
+})();
 </script></body></html>
