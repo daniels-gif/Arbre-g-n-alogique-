@@ -1,25 +1,28 @@
-# Profil enfant — version test des jeux, éligibilité 18 ans et moins
+# Profil de joueur — fiche familiale et âge 18 ans ou moins
+Date : 2026-11-14. Branche : `test-espace-enfants-phase1-2026-11-14`.
 
-## Modifications confirmées
+## Règle demandée
+- Accéder à l'espace éducatif sans recopier les noms de la famille.
+- Un membre ayant déverrouillé sa fiche personnelle utilise son identité déjà validée.
+- Le serveur récupère le prénom/nom, jour, mois et, si disponible, l'année de naissance de `batcha_people`.
+- Si l'année est manquante, le joueur saisit **uniquement son année de naissance**.
+- Admission uniquement à **18 ans ou moins**, âge calculé à la date de la partie.
+- L'année déclarée n'est pas écrite dans la fiche ni enregistrée dans le navigateur. Son exactitude reste à confirmer par un responsable familial (pas de preuve automatique).
+- Si le jour ou le mois manque, la participation reste bloquée jusqu'à correction autorisée de la fiche.
+- Autorisation d'un parent ou tuteur demandée dans le formulaire pour les moins de 18 ans ; la confirmation est déclarative dans la version test.
+- Pas d'enregistrement de scores partagés ni de publication enfant.
 
-- Les phrases « accessibles sans compte enfant » et « Tes activités ne demandent ni achat, ni photo, ni messagerie » ont été retirées de l'entête.
-- L’accès aux activités nécessite de créer un **profil de joueur temporaire** avec prénom ou pseudonyme et date de naissance.
-- Vérification locale de l’éligibilité : **18 ans ou moins**. Les âges 19 ans et plus sont refusés.
-- Pour les moins de 18 ans, le formulaire exige une confirmation parentale.
-- La date de naissance est utilisée uniquement pour calculer l'âge, puis effacée du formulaire et **non enregistrée**.
-- Seul le pseudonyme est conservé temporairement dans l’onglet via sessionStorage, avec une durée de vie de 6 heures.
-- Les jeux locaux existants restent disponibles après création du profil : calcul mental, mémoire, parenté, images, logique, dessin et cartes.
-- Le menu de changement de joueur efface le profil temporaire et renouvelle la page.
-- Aucune base Supabase modifiée, aucune session enfant reliée à l'arbre et aucun accès adulte accordé par ce profil.
+## Préparé
+- `index.html` conserve brièvement l'identifiant et le jeton de la fiche réellement déverrouillée ; suppression à la déconnexion.
+- `enfants.html` ne propose plus de nom libre ni de date complète.
+- `kids-family-gate.js` lit la session et appelle `batcha_kids_game_eligibility`.
+- La fonction SQL (lecture seule du côté de la fiche familiale) est proposée dans `supabase/migrations/20261114_kids_game_eligibility_draft.sql`.
+- Aucun profil joueur supplémentaire n'est créé dans l'arbre.
 
-## Avertissements avant une version définitive
+## Non encore activé
+La nouvelle fonction SQL **n'a pas été exécutée** dans Supabase. Sans elle, les jeux resteront verrouillés avec un message d'indisponibilité. Cette étape attend la sauvegarde et les tests de sécurité avant déploiement public. La validation de l'année déclarée et l'autorisation parentale ne sont pas prouvées par un simple formulaire.
 
-- La vérification d’âge est **côté navigateur uniquement** et ne représente pas une vérification d'identité inviolable.
-- Aucune reconnaissance du lien de parenté avec les fiches de l'arbre.
-- Pas de scores persistants partagés, classements inter-appareils, médias d'enfants, publications ni messagerie.
-- Pour rendre l'éligibilité fiable côté serveur, il faudra une base et un contrôle d'accès adapté, avec sauvegardes et tests.
-- Cette version ne touche pas à la production. Vérifier les jeux sur un téléphone réel avant publication.
-
-## Contrôle de code
-
-Syntaxe JavaScript vérifiée dans index.html, enfants.html et kids-extras.js.
+## Contrôles
+Syntaxe JS des fichiers `index.html`, `enfants.html`, `kids-family-gate.js` et `kids-extras.js` vérifiée.
+Les tests de connexion réels, appareils mobiles et sauvegarde restaurable sont encore à effectuer.
+Le site public n'a pas été modifié.
