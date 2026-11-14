@@ -8,6 +8,14 @@ const key="sb_publishable_N4l5G_krbjL5fjsnUq5QgA_simvsW3V";
 const status=$('kidsPlayerStatus'),form=$('kidsPlayerForm'),error=$('kidsPlayerError');
 let session=null,needsYear=false;
 function credentials(){
+ // Priorité à la fiche déverrouillée directement (y compris génération 4+).
+ let own;
+ try{own=JSON.parse(sessionStorage.getItem('sop-kids-family-auth-v1')||'null')}catch(_){}
+ if(own&&typeof own.memberId==='string'&&typeof own.access==='string'){
+  const elapsed=Date.now()-Number(own.issuedAt);
+  if(Number.isFinite(elapsed)&&elapsed>=0&&elapsed<30*60*1000)
+   return {p_person_id:own.memberId,p_access:own.access};
+ }
  let raw;
  try{raw=JSON.parse(sessionStorage.getItem('sop-family-session-v2')||'null')}catch(_){}
  if(!raw||raw.version!==2||typeof raw.memberId!=='string'||typeof raw.access!=='string')return null;
