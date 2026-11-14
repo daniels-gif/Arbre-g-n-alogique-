@@ -2199,8 +2199,7 @@ body.family-kids-mode #sopKids{display:block!important}
  <div class="panel">
  <button id="familyKidsPickerClose" type="button" aria-label="Fermer la sélection">✕ Fermer</button>
  <h2>🌈 Choisir un profil enfant</h2>
- <p>Les profils enfants enregistrés sont proposés aux membres connectés, dont les trois derniers enfants de SOP Wandji Verkys. Aucun âge n’est inventé à partir de dates incomplètes.</p>
- <p id="familyKidsPickerStatus" role="status"></p>
+ <p id="familyKidsPickerStatus" role="status" aria-live="polite"></p>
  <div id="familyKidsPickerList" class="family-kids-choices"></div>
  </div>
 </div>
@@ -4335,12 +4334,12 @@ async function familyKidsPickerOpen(){
  const list=document.getElementById('familyKidsPickerList');
  if(!overlay||!status||!list)return;
  overlay.classList.add('open');list.replaceChildren();
- status.textContent='Vérification des profils autorisés…';
+ status.textContent='';
  try{
   const items=await api('rpc/batcha_kids_profiles',credentials);
   if(!Array.isArray(items))throw Error('La liste parentale n’a pas été validée.');
   if(!items.length){status.textContent='Aucun profil enfant enregistré n’est actuellement éligible. Un responsable familial pourra vérifier les inscriptions.';return}
-  status.textContent='Sélectionnez le profil enregistré d’un enfant pour jouer. Le retour aux rubriques adultes nécessitera une nouvelle connexion.';
+  status.textContent='';
   for(const kid of items){
    if(!kid||typeof kid.id!=='string'||typeof kid.firstname!=='string')continue;
    const button=document.createElement('button');
