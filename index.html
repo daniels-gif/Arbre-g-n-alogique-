@@ -1041,6 +1041,50 @@ body.family-viewer-open{overflow:hidden}
 #sopTabs.sop-tabs-cards .sop-tab:focus-visible{outline:3px solid #b99d5e;outline-offset:3px}
 @media(max-width:650px){#sopTabs.sop-tabs.sop-tabs-cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(3px,1.1vw,7px);width:calc(100% - 12px);margin:6px auto;padding:clamp(5px,1.5vw,10px);border-radius:20px}#sopTabs.sop-tabs-cards .sop-tab{width:100%;height:auto;aspect-ratio:.96;border-width:1.5px;border-radius:clamp(9px,2.7vw,15px)}#sopTabs.sop-tabs-cards .sop-tab svg{width:clamp(20px,5.8vw,36px);height:clamp(20px,5.8vw,36px)}}
 @media(prefers-reduced-motion:reduce){#sopTabs.sop-tabs-cards .sop-tab{transition:none}}
+
+/* Expérience inclusive de consultation : recherche globale, sans filtre par branche. */
+#sopTree .family-mode-switch,#sopTree .family-branch-picker{display:none!important}
+#sopTree .family-name-search-bar{width:min(1100px,100%);margin:12px auto 18px;padding:16px 20px;background:#fffdf8;border:1px solid #d3daca;border-radius:17px;box-shadow:0 5px 18px #183f3210}
+#sopTree .family-name-search-bar label{display:block;font-weight:750;margin-bottom:8px;color:#183f32}
+#sopTree .family-name-search-bar input{width:100%;padding:14px 16px;font-size:16px;border:1px solid #8fa58d;border-radius:12px;background:white;color:#183f32}
+#sopTree .family-name-search-bar input:focus{outline:3px solid #b79a60;outline-offset:2px}
+#sopTree .family-search-hint{font-size:13px;color:#53695b;margin:8px 0 0}
+#sopTree .family-name-search-bar .heritage-results{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;max-height:250px;overflow:auto}
+#sopTree .family-name-search-bar .heritage-results[hidden]{display:none!important}
+#sopTree #landscapeTree{width:100%;max-width:none;margin:0 auto}
+#sopTree #landscapeTree .tree-scroll{height:clamp(500px,73vh,900px);max-height:none;overflow:auto;overscroll-behavior:contain}
+#sopTree .family-person-info p{margin:7px 0;color:#314e3d;line-height:1.45}
+#sopTree .family-person-info button{margin-top:10px}
+@media(max-width:650px){#sopTree .family-name-search-bar{padding:12px}#sopTree #landscapeTree .tree-scroll{height:clamp(400px,68dvh,780px)}}
+
+/* Salle de jeux intégrée au salon existant : les messages et permissions ne changent pas. */
+#sopChat .chat-family-shell{max-width:1100px}
+.family-salon-nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px;padding-bottom:12px;border-bottom:1px solid #d3dfd2}
+.family-salon-nav button,.family-game-choice{border:1px solid #a9bea8;border-radius:12px;padding:11px 13px;background:#fbfdf7;color:#183f32;font:700 13px system-ui,sans-serif;cursor:pointer;min-height:44px}
+.family-salon-nav button[aria-selected=true],.family-game-choice[aria-pressed=true]{background:#183f32;color:white;border-color:#183f32}
+.family-salon-nav button:disabled,.family-game-choice:disabled,.family-game-library button:disabled{background:#e5e7e5!important;color:#7b867d!important;border:1px solid #d6dad5!important;cursor:not-allowed;opacity:.85}
+#familySalonGames{padding:7px 0 12px}#familySalonGames[hidden],#familySalonDiscussion[hidden],#familyGameFree[hidden],#familyGameLibrary[hidden]{display:none!important}
+.family-game-header{text-align:center;background:linear-gradient(125deg,#183f32,#075a43);color:#fff;border-radius:18px;padding:25px 16px;margin-bottom:17px}
+.family-game-header span{font-size:10px;letter-spacing:2px;color:#f0dab0}
+.family-game-header h2{font:600 clamp(25px,4vw,38px) Georgia,serif;margin:7px 0}.family-game-header p{margin:0;color:#e5eade}
+.family-game-choices{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+#familyGameFree,#familyGameLibrary{background:#fffefa;border:1px solid #dce7da;border-radius:16px;padding:clamp(14px,3vw,25px)}
+#familySalonGames h3{font:600 clamp(21px,3vw,27px) Georgia,serif;color:#183f32;margin:7px 0 13px}
+.family-game-controls{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.family-game-controls label{display:grid;gap:6px;font-weight:650;color:#274c3a}
+.family-game-controls select{font-size:16px;background:white;border:1px solid #a9bfa5;border-radius:10px;padding:11px;min-width:180px;min-height:44px}
+.family-game-options{display:grid;gap:10px}.family-game-options button{text-align:left;border:1px solid #c5d6c6;border-radius:12px;background:#f3f8f2;color:#183f32;font:inherit;padding:14px;cursor:pointer;min-height:48px}
+.family-game-options button.correct{border:2px solid #258658;background:#e5f5e8;color:#185935}.family-game-options button.incorrect{border:2px solid #b36f59;background:#fbece8;color:#8b3e2f}
+.family-game-options button:disabled{cursor:default}.family-game-feedback{min-height:32px;font-weight:700}
+.family-game-progress{color:#526958;font-size:13px}.family-game-actions{display:flex;gap:9px;flex-wrap:wrap}
+.family-game-actions #familyGameQuit{border:1px solid #98b49a;border-radius:12px;padding:10px 15px;background:#fff;color:#183f32;cursor:pointer}
+.family-game-score{font-size:28px;font-weight:800}.family-game-note{color:#607364;font-size:12px;margin:18px 3px 0}
+.family-game-library{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px}
+.family-game-library article{border:1px solid #d6dfd2;background:#f7f8f2;border-radius:14px;padding:15px}
+.family-game-library article small{display:inline-block;background:#e7e9e7;color:#637168;border-radius:8px;padding:4px 8px}
+.family-game-library article button{margin-top:10px}
+@media(max-width:600px){.family-salon-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.family-salon-nav button{padding:9px 4px;font-size:11px}.family-game-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.family-game-choice{padding:10px 4px;font-size:12px}.family-game-controls label,.family-game-controls select{width:100%}}
+@media print{#familySalonGames,.family-salon-nav{display:none!important}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1098,15 +1142,16 @@ body.family-viewer-open{overflow:hidden}
 <div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Notre arbre généalogique</h1><p class="family-tree-subtitle">Les racines de notre histoire familiale.</p><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p>
+<div class="family-name-search-bar"><label for="memberSearch">🔎 Rechercher un membre par nom ou prénom</label><input id="memberSearch" type="search" placeholder="Saisir un nom ou un prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off" aria-controls="searchResults"><p class="family-search-hint">Toute la famille est accessible, sans sélectionner de branche.</p><div id="searchResults" role="status" class="heritage-results" hidden></div></div>
 <div class="family-mode-switch" id="familyViewModes" role="group" aria-label="Mode de l’arbre"><button type="button" data-family-mode="full" class="active" aria-pressed="true">🌳 Vue entière</button><button type="button" data-family-mode="branch" aria-pressed="false">🌿 Vue par branche</button></div>
 <div class="family-branch-picker" id="familyBranchPicker" hidden><h2>Explorer une branche familiale</h2><label for="familyBranchPerson">Choisir une personne ou une branche</label><select id="familyBranchPerson"><option value="">Sélectionner une branche…</option></select><p id="familyBranchStatus" role="status"></p><button type="button" class="action" id="familyBranchReturn">← Revenir à la vue entière</button></div>
 <section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
  <h2>Famille SOP Wandji</h2>
  <div class="heritage-line">
- <label>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
- <label>Rechercher une personne <input id="memberSearch" type="search" placeholder="Nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off"></label>
+ <label hidden>Branche familiale <select id="branchSelect" onchange="setFamilyBranch(this.value)"><option value="">Toutes les branches</option></select></label>
+ 
  <button type="button" class="action" onclick="makeFamilyBook()">📖 Livre familial PDF</button>
- </div><div id="searchResults" role="status" class="heritage-results" hidden></div><div class="family-simple-tools"><button type="button" class="action" onclick="showMyFamilyBranch()">🌿 Ma branche</button><details><summary>Découvrir notre lien de parenté</summary><div class="family-kinship-inputs"><select id="familyKinA" aria-label="Première personne"><option value="">Première personne</option></select><select id="familyKinB" aria-label="Deuxième personne"><option value="">Deuxième personne</option></select><button type="button" class="action" onclick="showFamilyRelation()">Voir le lien</button></div><p id="familyKinResult" role="status"></p></details></div>
+ </div><div class="family-simple-tools"><button type="button" class="action" onclick="showMyFamilyBranch()">🌿 Ma branche</button><details><summary>Découvrir notre lien de parenté</summary><div class="family-kinship-inputs"><select id="familyKinA" aria-label="Première personne"><option value="">Première personne</option></select><select id="familyKinB" aria-label="Deuxième personne"><option value="">Deuxième personne</option></select><button type="button" class="action" onclick="showFamilyRelation()">Voir le lien</button></div><p id="familyKinResult" role="status"></p></details></div>
  </div></details></div><div class="tree-scroll"><div id="familyChart" class="family-chart"><svg id="familyLines" aria-hidden="true"></svg><div class="generation-label">1ʳᵉ génération · Fondateurs</div><div class="founders" id="founders"></div><div class="connector-main"></div><div class="generation-label">2ᵉ génération · Enfants</div><div class="tree" id="tree"></div></div></div></section><div class="guest-tree-legend" aria-label="Légende des générations et symboles">
 <span class="legend-tag">Légende</span>
 <span><i class="legend-dot legend-g1" aria-hidden="true"></i>Fondateurs</span>
@@ -1186,12 +1231,55 @@ body.family-viewer-open{overflow:hidden}
 
 </div>
 <div id="sopChatRoom" hidden>
+<nav class="family-salon-nav" aria-label="Rubriques du Salon familial" role="tablist">
+ <button type="button" role="tab" aria-selected="true" data-salon="discussion">💬 Discussions</button>
+ <button type="button" role="tab" aria-selected="false" data-salon="games">🎯 Jeux</button>
+ <button type="button" disabled title="Bientôt disponible">☕ Causeries</button>
+ <button type="button" disabled title="Bientôt disponible">📊 Sondages</button>
+ <button type="button" disabled title="Bientôt disponible">👪 Groupes</button>
+ <button type="button" disabled title="Bientôt disponible">🤝 Entraide</button>
+</nav>
+<div id="familySalonDiscussion">
  <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Salon familial · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
 <div class="chat-coming-soon" aria-label="Fonctionnalités prévues mais non disponibles"><span title="Appels audio à venir">☎ Audio</span><span title="Appels vidéo à venir">▣ Vidéo</span><span title="Messages vocaux à venir">🎙 Vocaux</span><span title="Discussions de groupe à venir">♧ Groupes</span><span title="Directs familiaux à venir">◉ Directs</span><small>Bientôt disponibles</small></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
  <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
-
+</div>
+<section id="familySalonGames" hidden aria-label="Salle de jeux familiale">
+ <header class="family-game-header"><span>UN MOMENT POUR NOUS RETROUVER</span><h2>La salle de jeux</h2><p>Jouons et découvrons ensemble, à notre rythme.</p></header>
+ <div class="family-game-choices">
+  <button type="button" class="family-game-choice selected" data-game-view="free" aria-pressed="true">🎯 Jeux libres</button>
+  <button type="button" class="family-game-choice" data-game-view="library" aria-pressed="false">📚 Bibliothèque</button>
+  <button type="button" class="family-game-choice" disabled title="Synchronisation multijoueur à venir">📡 Parties en direct · bientôt</button>
+  <button type="button" class="family-game-choice" disabled title="Classements à venir">🏆 Classements · bientôt</button>
+ </div>
+ <div id="familyGameFree">
+  <div id="familyGameStart">
+   <h3>Quiz familial</h3><p>Choisis un thème et un niveau pour commencer.</p>
+   <div class="family-game-controls"><label for="familyGameTheme">Thème<select id="familyGameTheme"><option value="heritage">Culture et patrimoine</option><option value="proverbs">Devinettes et proverbes</option><option value="generations">Générations</option></select></label>
+   <label for="familyGameLevel">Niveau<select id="familyGameLevel"><option value="easy">Découverte</option><option value="hard">Avancé</option></select></label></div>
+   <button type="button" class="action" id="familyGameBegin">Commencer le quiz</button>
+  </div>
+  <div id="familyGameRound" hidden>
+   <p id="familyGameProgress" class="family-game-progress"></p>
+   <h3 id="familyGameQuestion"></h3>
+   <div id="familyGameOptions" class="family-game-options"></div>
+   <p id="familyGameFeedback" class="family-game-feedback" role="status" aria-live="polite"></p>
+   <div class="family-game-actions"><button type="button" class="action" id="familyGameNext" hidden>Question suivante</button><button type="button" id="familyGameQuit">Quitter</button></div>
+  </div>
+  <div id="familyGameEnd" hidden><h3>Bravo, partie terminée !</h3><p id="familyGameScore" class="family-game-score"></p><p>Ton score est temporaire et n'est pas enregistré.</p><button type="button" class="action" id="familyGameReplay">Rejouer</button></div>
+ </div>
+ <div id="familyGameLibrary" hidden>
+  <div class="family-game-library">
+   <article><h3>🎯 Quiz familial</h3><p>Disponible maintenant en mode libre.</p><button type="button" class="action" id="familyGameOpenQuiz">Jouer</button></article>
+   <article><small>À venir</small><h3>🕵️ Qui est-ce ?</h3><button disabled>Indisponible</button></article>
+   <article><small>À venir</small><h3>📜 Devinettes et proverbes</h3><button disabled>Indisponible</button></article>
+   <article><small>À venir</small><h3>👨‍👩‍👧‍👦 Défis des générations</h3><button disabled>Indisponible</button></article>
+  </div>
+ </div>
+ <p class="family-game-note">Les jeux libres ne récupèrent aucune donnée des profils. Les parties multijoueurs et les classements seront activés après validation technique.</p>
+</section>
 </div>
 </div>
 </section>
@@ -2817,4 +2905,132 @@ const afterLoad=()=>{
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',afterLoad,{once:true});else afterLoad();
 })();
 
+
+/* Recherche générale : affiche les noms enregistrés indépendamment des branches. */
+(function(){
+ const normalizeFamilySearch=v=>String(v||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLocaleLowerCase('fr').trim();
+ const oldFocus=focusFamilyMember;
+ searchFamilyMember=function(term){
+  const out=document.getElementById('searchResults');if(!out)return;
+  const query=normalizeFamilySearch(term);
+  document.querySelectorAll('.person.search-match').forEach(el=>el.classList.remove('search-match'));
+  out.replaceChildren();if(!query){out.hidden=true;return}
+  const words=query.split(/\\s+/).filter(Boolean);
+  const found=people.filter(p=>p.id&&words.every(w=>normalizeFamilySearch([p.surname,p.firstname].filter(Boolean).join(' ')).includes(w))).slice(0,35);
+  out.hidden=false;
+  if(!found.length){out.textContent='Aucun membre trouvé pour cette recherche.';return}
+  for(const p of found){
+   const btn=document.createElement('button');btn.type='button';btn.className='family-search-result';
+   btn.textContent=[p.surname,p.firstname].filter(Boolean).join(' ')||'Membre enregistré';
+   btn.addEventListener('click',()=>{
+    setFamilyBranch('');
+    oldFocus(String(p.id));
+    showPublicPhoto(p);
+   });out.appendChild(btn)
+  }
+ };
+ const search=document.getElementById('memberSearch');
+ if(search&&search.value)searchFamilyMember(search.value);
+ const photo=document.querySelector('#photoOverlay .photo-panel .family-person-info');
+ if(photo){
+  const originalPhoto=showPublicPhoto;
+  showPublicPhoto=function(person){
+   originalPhoto(person);
+   const branchBtn=[...photo.querySelectorAll('button')].find(b=>b.textContent.includes('Voir sa branche'));
+   if(branchBtn){branchBtn.textContent='🌳 Retrouver sur l’arbre';branchBtn.onclick=()=>{
+     document.getElementById('photoOverlay').classList.remove('open');
+     selectSopTab('tree');setFamilyBranch('');oldFocus(String(person.id));
+   }}
+  }
+ }
+})();
+
+/* Quiz libre : moteur autonome en mémoire, aucune écriture dans Supabase. */
+(function(){
+ const byId=id=>document.getElementById(id);
+ const games=byId('familySalonGames'), discussion=byId('familySalonDiscussion');
+ if(!games||!discussion)return;
+ const bank={
+ heritage:{
+ easy:[
+ ['Quel mot désigne les liens entre parents et enfants ?',['Généalogie','Météorologie','Géographie'],0],
+ ['Comment appelle-t-on les parents de nos parents ?',['Cousins','Grands-parents','Neveux'],1],
+ ['Où peut-on conserver les photos de famille ?',['Dans un album','Dans un thermomètre','Sur une boussole'],0],
+ ['Transmettre une tradition signifie…',['La partager avec les générations suivantes','La supprimer','La cacher'],0]],
+ hard:[
+ ['Comment appelle-t-on une personne dont on descend ?',['Ancêtre','Voisin','Collègue'],0],
+ ['Un arbre généalogique représente principalement…',['Les liens de parenté','Les routes','Les saisons'],0],
+ ['Quel terme désigne les souvenirs et biens transmis ?',['Patrimoine','Altitude','Vitesse'],0],
+ ['Comment sauvegarder un témoignage oral ?',['L’enregistrer avec autorisation','Ne pas l’écouter','Le modifier sans accord'],0]]},
+ proverbs:{
+ easy:[
+ ['« L’union fait la force » valorise…',['La solidarité','La solitude','La vitesse'],0],
+ ['Un proverbe est…',['Une expression de sagesse','Un instrument','Un plan de ville'],0],
+ ['« Petit à petit, l’oiseau fait son nid » encourage…',['La patience','La précipitation','L’abandon'],0],
+ ['Un récit transmis oralement passe surtout par…',['La parole','Une serrure','Un dessin technique'],0]],
+ hard:[
+ ['« Une seule main ne peut attacher un paquet » valorise…',['La coopération','L’isolement','La précipitation'],0],
+ ['« Qui va doucement va sûrement » recommande…',['La régularité','L’impatience','La confusion'],0],
+ ['Les proverbes permettent souvent de transmettre…',['Des enseignements','La météo précise','Des coordonnées'],0],
+ ['« Il faut tout un village pour élever un enfant » souligne…',['La responsabilité collective','Le refus d’aider','L’absence de liens'],0]]},
+ generations:{
+ easy:[
+ ['Le frère de ta mère est ton…',['Oncle','Neveu','Petit-fils'],0],
+ ['La fille de ton frère est ta…',['Nièce','Tante','Grand-mère'],0],
+ ['La mère de ton père est ta…',['Grand-mère','Sœur','Cousine'],0],
+ ['La fille de ta tante est ta…',['Cousine','Nièce','Grand-mère'],0]],
+ hard:[
+ ['Le frère de ton grand-père est ton…',['Grand-oncle','Fils','Neveu'],0],
+ ['Le père de ta grand-mère est ton…',['Arrière-grand-père','Cousin','Oncle'],0],
+ ['La sœur de ton père est ta…',['Tante','Nièce','Cousine'],0],
+ ['Le fils de ton frère est ton…',['Neveu','Oncle','Grand-père'],0]]
+ }};
+ let questions=[],position=0,points=0,answered=false;
+ function section(name){
+  const isGames=name==='games';games.hidden=!isGames;discussion.hidden=isGames;
+  document.querySelectorAll('#sopChatRoom [data-salon]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.salon===name)));
+ }
+ document.querySelectorAll('#sopChatRoom [data-salon]').forEach(b=>b.addEventListener('click',()=>section(b.dataset.salon)));
+ function gameView(name){
+  byId('familyGameFree').hidden=name!=='free';byId('familyGameLibrary').hidden=name!=='library';
+  document.querySelectorAll('#familySalonGames [data-game-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.gameView===name)));
+ }
+ document.querySelectorAll('#familySalonGames [data-game-view]').forEach(b=>b.addEventListener('click',()=>gameView(b.dataset.gameView)));
+ byId('familyGameOpenQuiz').addEventListener('click',()=>gameView('free'));
+ const display=(page)=>{byId('familyGameStart').hidden=page!=='start';byId('familyGameRound').hidden=page!=='round';byId('familyGameEnd').hidden=page!=='end';};
+ function draw(){
+  answered=false;
+  const q=questions[position];
+  byId('familyGameProgress').textContent='Question '+(position+1)+' / '+questions.length+' · '+points+' point(s)';
+  byId('familyGameQuestion').textContent=q[0];
+  byId('familyGameFeedback').textContent='';
+  byId('familyGameNext').hidden=true;
+  byId('familyGameNext').textContent=position===questions.length-1?'Voir le résultat':'Question suivante';
+  byId('familyGameOptions').replaceChildren();
+  q[1].forEach((choice,i)=>{
+   const btn=document.createElement('button');btn.type='button';btn.textContent=choice;
+   btn.addEventListener('click',()=>answer(i));byId('familyGameOptions').append(btn);
+  });
+ }
+ function answer(i){
+  if(answered)return;answered=true;
+  const q=questions[position];if(i===q[2])points++;
+  [...byId('familyGameOptions').children].forEach((b,k)=>{
+   b.disabled=true;if(k===q[2])b.classList.add('correct');else if(k===i)b.classList.add('incorrect');
+  });
+  byId('familyGameFeedback').textContent=i===q[2]?'Bonne réponse !':'Bonne réponse : '+q[1][q[2]];
+  byId('familyGameNext').hidden=false;
+ }
+ byId('familyGameBegin').addEventListener('click',()=>{
+  questions=[...bank[byId('familyGameTheme').value][byId('familyGameLevel').value]];
+  position=0;points=0;display('round');draw();
+ });
+ byId('familyGameNext').addEventListener('click',()=>{
+  position++;if(position===questions.length){
+   display('end');byId('familyGameScore').textContent=points+' / '+questions.length+' bonnes réponses';
+  }else draw();
+ });
+ byId('familyGameQuit').addEventListener('click',()=>display('start'));
+ byId('familyGameReplay').addEventListener('click',()=>display('start'));
+})();
 </script></body></html>
