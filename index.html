@@ -1392,6 +1392,12 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopTree .family-tree-greeting h1{white-space:nowrap!important;font-size:clamp(17px,4.35vw,24px)!important;letter-spacing:-.045em!important}
  #sopTree .family-tree-greeting .sop-back-home{display:none!important}
 }
+
+/* Portrait du membre connecté dans l'icône de profil : aucun partage supplémentaire. */
+#sopTree .family-tree-profile-access{overflow:hidden;padding:0;isolation:isolate}
+#sopTree .family-tree-profile-access img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+#sopTree .family-tree-profile-access img[hidden]{display:none!important}
+#sopTree .family-tree-profile-access:has(img:not([hidden])) svg{display:none!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1447,7 +1453,7 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 </section>
 <section class="sop-page" id="sopTree" data-sop-page="tree" hidden>
 <div class="sop-tree-intro family-tree-greeting">
- <button type="button" class="family-tree-profile-access" onclick="selectSopTab('chat')" aria-label="Accéder à mon profil familial" title="Accéder au Salon familial et au profil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.4-4.5 3.1-6.8 7.5-6.8s7.1 2.3 7.5 6.8"/></svg></button>
+ <button type="button" class="family-tree-profile-access" onclick="selectSopTab('chat')" aria-label="Accéder à mon profil familial" title="Accéder au Salon familial et au profil"><img id="familyTreeProfilePhoto" alt="Photo du membre connecté" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.4-4.5 3.1-6.8 7.5-6.8s7.1 2.3 7.5 6.8"/></svg></button>
  <div class="family-tree-greeting-text"><span class="family-tree-hello">Salut,</span><h1>Arbre généalogique</h1></div>
  <button type="button" class="sop-back-home" onclick="selectSopTab('home')" aria-label="Retour à l’accueil" title="Retour à l’accueil">← Retour</button>
  </div>
@@ -2224,6 +2230,7 @@ function selectSopTab(page){
  document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!==page||awaiting});
  document.querySelectorAll('[data-sop-tab]').forEach(btn=>{const active=btn.dataset.sopTab===page;btn.classList.toggle('active',active);if(active)btn.setAttribute('aria-current','page');else btn.removeAttribute('aria-current')});
  $('sopTabs').hidden=false;
+ refreshFamilyTreeProfilePhoto();
  if(page==='memories'&&!awaiting)refreshSopMemories();
  if(page==='news'&&!awaiting)refreshFamilyFeed();
  if(page==='events'&&!awaiting){renderFamilyEvents();renderFamilyBirthdays();renderFamilyTimeline();}
@@ -3083,12 +3090,29 @@ function renderFamilyTimeline(){
 
 /* Salon familial : photo du profil choisi, aucune modification des permissions. */
 function refreshSopChatProfileVisual(){
+ refreshFamilyTreeProfilePhoto();
  const target=document.getElementById('sopChatProfilePhoto');
  if(!target)return;
  target.replaceChildren();
  const avatar=sopChatPerson?.photo;
  if(avatar){const img=document.createElement('img');img.src=avatar;img.alt='Portrait du profil familial';img.loading='lazy';target.append(img)}
  else target.textContent='🌿';
+}
+
+/* L'avatar reprend uniquement la photo du profil effectivement connecté.
+   Sans connexion ou sans photo, l'icône générique reste visible. */
+function refreshFamilyTreeProfilePhoto(){
+ const img=document.getElementById('familyTreeProfilePhoto');
+ if(!img)return;
+ const person=(typeof sopChatPerson!=='undefined'&&typeof sopHasAccess==='function'&&sopHasAccess())?sopChatPerson:null;
+ const source=person&&typeof person.photo==='string'?person.photo.trim():'';
+ img.hidden=true;
+ img.removeAttribute('src');
+ if(!source)return;
+ img.onerror=()=>{img.hidden=true;img.removeAttribute('src')};
+ img.onload=()=>{img.hidden=false};
+ img.alt='Photo du profil de '+[person.firstname,person.surname].filter(Boolean).join(' ');
+ img.src=source;
 }
 /* Modules intégrés des onglets 2 à 5 : interface seulement, aucun accès en écriture supplémentaire. */
 (function(){
