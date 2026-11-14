@@ -1085,14 +1085,24 @@ body.family-viewer-open{overflow:hidden}
 .family-game-library article button{margin-top:10px}
 @media(max-width:600px){.family-salon-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.family-salon-nav button{padding:9px 4px;font-size:11px}.family-game-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.family-game-choice{padding:10px 4px;font-size:12px}.family-game-controls label,.family-game-controls select{width:100%}}
 @media print{#familySalonGames,.family-salon-nav{display:none!important}}
+
+/* Fenêtre de chat superposée : le menu principal reste visible et utilisable. */
+#sopChat.chat-modal-open{display:block!important;position:fixed!important;right:clamp(10px,2vw,28px);bottom:calc(83px + env(safe-area-inset-bottom));top:auto;left:auto;z-index:90;width:min(460px,calc(100vw - 20px));height:min(680px,calc(100dvh - 105px));max-height:calc(100dvh - 105px);overflow-y:auto;overscroll-behavior:contain;background:#fffdf8;border:1px solid #b7cdb9;border-radius:19px;padding:17px 12px 12px;box-shadow:0 15px 55px #193b2a44}
+#sopChat.chat-modal-open .sop-section-heading{display:none!important}
+#sopChat.chat-modal-open .chat-family-shell{margin:20px 0 0;max-width:none;border:0;box-shadow:none;padding:4px}
+#sopChat.chat-modal-open .chat-family-messages{height:min(37vh,340px);min-height:120px}
+.sop-chat-close{position:sticky;top:0;float:right;z-index:2;width:33px;height:33px;border:1px solid #c8d9c8;background:white;border-radius:50%;color:#385c40;font-size:25px;line-height:1;cursor:pointer}
+@media(max-width:600px){#sopChat.chat-modal-open{right:8px;bottom:calc(75px + env(safe-area-inset-bottom));width:calc(100vw - 16px);height:min(75dvh,620px);max-height:calc(100dvh - 95px)}}
+@media print{#sopChat.chat-modal-open{display:none!important}}
+
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="news" aria-label="Actualités" title="Actualités"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h5v6H7zm8 0h3M15 10h3M7 16h11M7 19h11"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="events" aria-label="Événements" title="Événements"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><text x="12" y="18" text-anchor="middle" font-size="8" fill="currentColor" stroke="none" font-weight="700">17</text></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="memories" aria-label="Souvenirs & Hommages" title="Souvenirs & Hommages"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="14" r="4"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="chat" aria-label="Salon familial" title="Salon familial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3-.5L3 21l1.5-5.5a8.5 8.5 0 1 1 15.5-4Z"/><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="3"/></svg></button>
-</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
+
+</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-expanded="false" aria-controls="sopChat" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2><p>Avec un enfant inscrit et photographié, répondez à la question sur cet enfant. Sinon, utilisez votre jour et votre mois de naissance.</p>
 <form id="sopMemberGateForm"><label for="sopAccessSearch">Rechercher votre fiche familiale</label><input id="sopAccessSearch" type="search" autocomplete="off" maxlength="120" placeholder="Commencez à écrire votre nom…" aria-controls="sopAccessSuggestions" aria-autocomplete="list">
@@ -1216,7 +1226,7 @@ body.family-viewer-open{overflow:hidden}
  </section>
  
 </section>
-<section class="sop-page" id="sopChat" data-sop-page="chat" hidden>
+<section class="sop-page" id="sopChat" data-sop-page="chat" role="dialog" aria-modal="false" aria-label="Salon familial" hidden><button type="button" class="sop-chat-close" onclick="closeSopChatModal()" aria-label="Fermer le chat familial">×</button>
 <header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>Salon familial</h1><p>Les conversations qui nous rapprochent.</p></header>
 <div class="chat-family-shell">
 <div id="sopChatGate" class="chat-family-login">
@@ -1898,8 +1908,34 @@ function openSopTree(){selectSopTab('tree')}
 const SOP_PRIVATE_TABS=['news','events','memories','chat'];
 let sopFamilyVisit=null;
 function sopHasAccess(){return !!(sopChatPerson&&!sopChatPerson.deceased&&sopChatPerson.generation<=3&&(profileAccess.get(sopChatPerson.id)||(sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id)))}
+
+// Salon en fenêtre indépendante : aucun changement de stockage, de profils ou de messages.
+function openSopChatModal(){
+ const panel=document.getElementById('sopChat');
+ if(!panel||!sopHasAccess())return;
+ panel.hidden=false;
+ panel.classList.add('chat-modal-open');
+ const trigger=document.getElementById('sopChatShortcut');
+ if(trigger)trigger.setAttribute('aria-expanded','true');
+ const gate=document.getElementById('sopChatGate'),room=document.getElementById('sopChatRoom');
+ if(gate)gate.hidden=true;
+ if(room)room.hidden=false;
+ const identity=document.getElementById('sopChatIdentity');
+ if(identity)identity.textContent='Profil connecté : '+familyName(sopChatPerson);
+ refreshSopChatProfileVisual();refreshSopChat();
+}
+function closeSopChatModal(){
+ const panel=document.getElementById('sopChat');
+ if(panel){panel.classList.remove('chat-modal-open');panel.hidden=true;}
+ const trigger=document.getElementById('sopChatShortcut');
+ if(trigger)trigger.setAttribute('aria-expanded','false');
+}
+document.addEventListener('keydown',event=>{if(event.key==='Escape')closeSopChatModal()});
+
 function selectSopTab(page){
  if(!['home','tree','events','memories','chat','news'].includes(page))page='home';
+ if(page==='chat'&&sopHasAccess()){openSopChatModal();return;}
+ if(page!=='chat')closeSopChatModal();
  const awaiting=SOP_PRIVATE_TABS.includes(page)&&!sopHasAccess();
  currentSopPage=page;
  document.body.classList.toggle('guest-tree-view',page==='tree'&&!isFamilyConnected());
