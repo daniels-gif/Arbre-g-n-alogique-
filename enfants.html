@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Espace Enfants — Famille SOP Wandji</title>
+<meta name="theme-color" content="#2a6547">
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#fbf8ef;color:#264834}
+*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button:focus-visible,select:focus-visible{outline:3px solid #b08d40;outline-offset:2px}
+[hidden]{display:none!important}
+header{background:#285c42;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px clamp(14px,4vw,42px)}
+header strong{font:600 clamp(16px,3vw,21px) Georgia,serif}header button{border:1px solid #f4e2af;color:#fff;background:transparent;border-radius:22px;padding:10px 14px;cursor:pointer}
+main{max-width:1120px;margin:auto;padding:0 16px 32px}
+.hero{background:linear-gradient(118deg,#def1df 5%,#fff7de 95%);text-align:center;border:1px solid #d3dfb6;border-radius:0 0 32px 32px;padding:30px 15px 25px}
+.hero .symbol{font-size:39px}.hero h1{font:700 clamp(27px,5vw,42px) Georgia,serif;color:#285b41;margin:10px 0}
+.hero p{margin:10px auto;max-width:690px;line-height:1.6}
+.notice{padding:12px;background:#f7eccc;border:1px solid #d8c997;border-radius:14px;max-width:670px;margin:20px auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(225px,1fr));gap:14px;padding:23px 0}
+.card{padding:20px;background:#fff;border:1px solid #dde5d4;border-radius:22px;box-shadow:0 2px 8px #142b130a}
+.card .emoji{font-size:33px}.card h2{font:600 21px Georgia,serif;color:#2d6549;margin:11px 0 6px}
+.card p{line-height:1.55;font-size:14px;min-height:48px}.card button,.btn{border:0;background:#306e4b;color:white;border-radius:17px;padding:11px 17px;cursor:pointer;font-weight:600}
+.card button[disabled]{background:#e8eee6;color:#6d806f;cursor:default}
+.small{color:#55715e;font-size:13px}
+.activity{margin:14px 0 25px;padding:20px;border:1px solid #cfdcc5;background:white;border-radius:23px}
+.activity h2{font:700 24px Georgia,serif;color:#2a6346}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}
+.options button{padding:15px;border:1px solid #9bbb9b;border-radius:15px;background:#edf7e9;font-size:19px;color:#2e5b3e;cursor:pointer;font-weight:700}
+.options button:disabled{opacity:.85}.options .correct{background:#c8efcd}.options .wrong{background:#fff0d9}
+select{padding:12px;border:1px solid #abc2a6;border-radius:12px;max-width:100%;margin:10px 0}
+#memoryCards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:430px;margin:15px 0}
+#memoryCards button{border:1px solid #aec2a8;border-radius:15px;background:#e2efdf;font-size:36px;min-height:68px;cursor:pointer}
+#memoryCards button:disabled{background:#f2faf1}
+#kidsProgress{font-weight:650;color:#346a4c}
+footer{text-align:center;padding:20px;color:#576956;font-size:13px}
+@media(max-width:420px){.options{grid-template-columns:repeat(2,minmax(0,1fr))}.options button{font-size:16px}#memoryCards button{min-height:56px}}
+</style>
+</head>
+<body>
+<header><strong>🌿 Famille SOP Wandji &amp; Kouamo Jacqueline</strong><button type="button" id="backFamily">← Quitter</button></header>
+<main>
+<section class="hero">
+<div class="symbol" aria-hidden="true">🌈 📚 ⭐</div>
+<h1 id="kidsWelcome">Bienvenue dans l’Espace Enfants !</h1>
+<p>Un petit jardin pour apprendre, jouer, découvrir les liens familiaux et partager de beaux moments avec ses proches.</p>
+<p class="small">Tes activités ne demandent ni achat, ni photo, ni messagerie.</p>
+</section>
+<div class="notice" id="kidsGate" role="status" hidden>La sélection d'un profil enfant par un parent connecté est nécessaire. <a href="./">Retourner à l’accueil familial</a>.</div>
+<section id="kidsContent" hidden aria-label="Activités">
+<div class="cards">
+<article class="card"><div class="emoji">🔢</div><h2>Calcul mental</h2><p>Huit questions à ton niveau. Tu peux recommencer autant que tu veux.</p><button type="button" data-open="math">Jouer</button></article>
+<article class="card"><div class="emoji">🃏</div><h2>Jeu de mémoire</h2><p>Retrouve les paires cachées pour entraîner ta mémoire.</p><button type="button" data-open="memory">Jouer</button></article>
+<article class="card"><div class="emoji">🌳</div><h2>Qui est de ma famille ?</h2><p>Apprends les mots qui désignent les liens de parenté.</p><button type="button" data-open="family">Jouer</button></article>
+<article class="card"><div class="emoji">🗣️</div><h2>Langues familiales</h2><p>Des leçons à préparer et vérifier avec les aînés.</p><button disabled type="button">Bientôt disponible</button></article>
+<article class="card"><div class="emoji">📖</div><h2>Histoires &amp; traditions</h2><p>Contes et archives familiales après validation.</p><button disabled type="button">Bientôt disponible</button></article>
+<article class="card"><div class="emoji">🎨</div><h2>Créations &amp; vidéos</h2><p>Galerie modérée par les parents et responsables.</p><button disabled type="button">Bientôt disponible</button></article>
+</div>
+<p id="kidsProgress" role="status">⭐ Choisis une activité pour commencer !</p>
+<section class="activity" id="math" hidden>
+<h2>🔢 Calcul mental</h2>
+<div id="mathIntro"><p>Choisis un niveau. Les plus jeunes jouent avec un adulte.</p><label for="mathLevel">Niveau</label>
+<select id="mathLevel"><option value="tiny">Découverte</option><option value="easy">Débutant</option><option value="medium">Intermédiaire</option><option value="hard">Avancé</option></select>
+<button type="button" class="btn" id="mathStart">Commencer</button></div>
+<div id="mathPlay" hidden><p id="mathCount"></p><h3 id="mathPrompt"></h3><div class="options" id="mathOptions"></div><p id="mathMessage" role="status"></p><button type="button" class="btn" id="mathNext" hidden>Suivant</button></div>
+<div id="mathResult" hidden><h3 id="mathFinal"></h3><button type="button" class="btn" id="mathAgain">Rejouer</button></div>
+<button class="btn" type="button" data-close>Retour aux activités</button></section>
+<section class="activity" id="memory" hidden>
+<h2>🃏 Jeu de mémoire</h2><p>Retourne les cartes deux par deux et retrouve les 4 paires.</p>
+<p id="memoryStatus" role="status"></p><div id="memoryCards" role="group" aria-label="Huit cartes cachées"></div>
+<button type="button" class="btn" id="memoryAgain">Recommencer</button>
+<button type="button" class="btn" data-close>Retour aux activités</button></section>
+<section class="activity" id="family" hidden>
+<h2>🌳 Les liens de parenté</h2>
+<p id="familyQuestion"></p><div id="familyOptions" class="options"></div><p id="familyFeedback" role="status"></p>
+<button type="button" id="familyNext" class="btn" hidden>Question suivante</button>
+<button type="button" class="btn" data-close>Retour aux activités</button></section>
+</section></main>
+<footer>Les jeux ne communiquent aucune réponse personnelle ou résultat à la base de données. Les contenus partagés et les fonctionnalités de communication restent désactivés.</footer>
+<script>
+(function(){
+'use strict';
+const el=id=>document.getElementById(id);
+let context=null;
+try{context=JSON.parse(sessionStorage.getItem('sop-kids-v1')||'null')}catch(_){}
+const valid=context&&context.version===1&&context.parentVerified===true&&typeof context.name==='string'
+ &&context.name.length<=60&&Date.now()-context.issuedAt<60*60*1000&&Date.now()>=context.issuedAt;
+el('kidsGate').hidden=!!valid;el('kidsContent').hidden=!valid;
+if(valid){el('kidsWelcome').textContent='Bienvenue, '+context.name+' !'}
+function quit(){sessionStorage.removeItem('sop-kids-v1');location.replace('./')}
+el('backFamily').addEventListener('click',quit);
+if(!valid)return;
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=rnd(0,i);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
+function open(section){for(const id of ['math','memory','family'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
+document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>open(button.dataset.open)));
+document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>{for(const id of ['math','memory','family'])el(id).hidden=true;document.querySelector('.cards').scrollIntoView({behavior:'smooth'})}));
+let mq=[],mi=0,ms=0,mAnswered=false;
+function newMath(level){
+ let a,b,op,right;
+ if(level==='tiny'){a=rnd(1,5);b=rnd(1,5);op='+';right=a+b}
+ else if(level==='easy'){a=rnd(2,25);b=rnd(2,25);op=rnd(0,1)?'+':'−';if(op==='−'&&a<b)[a,b]=[b,a];right=op==='+'?a+b:a-b}
+ else{a=rnd(level==='hard'?8:2,level==='hard'?30:12);b=rnd(2,12);op=rnd(0,1)?'×':'÷';if(op==='÷'){right=a;a*=b}else right=a*b}
+ const values=new Set([right]);while(values.size<4){values.add(Math.max(0,right+rnd(-8,8)))}return {text:a+' '+op+' '+b+' = ?',right,values:shuffle(values)};
+}
+function mathStage(stage){el('mathIntro').hidden=stage!=='intro';el('mathPlay').hidden=stage!=='play';el('mathResult').hidden=stage!=='result'}
+function mathDraw(){
+ const q=mq[mi];mAnswered=false;el('mathPrompt').textContent=q.text;el('mathCount').textContent='Question '+(mi+1)+' / 8 — ⭐ '+ms;
+ el('mathMessage').textContent='';el('mathNext').hidden=true;el('mathOptions').replaceChildren();
+ for(const n of q.values){const btn=document.createElement('button');btn.type='button';btn.textContent=n;
+ btn.addEventListener('click',()=>{if(mAnswered)return;mAnswered=true;if(n===q.right)ms++;for(const child of el('mathOptions').children){child.disabled=true;if(Number(child.textContent)===q.right)child.classList.add('correct');else if(child===btn)child.classList.add('wrong')}
+ el('mathMessage').textContent=n===q.right?'Bravo !':'La bonne réponse est '+q.right+'.';el('mathNext').hidden=false});
+ el('mathOptions').append(btn)}
+}
+el('mathStart').addEventListener('click',()=>{mq=Array.from({length:8},()=>newMath(el('mathLevel').value));mi=0;ms=0;mathStage('play');mathDraw()});
+el('mathNext').addEventListener('click',()=>{if(!mAnswered)return;mi++;if(mi<8)mathDraw();else{el('mathFinal').textContent='⭐ '+ms+' étoile(s) sur 8 !';el('kidsProgress').textContent='⭐ Tu as terminé un défi de calcul mental !';mathStage('result')}});
+el('mathAgain').addEventListener('click',()=>mathStage('intro'));
+let memoryDeck=[],revealed=[],pairs=0,moves=0,lock=false;
+function resetMemory(){
+ memoryDeck=shuffle(['🍍','🐘','🌳','🌻','🍍','🐘','🌳','🌻']);revealed=[];pairs=0;moves=0;lock=false;
+ el('memoryCards').replaceChildren();el('memoryStatus').textContent='Quatre paires à retrouver.';
+ memoryDeck.forEach((symbol,i)=>{const btn=document.createElement('button');btn.type='button';btn.textContent='❔';btn.setAttribute('aria-label','Carte '+(i+1)+' cachée');btn.dataset.index=i;el('memoryCards').append(btn);
+ btn.addEventListener('click',()=>{if(lock||btn.disabled||revealed.includes(i))return;btn.textContent=symbol;btn.setAttribute('aria-label','Carte '+(i+1)+' '+symbol);revealed.push(i);
+ if(revealed.length<2)return;moves++;const [a,b]=revealed;
+ if(memoryDeck[a]===memoryDeck[b]){el('memoryCards').children[a].disabled=true;el('memoryCards').children[b].disabled=true;pairs++;revealed=[];el('memoryStatus').textContent=pairs===4?'🎉 Bravo ! Toutes les paires sont retrouvées en '+moves+' essais.':'Bravo ! '+pairs+' paires trouvées.';if(pairs===4)el('kidsProgress').textContent='🏅 Bravo pour ton jeu de mémoire !'}
+ else{lock=true;el('memoryStatus').textContent='Essaye encore !';setTimeout(()=>{for(const j of [a,b]){el('memoryCards').children[j].textContent='❔';el('memoryCards').children[j].setAttribute('aria-label','Carte '+(j+1)+' cachée')}revealed=[];lock=false},700)}
+ })}
+ )}
+el('memoryAgain').addEventListener('click',resetMemory);
+const familyQuestions=[
+ ['La sœur de ta mère est ta…',['Tante','Cousine','Nièce'],0],
+ ['Le père de ton père est ton…',['Grand-père','Oncle','Frère'],0],
+ ['Les enfants de tes oncles ou tantes sont tes…',['Cousins','Parents','Grands-parents'],0],
+ ['Le frère de ta mère est ton…',['Oncle','Neveu','Fils'],0],
+ ['La mère de ta grand-mère est ton…',['Arrière-grand-mère','Tante','Sœur'],0],
+ ['L’enfant de ta sœur est ton…',['Neveu ou nièce','Cousin','Oncle'],0]
+];
+let fq=[],fi=0,fs=0,fa=false;
+function resetFamily(){fq=shuffle(familyQuestions);fi=0;fs=0;familyDraw()}
+function familyDraw(){
+ fa=false;el('familyFeedback').textContent='Question '+(fi+1)+' / '+fq.length;el('familyNext').hidden=true;
+ const q=fq[fi];el('familyQuestion').textContent=q[0];el('familyOptions').replaceChildren();
+ const mixed=shuffle(q[1].map((name,j)=>({name,correct:j===q[2]})));
+ mixed.forEach(item=>{const b=document.createElement('button');b.textContent=item.name;b.type='button';
+ b.addEventListener('click',()=>{if(fa)return;fa=true;if(item.correct)fs++;for(const child of el('familyOptions').children){child.disabled=true;if(child.dataset.right==='true')child.classList.add('correct');else if(child===b)child.classList.add('wrong')}
+ el('familyFeedback').textContent=item.correct?'Bonne réponse !':'Tu peux apprendre et essayer une autre question.';el('familyNext').hidden=false});
+ b.dataset.right=String(item.correct);el('familyOptions').append(b)})
+}
+el('familyNext').addEventListener('click',()=>{if(!fa)return;if(++fi<fq.length)familyDraw();else{el('familyFeedback').textContent='🎉 '+fs+' bonne(s) réponse(s) sur '+fq.length+' !';el('familyOptions').replaceChildren();el('familyNext').hidden=true;el('familyQuestion').textContent='Tu as terminé le quiz !';el('kidsProgress').textContent='🌳 Tu as découvert les liens de parenté !'}});
+})();
+</script>
+</body></html>
