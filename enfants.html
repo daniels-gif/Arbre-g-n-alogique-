@@ -34,6 +34,16 @@ select{padding:12px;border:1px solid #abc2a6;border-radius:12px;max-width:100%;m
 #kidsProgress{font-weight:650;color:#346a4c}
 footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 @media(max-width:420px){.options{grid-template-columns:repeat(2,minmax(0,1fr))}.options button{font-size:16px}#memoryCards button{min-height:56px}}
+
+.kids-picture{text-align:center;font-size:86px;padding:12px}
+#kidsCanvas{display:block;max-width:100%;width:100%;height:auto;border:2px solid #b6cfa9;background:white;border-radius:14px;touch-action:none}
+.kids-palette{display:flex;gap:8px;margin:12px 0}
+.kids-palette button{width:40px;height:40px;border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 1px #91ae98;cursor:pointer}
+.kids-palette button[aria-pressed="true"]{outline:3px solid #bd9d4c}
+#kidsRecipient{display:block;padding:10px;border:1px solid #b4c6b2;border-radius:10px;max-width:100%;width:360px;margin:6px 0 12px}
+.kids-birthday-preview{text-align:center;background:linear-gradient(120deg,#f9dfdf,#f9efd3);border:2px solid #c6a96c;border-radius:20px;margin:16px 0;padding:30px 12px;max-width:540px}
+.kids-birthday-preview span{font-size:44px}
+.kids-birthday-preview h3{color:#805451;font-family:Georgia,serif}
 </style>
 </head>
 <body>
@@ -51,9 +61,13 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 <article class="card"><div class="emoji">🔢</div><h2>Calcul mental</h2><p>Huit questions à ton niveau. Tu peux recommencer autant que tu veux.</p><button type="button" data-open="math">Jouer</button></article>
 <article class="card"><div class="emoji">🃏</div><h2>Jeu de mémoire</h2><p>Retrouve les paires cachées pour entraîner ta mémoire.</p><button type="button" data-open="memory">Jouer</button></article>
 <article class="card"><div class="emoji">🌳</div><h2>Qui est de ma famille ?</h2><p>Apprends les mots qui désignent les liens de parenté.</p><button type="button" data-open="family">Jouer</button></article>
+<article class="card"><div class="emoji">🍍</div><h2>Images à reconnaître</h2><p>Reconnais les fruits et les animaux.</p><button type="button" data-open="fruits">Jouer</button></article>
+<article class="card"><div class="emoji">🧩</div><h2>Défis de logique</h2><p>Entraîne ton raisonnement avec des énigmes.</p><button type="button" data-open="logic">Jouer</button></article>
+<article class="card"><div class="emoji">🎨</div><h2>Atelier dessin</h2><p>Dessine au doigt ou à la souris, sans publication.</p><button type="button" data-open="draw">Dessiner</button></article>
+<article class="card"><div class="emoji">🎂</div><h2>Cartes de fête</h2><p>Crée une carte d’anniversaire sur ton appareil.</p><button type="button" data-open="birthday">Créer</button></article>
 <article class="card"><div class="emoji">🗣️</div><h2>Langues familiales</h2><p>Des leçons à préparer et vérifier avec les aînés.</p><button disabled type="button">Bientôt disponible</button></article>
 <article class="card"><div class="emoji">📖</div><h2>Histoires &amp; traditions</h2><p>Contes et archives familiales après validation.</p><button disabled type="button">Bientôt disponible</button></article>
-<article class="card"><div class="emoji">🎨</div><h2>Créations &amp; vidéos</h2><p>Galerie modérée par les parents et responsables.</p><button disabled type="button">Bientôt disponible</button></article>
+<article class="card"><div class="emoji">📺</div><h2>Vidéothèque</h2><p>Vidéos et contes vérifiés par les parents.</p><button disabled type="button">Bientôt disponible</button></article><article class="card"><div class="emoji">👨‍👩‍👧‍👦</div><h2>Club des cousins</h2><p>Défis à distance et échanges modérés.</p><button disabled type="button">Bientôt disponible</button></article>
 </div>
 <p id="kidsProgress" role="status">⭐ Choisis une activité pour commencer !</p>
 <section class="activity" id="math" hidden>
@@ -74,6 +88,32 @@ footer{text-align:center;padding:20px;color:#576956;font-size:13px}
 <p id="familyQuestion"></p><div id="familyOptions" class="options"></div><p id="familyFeedback" role="status"></p>
 <button type="button" id="familyNext" class="btn" hidden>Question suivante</button>
 <button type="button" class="btn" data-close>Retour aux activités</button></section>
+<section class="activity" id="fruits" hidden>
+<h2>🍍 Qui suis-je ?</h2><p id="fruitsProgress"></p><div id="fruitsPicture" class="kids-picture" aria-hidden="true"></div>
+<div id="fruitsAnswers" class="options"></div><p id="fruitsFeedback" role="status"></p>
+<button type="button" class="btn" id="fruitsNext" hidden>Suivant</button><button type="button" class="btn" data-close>Retour</button></section>
+<section class="activity" id="logic" hidden>
+<h2>🧩 Enigmes &amp; suites</h2><p id="logicProgress"></p><h3 id="logicQuestion"></h3>
+<div class="options" id="logicAnswers"></div><p id="logicFeedback" role="status"></p>
+<button type="button" class="btn" id="logicNext" hidden>Suivant</button><button type="button" class="btn" data-close>Retour</button></section>
+<section class="activity" id="draw" hidden><h2>🎨 Atelier dessin</h2>
+<p>Choisis une couleur puis dessine au doigt ou à la souris.</p>
+<div class="kids-palette" id="kidsPalette">
+<button type="button" aria-label="Vert" data-color="#24513c" style="background:#24513c"></button>
+<button type="button" aria-label="Rose" data-color="#e15e70" style="background:#e15e70"></button>
+<button type="button" aria-label="Jaune" data-color="#e6a62d" style="background:#e6a62d"></button>
+<button type="button" aria-label="Bleu" data-color="#277fbe" style="background:#277fbe"></button></div>
+<canvas id="kidsCanvas" width="640" height="350" aria-label="Zone de dessin"></canvas>
+<p><button type="button" class="btn" id="kidsErase">Effacer</button> <button type="button" class="btn" id="kidsDownload">Enregistrer mon dessin</button></p>
+<button type="button" class="btn" data-close>Retour</button></section>
+<section class="activity" id="birthday" hidden><h2>🎂 Carte d’anniversaire</h2>
+<label for="kidsRecipient">Prénom du destinataire</label><input id="kidsRecipient" maxlength="45" placeholder="Prénom">
+<label for="kidsWish">Message</label><select id="kidsWish">
+<option>Que cette journée soit pleine de joie !</option><option>Je te souhaite une très belle année !</option><option>Plein de bonheur et de belles découvertes !</option></select>
+<div class="kids-birthday-preview" id="kidsCard"><span>🎂 🎈 🎉</span><h3>Joyeux anniversaire !</h3><p id="kidsCardName"></p><p id="kidsCardMessage"></p></div>
+<button type="button" class="btn" id="kidsSaveCard">Enregistrer la carte</button>
+<p class="small">Cette carte n’est pas envoyée ni publiée automatiquement.</p>
+<button type="button" class="btn" data-close>Retour</button></section>
 </section></main>
 <footer>Les jeux ne communiquent aucune réponse personnelle ou résultat à la base de données. Les contenus partagés et les fonctionnalités de communication restent désactivés.</footer>
 <script>
@@ -91,9 +131,9 @@ el('backFamily').addEventListener('click',quit);
 if(!valid)return;
 const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
 const shuffle=list=>{const copy=[...list];for(let i=copy.length-1;i>0;i--){const j=rnd(0,i);[copy[i],copy[j]]=[copy[j],copy[i]]}return copy};
-function open(section){for(const id of ['math','memory','family'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
+function open(section){for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=id!==section;el(section).hidden=false;el(section).scrollIntoView({block:'start',behavior:'smooth'});if(section==='memory')resetMemory();if(section==='family')resetFamily()}
 document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>open(button.dataset.open)));
-document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>{for(const id of ['math','memory','family'])el(id).hidden=true;document.querySelector('.cards').scrollIntoView({behavior:'smooth'})}));
+document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>{for(const id of ['math','memory','family','fruits','logic','draw','birthday'])el(id).hidden=true;document.querySelector('.cards').scrollIntoView({behavior:'smooth'})}));
 let mq=[],mi=0,ms=0,mAnswered=false;
 function newMath(level){
  let a,b,op,right;
@@ -148,4 +188,5 @@ function familyDraw(){
 el('familyNext').addEventListener('click',()=>{if(!fa)return;if(++fi<fq.length)familyDraw();else{el('familyFeedback').textContent='🎉 '+fs+' bonne(s) réponse(s) sur '+fq.length+' !';el('familyOptions').replaceChildren();el('familyNext').hidden=true;el('familyQuestion').textContent='Tu as terminé le quiz !';el('kidsProgress').textContent='🌳 Tu as découvert les liens de parenté !'}});
 })();
 </script>
+<script src="./kids-extras.js" defer></script>
 </body></html>
