@@ -2,6 +2,10 @@
 (function(){
 'use strict';
 const el=id=>document.getElementById(id);
+let started=false;
+function setupExtras(){
+ if(started||window.sopKidVerified!==true)return;
+ started=true;
 /* Activités éducatives locales, sans profil enfant. */
 const shuffle=arr=>{const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a};
 const fruitBank=[
@@ -128,4 +132,7 @@ el('kidsSaveCard').addEventListener('click',()=>{
  c.font='24px system-ui,sans-serif';c.fillText('Avec toute l’affection de la famille',450,470);
  download(output.toDataURL('image/png'),'carte-anniversaire.png');
 });
+}
+document.addEventListener('sop-kid-verified',setupExtras);
+setupExtras();
 })();
