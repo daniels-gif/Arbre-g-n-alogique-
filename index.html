@@ -1384,6 +1384,14 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopTree .family-name-search-bar .family-search-field input{min-height:50px}
  #sopTree #landscapeTree{margin-top:0!important}
 }
+
+/* En-tête de l'arbre : titre sur une seule ligne, sans bouton de connexion. */
+#sopTree .family-tree-greeting h1{white-space:nowrap!important;font-size:clamp(18px,3vw,32px)!important;letter-spacing:-.035em!important}
+@media(max-width:600px){
+ #sopTree .family-tree-greeting{gap:9px!important}
+ #sopTree .family-tree-greeting h1{white-space:nowrap!important;font-size:clamp(17px,4.35vw,24px)!important;letter-spacing:-.045em!important}
+ #sopTree .family-tree-greeting .sop-back-home{display:none!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1442,7 +1450,6 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  <button type="button" class="family-tree-profile-access" onclick="selectSopTab('chat')" aria-label="Accéder à mon profil familial" title="Accéder au Salon familial et au profil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.4-4.5 3.1-6.8 7.5-6.8s7.1 2.3 7.5 6.8"/></svg></button>
  <div class="family-tree-greeting-text"><span class="family-tree-hello">Salut,</span><h1>Arbre généalogique</h1></div>
  <button type="button" class="sop-back-home" onclick="selectSopTab('home')" aria-label="Retour à l’accueil" title="Retour à l’accueil">← Retour</button>
- <button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button>
  </div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p>
