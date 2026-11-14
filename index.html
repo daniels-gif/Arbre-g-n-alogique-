@@ -1544,6 +1544,40 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopMain{padding-bottom:0!important}
  #sopHome .living-tree .sop-hero-actions{margin-bottom:12px!important}
 }
+
+/* Trois petits points discrets à l'extrémité droite de l'en-tête de l'arbre. */
+#sopTree .family-tree-greeting{overflow:visible!important}
+#sopTree .family-tree-more-menu{display:block;position:relative;flex:0 0 auto;z-index:75}
+#sopTree .family-tree-more-menu>summary{
+ list-style:none;display:flex;align-items:center;justify-content:center;
+ width:30px;height:32px;min-width:30px;cursor:pointer;color:#183f32;
+ border:0;border-radius:50%;background:transparent;
+ font:700 26px/1 system-ui,sans-serif;letter-spacing:1px;
+}
+#sopTree .family-tree-more-menu>summary::-webkit-details-marker{display:none}
+#sopTree .family-tree-more-menu>summary:hover,#sopTree .family-tree-more-menu[open]>summary{background:#edf1e9}
+#sopTree .family-tree-more-menu>summary:focus-visible{outline:2px solid #b79a60;outline-offset:2px}
+#sopTree .family-tree-more-panel{
+ position:absolute;top:calc(100% + 5px);right:0;width:min(286px,calc(100vw - 26px));
+ max-width:calc(100vw - 26px);padding:10px;border-radius:13px;
+ background:#fffef9;border:1px solid #d8d6ca;box-shadow:0 10px 30px #15372a28;
+ z-index:80;display:flex;flex-direction:column;align-items:stretch;gap:2px;
+ text-align:left
+}
+#sopTree .family-tree-more-panel strong{font:700 13px system-ui,sans-serif;color:#183f32;padding:6px 9px 8px}
+#sopTree .family-tree-more-panel button{
+ display:block;width:100%;background:transparent;color:#253c32;border:0;
+ border-radius:8px;padding:11px 9px;text-align:left;font:500 14px system-ui,sans-serif;cursor:pointer
+}
+#sopTree .family-tree-more-panel button:hover,#sopTree .family-tree-more-panel button:focus-visible{background:#edf2eb}
+#sopTree .family-tree-more-panel p{color:#66756b;font:400 11px/1.4 system-ui,sans-serif;padding:5px 9px;margin:0}
+@media(max-width:600px){
+ #sopTree .family-tree-greeting{gap:7px!important}
+ #sopTree .family-tree-greeting-text{min-width:0}
+ #sopTree .family-tree-greeting h1{font-size:clamp(17px,4.25vw,23px)!important}
+ #sopTree .family-tree-more-menu>summary{width:28px;min-width:28px;height:35px}
+}
+@media print{#sopTree .family-tree-more-menu{display:none!important}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1602,6 +1636,17 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  <button type="button" class="family-tree-profile-access" onclick="selectSopTab('chat')" aria-label="Accéder à mon profil familial" title="Accéder au Salon familial et au profil"><img id="familyTreeProfilePhoto" alt="Photo du membre connecté" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.4-4.5 3.1-6.8 7.5-6.8s7.1 2.3 7.5 6.8"/></svg></button>
  <div class="family-tree-greeting-text"><span class="family-tree-hello">Salut,</span><h1>Arbre généalogique</h1></div>
  <button type="button" class="sop-back-home" onclick="selectSopTab('home')" aria-label="Retour à l’accueil" title="Retour à l’accueil">← Retour</button>
+ <details class="family-tree-more-menu" id="familyTreeMoreMenu">
+  <summary aria-label="Options de l’arbre généalogique : imprimer et télécharger" title="Plus d’options">⋯</summary>
+  <div class="family-tree-more-panel">
+   <strong>Options de l’arbre</strong>
+   <button type="button" onclick="printTreeSize('A4');document.getElementById('familyTreeMoreMenu').open=false">🖨️ Imprimer l’arbre</button>
+   <button type="button" onclick="makeFamilyBook();document.getElementById('familyTreeMoreMenu').open=false">📖 Imprimer avec détails</button>
+   <button type="button" onclick="downloadTreePdf('PANORAMA');document.getElementById('familyTreeMoreMenu').open=false">📄 Télécharger PDF</button>
+   <button type="button" onclick="downloadTreeJpegHD();document.getElementById('familyTreeMoreMenu').open=false">📷 Télécharger une image</button>
+   <p>Le livre détaillé comprend les informations et souvenirs disponibles selon les accès autorisés.</p>
+  </div>
+ </details>
  </div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p>
