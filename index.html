@@ -1682,6 +1682,30 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 #sopMemories .family-memory-panel .family-branch-section{margin-top:12px}
 @media(max-width:600px){#sopMemories .family-memory-switch{margin:2px auto 9px}#sopMemories .family-memory-switch button{font-size:13px;min-height:42px}#sopMemories .family-memory-intro{font-size:12px;margin-bottom:9px}}
 @media print{#sopMemories .family-memory-switch{display:none!important}#sopMemories .family-memory-panel{display:block!important}}
+
+/* Répartition claire : appels dans Discussions, micro dans le chat, directs et stories dans Actualités. */
+#sopChat .family-voice-disabled{flex:0 0 42px;width:42px;min-height:47px!important;border:1px solid #d5dfd3!important;border-radius:50%!important;background:#eef1ec!important;color:#7b857d!important;opacity:.8;cursor:not-allowed;font-size:18px!important;padding:0!important}
+#sopNews .family-news-featured{max-width:790px;margin:2px auto 12px;padding:0 7px;display:grid;gap:9px}
+#sopNews .family-stories,#sopNews .family-live-news{border:1px solid #dce4d8;background:#fffdf8;border-radius:15px;padding:10px 12px}
+#sopNews .family-news-feature-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#sopNews .family-news-feature-title h2{font:700 15px system-ui,sans-serif;color:#214e38;margin:0}
+#sopNews .family-news-feature-title button{background:#eaf2e8;border:0;border-radius:999px;padding:7px 13px;color:#25553a;font:650 12px system-ui,sans-serif;cursor:pointer}
+#sopNews .family-stories-list{display:flex;gap:9px;overflow-x:auto;align-items:start;margin-top:9px;padding:2px 0 4px}
+#sopNews .family-stories-list>p,#sopNews .family-live-news p{margin:5px 0;color:#738071;font:400 12px/1.45 system-ui,sans-serif}
+#sopNews .family-story-tile{width:74px;min-width:74px;flex:0 0 74px;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:0;color:#244936}
+#sopNews .family-story-tile img,#sopNews .family-story-tile>span{width:62px;height:62px;border-radius:50%;border:3px solid #a5bd9c;background:#edf2e7;object-fit:cover;display:grid;place-items:center;font-size:24px}
+#sopNews .family-story-tile strong{max-width:74px;font:600 11px system-ui,sans-serif;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+#sopNews .family-story-compose-notice{font-size:12px;color:#3c684a;margin:6px 0;padding:8px;border-radius:9px;background:#edf5ed}
+#sopNews .family-story-compose-notice[hidden]{display:none!important}
+#familyStoryViewer[hidden]{display:none!important}
+#familyStoryViewer{position:fixed;inset:0;z-index:10000;background:#0c241ddd;display:flex;align-items:center;justify-content:center;padding:15px}
+#familyStoryViewer .family-story-card{position:relative;width:min(100%,430px);max-height:calc(100dvh - 40px);overflow:auto;border-radius:17px;background:#fffefa;color:#244735;padding:15px;text-align:center}
+#familyStoryViewer .family-story-close{position:absolute;right:8px;top:8px;border:0;background:#edf1e9;color:#284b39;border-radius:50%;width:35px;height:35px;cursor:pointer}
+#familyStoryViewer .family-story-card>strong{display:block;padding:5px 34px 10px;font:700 15px system-ui,sans-serif}
+#familyStoryViewer .family-story-media img{max-width:100%;max-height:70dvh;object-fit:contain;border-radius:10px}
+#familyStoryViewer .family-story-media a{display:inline-block;padding:25px 15px;color:#225a3f}
+#familyStoryViewer .family-story-card>p{font:400 14px/1.4 system-ui,sans-serif;overflow-wrap:anywhere}
+@media(max-width:600px){#sopNews .family-news-featured{gap:7px;margin-bottom:8px}#sopNews .family-stories,#sopNews .family-live-news{padding:9px 10px}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1780,10 +1804,23 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 
 <section class="sop-page" id="sopNews" data-sop-page="news" hidden>
 <header class="sop-section-heading"><span>DES NOUVELLES DE NOTRE GRANDE FAMILLE</span><h1>Actualités familiales</h1><p>Les nouvelles qui font vivre notre famille.</p></header>
+<div class="family-news-featured">
+ <section class="family-stories" aria-label="Stories de la famille">
+  <div class="family-news-feature-title"><h2>Stories · 24 h</h2><button type="button" id="familyAddStory">＋ Ajouter</button></div>
+  <div id="familyStoriesList" class="family-stories-list" aria-live="polite"><p>Les stories validées apparaissent ici pendant 24 heures.</p></div>
+ </section>
+ <section class="family-live-news" aria-label="Directs familiaux">
+  <div class="family-news-feature-title"><h2>🔴 Directs</h2></div>
+  <p>Les directs familiaux seront disponibles ici prochainement.</p>
+ </section>
+</div>
+<div id="familyStoryViewer" class="family-story-viewer" role="dialog" aria-modal="true" aria-label="Story familiale" hidden>
+ <div class="family-story-card"><button type="button" id="familyStoryClose" class="family-story-close" aria-label="Fermer la story">✕</button><strong id="familyStoryAuthor"></strong><div id="familyStoryMedia" class="family-story-media"></div><p id="familyStoryText"></p></div>
+</div>
 <div class="sop-feed-shell"><details class="family-guestbook"><summary>💚 Livre d’or familial — laisser un mot</summary><form id="familyGuestbookForm"><label for="familyGuestbookMessage">Votre message à la famille</label><textarea id="familyGuestbookMessage" maxlength="450" rows="3" required placeholder="Un mot pour nos racines, nos proches et nos générations…"></textarea><button type="submit" class="action">Envoyer pour validation</button><p id="familyGuestbookStatus" role="status"></p></form></details>
  <details id="sopFeedComposerToggle" class="sop-feed-composer-toggle"><summary>✎ Quoi de neuf dans la famille ? <span class="sop-feed-toggle-icon" aria-hidden="true">＋</span></summary>
  <form id="sopFeedCompose" class="sop-feed-composer">
-  <h2>Partager une actualité</h2>
+  <h2 id="familyComposeHeading">Partager une actualité</h2><p id="familyStoryComposeNotice" class="family-story-compose-notice" hidden>Mode Story : ajoute une photo ou un lien vidéo. La story s’affichera pendant 24 h après publication ou validation. Elle restera conservée dans le système familial.</p>
   <p id="sopFeedIdentity">Sélectionnez votre fiche familiale pour consulter le fil.</p>
   <label for="sopFeedText">Votre texte (facultatif avec une photo ou une vidéo)</label>
   <textarea id="sopFeedText" maxlength="1200" placeholder="Une nouvelle, une réussite, une annonce, un moment à partager…"></textarea>
@@ -1866,14 +1903,14 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 </nav>
 <div id="familySalonDiscussion">
  <section class="family-discussion-modes" aria-label="Modes de discussion">
-  <h3>Modes de discussion</h3>
-  <div class="chat-coming-soon" aria-label="Fonctionnalités de discussion prévues mais non disponibles"><span title="Appels audio à venir">☎ Audio</span><span title="Appels vidéo à venir">▣ Vidéo</span><span title="Messages vocaux à venir">🎙 Vocaux</span><span title="Discussions de groupe à venir">♧ Groupes</span><span title="Directs familiaux à venir">◉ Directs</span></div>
+  <h3>Appels et discussions</h3>
+  <div class="chat-coming-soon" aria-label="Appels et discussions de groupe prévus"><span title="Appel audio — bientôt disponible">☎ Appel audio</span><span title="Appel vidéo — bientôt disponible">▣ Appel vidéo</span><span title="Groupes de discussion — bientôt disponibles">♧ Groupes</span></div>
   <small class="family-discussion-coming">Bientôt disponibles</small>
  </section>
  <section class="family-written-discussion" aria-label="Messages écrits">
  <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Messages écrits · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
  <div id="sopChatMessages" class="chat-family-messages" role="log" aria-live="polite" aria-relevant="additions"><p>Chargement des messages…</p></div>
- <form id="sopChatCompose" class="chat-family-compose"><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
+ <form id="sopChatCompose" class="chat-family-compose"><button type="button" class="family-voice-disabled" disabled title="Messages vocaux à venir" aria-label="Message vocal : bientôt disponible">🎙</button><label class="sr-only" for="sopChatText">Votre message</label><textarea id="sopChatText" maxlength="500" rows="2" placeholder="Écrire un message à la famille…" required></textarea><button type="submit" class="action" id="sopChatSend">Envoyer</button></form>
  <p id="sopChatStatus" role="status" class="chat-family-feedback"></p>
  </section>
 </div>
@@ -2871,6 +2908,61 @@ function familyClipFromBody(text){
  }
  return null;
 }
+
+/* Stories : publication réutilisant le contrôle familial existant.
+   Le marqueur est ajouté à la publication ; seul l'affichage expire en 24 h. */
+const FAMILY_STORY_MARKER='[FAMILY_STORY_24H]';
+let familyStoryComposer=false;
+function isFamilyStory(post){return String(post?.body||'').startsWith(FAMILY_STORY_MARKER)}
+function familyStoryBody(post){return String(post?.body||'').replace(/^\[FAMILY_STORY_24H\]\s*/, '')}
+function renderFamilyStories(){
+ const list=$('familyStoriesList');if(!list)return;
+ if(!sopHasAccess()){list.replaceChildren();return}
+ const now=Date.now(),day=86400000;
+ const posts=(Array.isArray(familyFeedItems)?familyFeedItems:[]).filter(post=>{
+  const created=Date.parse(post.created_at);
+  return isFamilyStory(post)&&Number.isFinite(created)&&created<=now&&now-created<day;
+ }).sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at));
+ if(!posts.length){list.innerHTML='<p>Aucune story récente. Partagez une photo ou une courte vidéo familiale.</p>';return}
+ list.innerHTML=posts.map(post=>{
+  const photo=post.image?'<img loading="lazy" src="'+familySafe(post.image)+'" alt="">':'<span aria-hidden="true">🎬</span>';
+  return '<button type="button" class="family-story-tile" data-story-id="'+familySafe(post.id)+'">'+photo+'<strong>'+familySafe(post.author||'Famille')+'</strong></button>';
+ }).join('');
+}
+function setFamilyStoryComposer(active){
+ familyStoryComposer=!!active;
+ const note=$('familyStoryComposeNotice'),heading=$('familyComposeHeading');
+ if(note)note.hidden=!familyStoryComposer;
+ if(heading)heading.textContent=familyStoryComposer?'Ajouter une story':'Partager une actualité';
+}
+$('familyAddStory')?.addEventListener('click',()=>{
+ if(!sopHasAccess()){guestLoginRequired();return}
+ setFamilyStoryComposer(true);
+ $('sopFeedComposerToggle').open=true;
+ $('sopFeedCompose').scrollIntoView({behavior:'smooth',block:'center'});
+});
+$('sopFeedComposerToggle')?.addEventListener('toggle',()=>{
+ if(!$('sopFeedComposerToggle').open)setFamilyStoryComposer(false);
+});
+$('familyStoriesList')?.addEventListener('click',event=>{
+ const button=event.target.closest('[data-story-id]');if(!button)return;
+ const post=familyFeedItems.find(p=>String(p.id)===button.dataset.storyId&&isFamilyStory(p));
+ if(!post)return;
+ const created=Date.parse(post.created_at);
+ if(!Number.isFinite(created)||Date.now()-created>=86400000){renderFamilyStories();return}
+ const raw=familyStoryBody(post),clip=familyClipFromBody(raw);
+ $('familyStoryAuthor').textContent=post.author||'Famille SOP Wandji';
+ const media=$('familyStoryMedia');media.replaceChildren();
+ if(post.image){const img=document.createElement('img');img.src=post.image;img.alt='Photo de la story familiale';media.appendChild(img)}
+ if(clip){const link=document.createElement('a');link.href=clip.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='▶ Voir la vidéo sur '+clip.label;media.appendChild(link)}
+ $('familyStoryText').textContent=clip?raw.replace(clip.url,'').trim():raw;
+ $('familyStoryViewer').hidden=false;
+});
+function closeFamilyStory(){$('familyStoryViewer').hidden=true;$('familyStoryMedia').replaceChildren()}
+$('familyStoryClose')?.addEventListener('click',closeFamilyStory);
+$('familyStoryViewer')?.addEventListener('click',e=>{if(e.target.id==='familyStoryViewer')closeFamilyStory()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('familyStoryViewer').hidden)closeFamilyStory()});
+
 /* Aperçu des publications familiales de moins de 24 h au-dessus des événements.
    Ne montre rien si la session familiale n'est pas autorisée. */
 function renderFamilyNews24h(){
@@ -2895,8 +2987,9 @@ function renderFamilyFeed(){
  const container=$('sopFeedPosts');if(!container)return;
  renderFamilyNewSinceVisit();
  renderFamilyNews24h();
- if(!familyFeedItems.length){container.innerHTML='<p class="family-branch-empty">Aucune actualité publiée pour le moment. La première nouvelle familiale apparaîtra ici.</p>';return}
- container.innerHTML=familyFeedItems.map(post=>{
+ renderFamilyStories();
+ if(!familyFeedItems.filter(p=>!isFamilyStory(p)).length){container.innerHTML='<p class="family-branch-empty">Aucune actualité publiée pour le moment. La première nouvelle familiale apparaîtra ici.</p>';return}
+ container.innerHTML=familyFeedItems.filter(post=>!isFamilyStory(post)).map(post=>{
   const mine=sopChatPerson&&String(post.person_id)===String(sopChatPerson.id)&&profileAccess.has(post.person_id);
   const likes=Array.isArray(post.likes)?post.likes:[],comments=Array.isArray(post.comments)?post.comments:[];
   const hasLiked=likes.some(l=>String(l.person_id)===String(sopChatPerson?.id));
@@ -2964,6 +3057,7 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
  e.preventDefault();if(!isFamilyConnected())return guestLoginRequired();const member=sopChatPerson,button=$('sopFeedPublish'),status=$('sopFeedStatus');
  if(!member){status.textContent='Sélectionnez d’abord votre fiche familiale.';return}
  const body=$('sopFeedText').value.trim(),file=$('sopFeedImage').files[0],clipUrl=$('sopFeedVideoUrl').value.trim();
+ if(familyStoryComposer&&!file&&!clipUrl){status.textContent='Une story doit contenir une photo ou un lien vidéo.';return}
  if(!body&&!file&&!clipUrl){status.textContent='Écrivez une actualité, choisissez une photo ou collez un lien vidéo.';return}
  if(clipUrl&&!familyClipFromBody(clipUrl)){status.textContent='Collez un lien valide YouTube Shorts, Instagram Reels ou TikTok.';return}
  if((body.length+(clipUrl?clipUrl.length+1:0))>1200){status.textContent='Texte et lien : 1200 caractères maximum.';return}
@@ -2973,11 +3067,11 @@ $('sopFeedCompose').addEventListener('submit',async e=>{
   if(!access)throw Error('Connectez-vous pour publier.');
   if(file&&await sopIsMonochromePhoto(file))throw Error('Photo en noir et blanc refusée. Choisissez une photo en couleur.');
   const image=await compressFamilyFeedPhoto(file);
-  const publication=await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:[body,clipUrl].filter(Boolean).join('\n'),p_image:image});
+  const publication=await api('rpc/batcha_feed_publish',{p_person_id:member.id,p_access:access,p_body:(familyStoryComposer?FAMILY_STORY_MARKER+' ':'')+[body,clipUrl].filter(Boolean).join('\n'),p_image:image});
   $('sopFeedText').value='';$('sopFeedImage').value='';$('sopFeedVideoUrl').value='';
   const preview=$('sopFeedImagePreview');preview.hidden=true;preview.removeAttribute('src');
   if(preview.dataset.tempUrl){URL.revokeObjectURL(preview.dataset.tempUrl);delete preview.dataset.tempUrl}
-  status.textContent='';$('sopFeedNotice').textContent=publication.status==='pending'?'Enregistré':'Publié';$('sopFeedComposerToggle').open=false;
+  status.textContent='';$('sopFeedNotice').textContent=publication.status==='pending'?'Enregistré':'Publié';$('sopFeedComposerToggle').open=false;setFamilyStoryComposer(false);
   familyFeedItems=await api('rpc/batcha_feed_read',{p_person_id:member.id,p_access:access});renderFamilyFeed();
  }catch(err){status.textContent='Publication non enregistrée : '+err.message}
  finally{button.disabled=false}
