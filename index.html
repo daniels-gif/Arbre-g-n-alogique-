@@ -1826,6 +1826,29 @@ body.family-salon-open #sopMemberGate .sop-gate-card{margin:0!important;max-widt
  body.family-salon-open #sopChat .chat-family-messages{height:30dvh!important;max-height:30dvh!important}
 }
 @media print{#sopChat,#sopChatShortcut,#sopMemberGate{display:none!important}}
+
+/* Espace Enfants : isolé des interfaces adultes, sans connexion indépendante enfant. */
+.family-kids-entry{margin:16px auto;padding:16px;max-width:920px;border:1px solid #b4c9ae;border-radius:18px;background:linear-gradient(120deg,#ecf4e6,#fffaf0);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.family-kids-entry[hidden]{display:none!important}
+.family-kids-entry strong{color:#265a42;font-size:19px}
+.family-kids-entry p{margin:5px 0 0;font-size:14px}
+.family-kids-page{max-width:1100px;margin:0 auto;padding:clamp(16px,4vw,36px)}
+.family-kids-head{text-align:center;border-radius:26px;padding:26px 18px;background:linear-gradient(130deg,#dff0db,#fff6dd);border:1px solid #a9c39f}
+.family-kids-head>span{font-size:38px}
+.family-kids-head h1{color:#22593b;font-family:Georgia,serif}
+.family-kids-head button{background:white;border:1px solid #7da18d;border-radius:20px;padding:11px 16px;cursor:pointer}
+.family-kids-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:18px}
+.family-kids-grid article{background:#fff;border:1px solid #d4e3cc;border-radius:20px;padding:20px;min-height:184px}
+.family-kids-grid article>span{font-size:31px}
+.family-kids-grid h2{font-size:18px;margin:12px 0 7px;color:#2b654b}
+.family-kids-grid p{font-size:14px}
+.family-kids-grid small{display:inline-block;color:#5f7765;background:#eef4eb;border-radius:20px;padding:4px 10px}
+.family-kids-privacy{font-size:13px;text-align:center;padding:12px;color:#566b5b}
+body.family-kids-mode #sopTabs,body.family-kids-mode #sopChatShortcut,body.family-kids-mode #sopMemberGate,
+body.family-kids-mode #sopMain [data-sop-page]:not(#sopKids),
+body.family-kids-mode #sopChat,body.family-kids-mode #familyBook,
+body.family-kids-mode .overlay{display:none!important}
+body.family-kids-mode #sopKids{display:block!important}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1850,6 +1873,10 @@ body.family-salon-open #sopMemberGate .sop-gate-card{margin:0!important;max-widt
 <h1 class="family-garden-title">Notre jardin des générations</h1>
 <p class="family-garden-subtitle">Des racines qui nous unissent, des générations qui s’épanouissent.</p>
 </section>
+<section id="familyKidsEntry" class="family-kids-entry" aria-label="Profil enfant">
+ <div><strong>🌈 Profil enfant</strong></div>
+ <button type="button" class="action" id="familyKidsExplore">Entrer</button>
+ </section>
 <section class="living-tree" aria-label="Arbre de vie familial animé">
 <div class="living-garden-frame">
 <div class="living-caption"><button type="button" id="livingLineageClear" class="living-lineage-clear" onclick="clearLivingLineage()" hidden>Effacer la lignée</button></div>
@@ -2115,6 +2142,31 @@ body.family-salon-open #sopMemberGate .sop-gate-card{margin:0!important;max-widt
 </div>
 </div>
 </section>
+<section id="sopKids" class="sop-page family-kids-page" data-sop-page="kids" hidden>
+ <div class="family-kids-head">
+  <span aria-hidden="true">🌳 ✨ 📚</span>
+  <h1 id="familyKidsGreeting">Bienvenue dans ton univers !</h1>
+  <p>Jeux, histoires, couleurs et découvertes de notre famille.</p>
+  <button type="button" id="familyKidsExit">Retour à l’accueil familial — reconnexion requise</button>
+ </div>
+ <div class="family-kids-grid" aria-label="Activités pédagogiques">
+  <article><span aria-hidden="true">🧠</span><h2>Jeux &amp; défis</h2><p>Quiz, mémoire et énigmes pour apprendre en s’amusant.</p><small>Bientôt disponible</small></article>
+  <article><span aria-hidden="true">🔢</span><h2>Calcul mental</h2><p>Des exercices progressifs adaptés aux enfants.</p><button type="button" class="family-kids-launch" id="kidsMathOpen">Jouer maintenant</button></article>
+  <article><span aria-hidden="true">🗣️</span><h2>Nos langues</h2><p>Découvrir les mots et expressions validés par la famille.</p><small>Bientôt disponible</small></article>
+  <article><span aria-hidden="true">🌍</span><h2>Nos origines</h2><p>Explorer l’histoire de SOP Wandji &amp; Kouamo Jacqueline.</p><small>Bientôt disponible</small></article>
+  <article><span aria-hidden="true">🎨</span><h2>Atelier créatif</h2><p>Coloriages, dessins et activités en famille.</p><small>Bientôt disponible</small></article>
+  <article><span aria-hidden="true">📖</span><h2>Contes &amp; histoires</h2><p>Écouter et découvrir des récits familiaux approuvés.</p><small>Bientôt disponible</small></article>
+ </div>
+ <section id="kidsMathPanel" class="kids-math-panel" hidden>
+<h2>🔢 Calcul mental</h2><p>Huit questions, pour gagner jusqu’à huit étoiles. Aucun résultat n’est publié.</p>
+<div id="kidsMathIntro"><label for="kidsMathLevel">Choisir un niveau</label>
+<select id="kidsMathLevel"><option value="small">Découverte (avec un adulte)</option><option value="easy">6–9 ans</option><option value="medium">10–13 ans</option><option value="hard">14–17 ans</option></select>
+<button type="button" id="kidsMathBegin">Commencer</button></div>
+<div id="kidsMathPlay" hidden><p id="kidsMathProgress"></p><h3 id="kidsMathQuestion"></h3><div id="kidsMathAnswers"></div><p id="kidsMathFeedback" role="status"></p><button id="kidsMathNext" type="button" hidden>Suivant</button></div>
+<div id="kidsMathDone" hidden><h3>⭐ Bravo !</h3><p id="kidsMathScore"></p><button type="button" id="kidsMathRestart">Rejouer</button></div>
+<button type="button" id="kidsMathClose">Fermer</button></section>
+<p class="family-kids-privacy">Espace de découverte : aucune messagerie privée, publication, donnée financière ou fonction administrative.</p>
+</section>
 </main><section id="familyBook" class="book-print-only" aria-label="Livre généalogique imprimable"></section><div class="overlay photo-overlay" id="photoOverlay" role="dialog" aria-modal="true" aria-label="Aperçu de la photo"><div class="photo-panel"><button type="button" class="photo-close" id="closePhoto" aria-label="Fermer">✕</button><div class="photo-display"><img id="largePhoto" alt="Photo de famille agrandie"><div id="largePhotoPlaceholder" hidden aria-label="Photo non renseignée">🕊️</div><button type="button" class="photo-edit" id="photoEdit" hidden title="Modifier cette fiche" aria-label="Modifier cette fiche">✎</button></div><p id="photoName"></p><button type="button" id="photoMemories" class="action" hidden onclick="openMemoryForPhoto()">Voir souvenirs et album</button></div></div><div class="overlay heritage-overlay" id="memoryOverlay" role="dialog" aria-modal="true" aria-label="Souvenirs et biographie"><div class="panel heritage-panel">
 <button type="button" class="heritage-close" onclick="closeMemory()">✕ Fermer</button><h2 id="memoryTitle">Histoires de famille</h2>
 <div id="memoryStory"></div>
@@ -2256,6 +2308,13 @@ function drawFamilyLines(){const chart=$('familyChart'),svg=$('familyLines');if(
 function isFamilyConnected(){return [...profileAccess.values()].some(token=>!!token)}
 function guestLoginRequired(){alert('Connectez-vous d’abord');return false}
 function cacheOpenedProfile(data){
+ // Conserver la preuve de connexion de la fiche effectivement déverrouillée :
+ // aucun profil enfant n'est attribué depuis une simple liste publique.
+ if(data&&data.profile&&data.access&&data.profile.id){
+  try{sessionStorage.setItem('sop-kids-family-auth-v1',JSON.stringify({
+   memberId:String(data.profile.id),access:String(data.access),issuedAt:Date.now()
+  }))}catch(_){}
+ }
  familyIdleLoggedOut=false;
  familyLastActivity=Date.now();
  for(const member of [data.profile,...data.children]){
@@ -2288,6 +2347,7 @@ function familyHasSession(){
  return profileAccess.size>0 || !!sopChatPerson || !!sopFamilyVisit;
 }
 function clearSavedFamilySession(){
+ try{sessionStorage.removeItem('sop-kids-family-auth-v1')}catch(_){}
  try{sessionStorage.removeItem(FAMILY_SESSION_KEY)}catch(_){}
 }
 function persistFamilySession(force=false){
@@ -2876,6 +2936,14 @@ function closeFamilySalonWindow(){
  selectSopTab(to);
 }
 function selectSopTab(page){
+ if(window.familyKidsModeActive===true){
+  if(page!=='kids')return;
+  document.body.classList.add('family-kids-mode');
+  document.querySelectorAll('[data-sop-page]').forEach(el=>{el.hidden=el.dataset.sopPage!=='kids'});
+  const kids=document.getElementById('sopKids');if(kids)kids.hidden=false;
+  return;
+ }
+ if(typeof updateKidsEntry==='function')updateKidsEntry();
  // Un changement d'onglet ne doit pas déclencher une nouvelle connexion :
  // seul le délai réel d'inactivité termine la session.
  if(page!=='home'&&familyHasSession())checkFamilyInactivity();
@@ -4231,4 +4299,60 @@ document.querySelectorAll('#sopProjects [data-project-view]').forEach(button=>{
   document.getElementById('familyProjectPanelEmpty').textContent=info[2];
  });
 });
+
+/* Profil enfant : rubrique éducative sans compte, sélection ni session enfant. */
+window.familyKidsModeActive=false;
+function updateKidsEntry(){
+ const entry=document.getElementById('familyKidsEntry');
+ if(entry)entry.hidden=false;
+}
+document.getElementById('familyKidsExplore')?.addEventListener('click',()=>{
+ location.assign('./enfants.html');
+});
+</script><style>
+.kids-math-panel{max-width:730px;margin:20px auto;padding:22px;background:#fffdf3;border:1px solid #b5d3b3;border-radius:18px}
+.kids-math-panel[hidden],.kids-math-panel [hidden]{display:none!important}
+.kids-math-panel button,.family-kids-launch{padding:10px 16px;border-radius:12px;border:1px solid #8caf8d;background:#eaf4e6;color:#275b41;font-weight:600;cursor:pointer}
+.kids-math-panel select{display:block;max-width:100%;padding:10px;margin:10px 0}
+#kidsMathAnswers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+#kidsMathAnswers button{font-size:21px;padding:15px}
+#kidsMathAnswers button:disabled{opacity:.8}
+#kidsMathAnswers button.correct{background:#bbebbb}
+#kidsMathAnswers button.incorrect{background:#ffdfca}
+#kidsMathQuestion{font-size:28px}
+</style><script>
+(function(){
+const el=id=>document.getElementById(id);
+let quiz=[],index=0,score=0,answered=false;
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+function question(level){
+ let x,y,op,result;
+ if(level==='small'){x=rand(1,5);y=rand(1,5);op='+';result=x+y}
+ else if(level==='easy'){x=rand(1,25);y=rand(1,25);op=Math.random()<.5?'+':'−';if(op==='−'&&y>x)[x,y]=[y,x];result=op==='+'?x+y:x-y}
+ else if(level==='medium'){x=rand(2,12);y=rand(2,12);op=Math.random()<.5?'×':'÷';if(op==='÷'){result=x;x*=y}else result=x*y}
+ else{x=rand(6,35);y=rand(2,12);op=Math.random()<.5?'×':'÷';if(op==='÷'){result=x;x*=y}else result=x*y}
+ const choices=new Set([result]);while(choices.size<4)choices.add(Math.max(0,result+rand(-8,8)));
+ return {text:x+' '+op+' '+y+' = ?',correct:result,choices:[...choices].sort(()=>Math.random()-.5)};
+}
+function stage(which){el('kidsMathIntro').hidden=which!=='intro';el('kidsMathPlay').hidden=which!=='play';el('kidsMathDone').hidden=which!=='done'}
+function draw(){
+ answered=false;const item=quiz[index];el('kidsMathProgress').textContent='Question '+(index+1)+' / '+quiz.length+' · '+score+' étoile(s)';
+ el('kidsMathQuestion').textContent=item.text;el('kidsMathFeedback').textContent='';el('kidsMathNext').hidden=true;
+ const box=el('kidsMathAnswers');box.replaceChildren();
+ for(const n of item.choices){
+  const button=document.createElement('button');button.type='button';button.textContent=n;
+  button.addEventListener('click',()=>{
+   if(answered)return;answered=true;if(n===item.correct)score++;
+   for(const b of box.children){b.disabled=true;if(Number(b.textContent)===item.correct)b.classList.add('correct');else if(b===button)b.classList.add('incorrect')}
+   el('kidsMathFeedback').textContent=n===item.correct?'Bravo, bonne réponse !':'La bonne réponse est '+item.correct+'. Continue !';
+   el('kidsMathNext').hidden=false;
+  });box.append(button);
+ }
+}
+el('kidsMathOpen')?.addEventListener('click',()=>{if(window.familyKidsModeActive!==true)return;el('kidsMathPanel').hidden=false;stage('intro');el('kidsMathPanel').scrollIntoView({block:'start',behavior:'smooth'})});
+el('kidsMathBegin')?.addEventListener('click',()=>{if(window.familyKidsModeActive!==true)return;quiz=Array.from({length:8},()=>question(el('kidsMathLevel').value));index=0;score=0;stage('play');draw()});
+el('kidsMathNext')?.addEventListener('click',()=>{if(!answered)return;if(++index<quiz.length)draw();else{el('kidsMathScore').textContent='Tu as gagné '+score+' étoile(s) sur 8 !';stage('done')}});
+el('kidsMathRestart')?.addEventListener('click',()=>stage('intro'));
+el('kidsMathClose')?.addEventListener('click',()=>{el('kidsMathPanel').hidden=true;stage('intro')});
+})();
 </script></body></html>
