@@ -1874,8 +1874,11 @@ body.family-kids-mode #sopKids{display:block!important}
 <p class="family-garden-subtitle">Des racines qui nous unissent, des générations qui s’épanouissent.</p>
 </section>
 <section id="familyKidsEntry" class="family-kids-entry" hidden aria-label="Espace Enfants familial">
- <div><strong>🌈 L’univers des enfants</strong><p>Le parent connecté peut sélectionner un de ses enfants pour ouvrir un accueil adapté.</p></div>
- <button type="button" class="action" id="familyKidsOpen">Choisir un profil enfant</button>
+ <div><strong>🌈 L’univers des enfants</strong><p>Toute la famille peut visiter cet espace. Pour jouer, il faut ouvrir le profil enregistré d’un enfant.</p></div>
+ <div class="family-kids-entry-actions">
+  <button type="button" class="action" id="familyKidsExplore">Entrer dans l’Espace Enfants</button>
+  <button type="button" class="action" id="familyKidsOpen" hidden>Jouer avec un profil enfant</button>
+ </div>
  </section>
 <section class="living-tree" aria-label="Arbre de vie familial animé">
 <div class="living-garden-frame">
@@ -2196,7 +2199,7 @@ body.family-kids-mode #sopKids{display:block!important}
  <div class="panel">
  <button id="familyKidsPickerClose" type="button" aria-label="Fermer la sélection">✕ Fermer</button>
  <h2>🌈 Choisir un profil enfant</h2>
- <p>Seuls les profils de quatrième génération directement liés au parent authentifié sont proposés. L’âge reste à confirmer si l’année de naissance manque.</p>
+ <p>Les enfants enregistrés et liés au profil familial connecté peuvent jouer, y compris les trois derniers enfants de SOP Wandji Verkys. L’âge n’est pas déduit d’une date incomplète.</p>
  <p id="familyKidsPickerStatus" role="status"></p>
  <div id="familyKidsPickerList" class="family-kids-choices"></div>
  </div>
@@ -4316,7 +4319,9 @@ function parentKidsCredentials(){
 }
 function updateKidsEntry(){
  const entry=document.getElementById('familyKidsEntry');
- if(entry)entry.hidden=!parentKidsCredentials()||window.familyKidsModeActive===true;
+ if(entry)entry.hidden=window.familyKidsModeActive===true;
+ const play=document.getElementById('familyKidsOpen');
+ if(play)play.hidden=!parentKidsCredentials();
 }
 function familyKidsPickerClose(){
  const overlay=document.getElementById('familyKidsPicker');
@@ -4348,17 +4353,26 @@ async function familyKidsPickerOpen(){
   status.textContent='Sélection des enfants indisponible. La validation serveur doit être activée et testée avant utilisation.';
  }
 }
-function familyKidsEnter(kid){
- if(!parentKidsCredentials()||!kid||typeof kid.id!=='string'||typeof kid.firstname!=='string')return;
- // L'interface enfant est un document séparé : aucun écran ni script adulte ne
- // reste chargé. Seul le prénom est transmis pour l'accueil, jamais le jeton.
- try{sessionStorage.setItem('sop-kids-v1',JSON.stringify({
-   version:1,parentVerified:true,name:kid.firstname.slice(0,60),issuedAt:Date.now()
- }))}catch(_){alert('La navigation sécurisée vers l’espace enfant n’est pas disponible sur cet appareil.');return}
- familyKidsPickerClose();
- expireFamilySession();
- clearSavedFamilySession();
- location.assign('./enfants.html');
+async function familyKidsEnter(kid){
+ const credentials=parentKidsCredentials();
+ if(!credentials||!kid||typeof kid.id!=='string')return;
+ const message=document.getElementById('familyKidsPickerStatus');
+ if(message)message.textContent='Ouverture sécurisée du profil enfant…';
+ try{
+  const data=await api('rpc/batcha_kids_session_start',{
+   ...credentials,p_child_id:kid.id
+  });
+  if(!data||typeof data.token!=='string')throw Error('Profil enfant non vérifié.');
+  sessionStorage.setItem('sop-kids-v1',JSON.stringify({
+   version:2,token:data.token,issuedAt:Date.now()
+  }));
+  familyKidsPickerClose();
+  expireFamilySession();
+  clearSavedFamilySession();
+  location.assign('./enfants.html');
+ }catch(err){
+  if(message)message.textContent='Le jeu avec profil enfant n’est pas encore disponible : vérification familiale à activer.';
+ }
 }
 function familyKidsExit(){
  window.familyKidsModeActive=false;
@@ -4367,6 +4381,9 @@ function familyKidsExit(){
  selectSopTab('home');
  updateKidsEntry();
 }
+document.getElementById('familyKidsExplore')?.addEventListener('click',()=>{
+ location.assign('./enfants.html');
+});
 document.getElementById('familyKidsOpen')?.addEventListener('click',familyKidsPickerOpen);
 document.getElementById('familyKidsPickerClose')?.addEventListener('click',familyKidsPickerClose);
 document.getElementById('familyKidsExit')?.addEventListener('click',familyKidsExit);
