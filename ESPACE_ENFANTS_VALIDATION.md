@@ -12,8 +12,12 @@ Base : branche principale `main`.
 - Accueil personnalisé uniquement avec le prénom de l'enfant, conservé temporairement dans `sessionStorage`.
 - Calcul mental : 4 niveaux, 8 questions, correction et score local.
 - Memory : 4 paires à retrouver, score de progression local.
+- Reconnaissance d’images : fruits et animaux en emoji, quiz local.
+- Enigmes de logique : suites et questions courtes.
+- Atelier créatif : dessin sur canvas, export local PNG, sans serveur.
+- Cartes de fête : message prédéfini, prénom facultatif, export local en image.
 - Quiz des liens de parenté : 6 questions, correction et score local.
-- Modules non sécurisés ou non développés (actualités enfant, vidéos, messages, langues maternelles) désactivés et signalés « Bientôt disponible ».
+- Modules non sécurisés ou non développés (actualités enfant, vidéos, messages, langues maternelles, club des cousins, partie en direct) désactivés et signalés « Bientôt disponible ».
 - Aucune publication, aucun paiement, aucune messagerie et aucun score personnel transmis depuis la page enfant.
 - Contrôle syntaxique JavaScript effectué.
 
@@ -39,3 +43,7 @@ Base : branche principale `main`.
 - Comparer l'arbre, la Caisse, les Projets, les Souvenirs et le Salon à la version principale.
 
 Ce document est un contrôle de livraison de la phase 1, pas une validation de sécurité complète ni une preuve de sauvegarde/restauration.
+
+## Étape suivante après les tests
+
+La version contient des jeux **locaux** utilisables sans accès aux données confidentielles. Les fonctions communautaires pour enfants (actualités, messages, jeux asynchrones partagés, clubs, vidéothèque familiale) nécessitent un modèle d’autorisations parentales, une modération, un mécanisme de sauvegarde vérifié et des tests réels avant activation. Ne pas appeler cet état « point 13 intégralement terminé ».
