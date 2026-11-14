@@ -1351,6 +1351,39 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab::after{font-size:9px!important}
  #sopTabs.sop-tabs.sop-tabs-cards button.sop-tab svg{width:21px!important;height:21px!important;flex-basis:21px!important}
 }
+
+/* Accueil compact de l'arbre : Salut, profil à gauche, recherche immédiatement sous le titre. */
+#sopTree{display:flex;flex-direction:column}
+#sopTree .family-tree-greeting{order:1;display:flex;align-items:center;justify-content:flex-start;gap:14px;width:min(1100px,100%);max-width:1100px!important;text-align:left!important;margin:10px auto 2px!important;padding:9px 10px!important;border:0!important}
+#sopTree .family-tree-greeting::after{display:none!important}
+#sopTree .family-tree-profile-access{width:52px;height:52px;flex:0 0 52px;border-radius:50%;border:1.5px solid #b79a60;background:linear-gradient(145deg,#e7efe7,#fffdf6);color:#075a43;display:grid;place-items:center;cursor:pointer;box-shadow:0 3px 12px #183f321c}
+#sopTree .family-tree-profile-access svg{width:30px;height:30px}
+#sopTree .family-tree-greeting-text{min-width:0;flex:1}
+#sopTree .family-tree-hello{display:block;color:#5d7668;font:500 clamp(16px,2.5vw,20px)/1.2 system-ui,sans-serif;margin-bottom:3px}
+#sopTree .family-tree-greeting h1{font:600 clamp(22px,3.5vw,36px)/1.15 Georgia,serif!important;white-space:normal;margin:0!important;text-align:left!important;color:#183f32!important}
+#sopTree .family-tree-greeting h1::after{display:none!important}
+#sopTree .family-tree-greeting .sop-back-home{font-size:12px;flex:0 0 auto}
+#sopTree .family-name-search-bar{order:2;width:min(1100px,100%);max-width:1100px!important;margin:2px auto 8px!important;padding:0!important;border:none!important;background:transparent!important;box-shadow:none!important}
+#sopTree .family-search-field{position:relative;width:100%}
+#sopTree .family-search-field svg{position:absolute;width:23px;height:23px;left:19px;top:50%;transform:translateY(-50%);color:#52685e;pointer-events:none}
+#sopTree .family-name-search-bar .family-search-field input{width:100%;min-height:53px;border-radius:999px!important;padding:12px 18px 12px 53px!important;border:1px solid #c0d0c4!important;background:rgba(255,255,255,.91)!important;box-shadow:0 3px 12px #183f3212;font-size:16px!important}
+#sopTree .family-name-search-bar .heritage-results{background:#fffdf8;border-radius:12px;padding:10px;margin-top:4px}
+#sopTree #loading{order:3}
+#sopTree #landscapeTree{order:4;margin-top:3px!important}
+#sopTree .family-counters{order:5;margin-top:10px!important;margin-bottom:8px!important}
+#sopTree .guest-tree-legend{order:6}
+#sopTree .family-mode-switch{order:7}
+#sopTree .family-branch-picker{order:8}
+@media(max-width:600px){
+ #sopTree .family-tree-greeting{margin:4px auto 0!important;gap:11px;padding:8px 4px!important}
+ #sopTree .family-tree-profile-access{width:46px;height:46px;flex-basis:46px}
+ #sopTree .family-tree-profile-access svg{width:26px;height:26px}
+ #sopTree .family-tree-greeting .sop-back-home{font-size:10px;padding:7px 4px}
+ #sopTree .family-tree-greeting h1{font-size:clamp(21px,5.6vw,27px)!important}
+ #sopTree .family-name-search-bar{margin:0 auto 5px!important}
+ #sopTree .family-name-search-bar .family-search-field input{min-height:50px}
+ #sopTree #landscapeTree{margin-top:0!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1405,10 +1438,15 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 </section>
 </section>
 <section class="sop-page" id="sopTree" data-sop-page="tree" hidden>
-<div class="sop-tree-intro"><button type="button" class="sop-back-home" onclick="selectSopTab('home')">← Retour</button><h1>Notre arbre généalogique</h1><p class="family-tree-subtitle">Les racines de notre histoire familiale.</p><button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button></div>
+<div class="sop-tree-intro family-tree-greeting">
+ <button type="button" class="family-tree-profile-access" onclick="selectSopTab('chat')" aria-label="Accéder à mon profil familial" title="Accéder au Salon familial et au profil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.4-4.5 3.1-6.8 7.5-6.8s7.1 2.3 7.5 6.8"/></svg></button>
+ <div class="family-tree-greeting-text"><span class="family-tree-hello">Salut,</span><h1>Arbre généalogique</h1></div>
+ <button type="button" class="sop-back-home" onclick="selectSopTab('home')" aria-label="Retour à l’accueil" title="Retour à l’accueil">← Retour</button>
+ <button type="button" class="action sop-tree-login" onclick="selectSopTab('news')">Se connecter pour plus d’accès</button>
+ </div>
 <div class="family-counters" aria-label="Nombre de personnes enregistrées" aria-live="polite"><span class="counter total"><b id="countTotal">—</b> personnes</span><span class="counter gen2"><b id="countGen2">—</b> 2ᵉ génération</span><span class="counter gen3"><b id="countGen3">—</b> 3ᵉ génération</span><span class="counter gen4"><b id="countGen4">—</b> 4ᵉ génération</span></div>
 <p id="loading">Chargement de la famille…</p>
-<div class="family-name-search-bar"><label for="memberSearch">🔎 Rechercher un membre par nom ou prénom</label><input id="memberSearch" type="search" placeholder="Saisir un nom ou un prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off" aria-controls="searchResults"><p class="family-search-hint">Toute la famille est accessible, sans sélectionner de branche.</p><div id="searchResults" role="status" class="heritage-results" hidden></div></div>
+<div class="family-name-search-bar"><label class="sr-only" for="memberSearch">Rechercher dans tout l’arbre par nom ou prénom</label><div class="family-search-field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="7.2"/><path d="m16.1 16.1 5 5"/></svg><input id="memberSearch" type="search" placeholder="Rechercher un nom ou prénom…" oninput="searchFamilyMember(this.value)" autocomplete="off" aria-controls="searchResults"></div><div id="searchResults" role="status" class="heritage-results" hidden></div></div>
 <div class="family-mode-switch" id="familyViewModes" role="group" aria-label="Mode de l’arbre"><button type="button" data-family-mode="full" class="active" aria-pressed="true">🌳 Vue entière</button><button type="button" data-family-mode="branch" aria-pressed="false">🌿 Vue par branche</button></div>
 <div class="family-branch-picker" id="familyBranchPicker" hidden><h2>Explorer une branche familiale</h2><label for="familyBranchPerson">Choisir une personne ou une branche</label><select id="familyBranchPerson"><option value="">Sélectionner une branche…</option></select><p id="familyBranchStatus" role="status"></p><button type="button" class="action" id="familyBranchReturn">← Revenir à la vue entière</button></div>
 <section class="family-tree" id="landscapeTree" aria-label="Arbre familial complet"><div class="tree-compact-actions"><div class="tree-visible-controls"><div class="zoom-controls" aria-label="Zoom de l’arbre"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)-10)" aria-label="Réduire le zoom">−</button><input id="treeZoom" aria-label="Zoom de l’arbre" type="range" min="15" max="150" value="60" oninput="setTreeZoom(this.value)"><button type="button" onclick="setTreeZoom(Number($('treeZoom').value)+10)" aria-label="Agrandir le zoom">+</button><output id="zoomValue">60 %</output><button type="button" class="fit-tree" onclick="fitTree()">Vue entière</button></div><div class="landscape-tools"><button type="button" id="landscapeToggle" class="action" onclick="toggleLandscape()">⛶ Paysage</button><button type="button" id="landscapeExit" class="action" onclick="exitLandscape()" hidden>✕ Quitter le paysage</button></div><p class="landscape-hint" id="landscapeHint" hidden>Tournez votre téléphone à l’horizontale pour une vue plus large. Faites glisser l’arbre de gauche à droite.</p></div><details class="family-accordion explorer-accordion"><summary><span>🔎 Explorer la famille SOP Wandji</span><span class="accordion-chevron" aria-hidden="true">⌄</span></summary><div class="heritage-tools" id="heritageTools">
