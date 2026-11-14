@@ -1777,6 +1777,55 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 #sopProjects .family-project-panel>p{font:400 13px/1.55 system-ui,sans-serif;color:#667769;margin:0 0 10px}
 #sopProjects .family-project-empty{padding:16px!important;background:#f6f7f3;border-radius:10px}
 @media(max-width:650px){#sopProjects .family-project-shell{padding:0 8px 16px}#sopProjects .family-project-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}#sopProjects .family-project-nav button{min-width:0;padding:9px 5px;font-size:11px}#sopProjects .family-project-panel{padding:14px}}
+
+/* Salon familial en fenêtre flottante, sans septième bouton de navigation. */
+@media(min-width:901px){
+ #sopTabs.sop-tabs.sop-tabs-cards{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+}
+@media(max-width:900px){
+ #sopTabs.sop-tabs.sop-tabs-cards{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+ body:not(.book-print-mode) #sopChatShortcut{display:flex!important}
+ #sopChatShortcut.sop-chat-shortcut{right:12px!important;bottom:calc(82px + env(safe-area-inset-bottom,0px))!important;left:auto!important;width:50px!important;height:50px!important;min-height:0!important;border-radius:50%!important;padding:0!important;gap:0!important;z-index:219!important}
+ #sopChatShortcut span:last-child{display:none!important}
+ #sopChatShortcut span:first-child{font-size:24px!important}
+}
+#sopChat[hidden]{display:none!important}
+body.family-salon-open #sopChat{
+ position:fixed!important;z-index:221!important;right:15px!important;
+ bottom:82px!important;top:auto!important;left:auto!important;
+ width:min(440px,calc(100vw - 30px))!important;max-width:none!important;
+ height:min(76dvh,730px)!important;max-height:calc(100dvh - 105px)!important;
+ margin:0!important;padding:13px!important;display:block!important;overflow-y:auto!important;overscroll-behavior:contain;
+ border-radius:20px!important;border:1px solid #c8d7c9!important;background:#fffdf8!important;
+ box-shadow:0 15px 50px #122e2850!important;box-sizing:border-box!important
+}
+body.family-salon-open #sopChat .sop-section-heading{margin:0 34px 8px 0!important;padding:5px 0!important;text-align:left!important}
+body.family-salon-open #sopChat .sop-section-heading h1{font-size:23px!important;line-height:1.2!important;margin:2px 0 0!important}
+body.family-salon-open #sopChat .sop-section-heading span{font-size:10px!important}
+body.family-salon-open #sopChat .chat-family-shell{margin:0!important;padding:10px!important;box-shadow:none!important;border:0!important;background:transparent!important}
+body.family-salon-open #sopChat .chat-family-shell[hidden]{display:none!important}
+body.family-salon-open #sopChat .family-salon-nav{gap:4px!important;margin:0 0 10px!important;padding:0 0 8px!important}
+body.family-salon-open #sopChat .family-salon-nav button{min-height:38px!important;padding:6px 4px!important}
+body.family-salon-open #sopChat .chat-family-messages{max-height:31dvh!important;height:31dvh!important;min-height:140px!important;overflow-y:auto!important}
+body.family-salon-open #sopChat .family-salon-close{position:absolute!important;right:10px!important;top:10px!important;width:34px!important;height:34px!important;border-radius:50%!important;border:1px solid #d7e1d3!important;background:#f0f5ed!important;color:#315342!important;cursor:pointer;z-index:2}
+#sopChat .family-salon-close{display:none}
+body.family-salon-open #sopChat .family-salon-close{display:block}
+body.family-salon-open #sopChatShortcut{background:#23523d!important}
+body.family-salon-open #sopMemberGate:not([hidden]){
+ position:fixed!important;z-index:222!important;display:block!important;
+ top:auto!important;left:auto!important;right:28px!important;bottom:95px!important;
+ width:min(416px,calc(100vw - 56px))!important;height:auto!important;
+ max-height:min(65dvh,600px)!important;overflow-y:auto!important;
+ margin:0!important;padding:8px!important;border-radius:16px!important;
+ box-sizing:border-box!important;box-shadow:none!important;background:#fffdf8!important
+}
+body.family-salon-open #sopMemberGate .sop-gate-card{margin:0!important;max-width:100%!important;box-shadow:none!important}
+@media(max-width:900px){
+ body.family-salon-open #sopChat{right:8px!important;left:8px!important;bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;width:auto!important;height:calc(100dvh - 95px - env(safe-area-inset-bottom,0px))!important;max-height:none!important;padding:10px!important}
+ body.family-salon-open #sopMemberGate:not([hidden]){right:20px!important;left:20px!important;bottom:calc(90px + env(safe-area-inset-bottom,0px))!important;width:auto!important;max-height:calc(100dvh - 170px)!important}
+ body.family-salon-open #sopChat .chat-family-messages{height:30dvh!important;max-height:30dvh!important}
+}
+@media print{#sopChat,#sopChatShortcut,#sopMemberGate{display:none!important}}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1784,8 +1833,7 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 <button type="button" class="sop-tab" data-sop-tab="caisse" data-mobile-label="Caisse" aria-label="Caisse familiale" title="Caisse familiale"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="2.5" y="6" width="19" height="15" rx="3"/><path d="M3 9.5h18M6 6V4h13M16 13h5v5h-5a2.5 2.5 0 0 1 0-5Z"/><circle cx="18" cy="15.5" r=".55" stroke="none" fill="currentColor"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="projects" data-mobile-label="Projets" aria-label="Projets familiaux" title="Projets familiaux"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M8 13h8M12 9v8"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="memories" data-mobile-label="Souvenirs" aria-label="Souvenirs & Hommages" title="Souvenirs & Hommages"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h3l2-3h6l2 3h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="14" r="4"/></svg></button>
-<button type="button" class="sop-tab" data-sop-tab="chat" data-mobile-label="Salon" aria-label="Salon familial" title="Salon familial"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-3-.5L3 21l1.5-5.5a8.5 8.5 0 1 1 15.5-4Z"/><path d="M8 12h.01M12 12h.01M16 12h.01" stroke-width="3"/></svg></button>
-</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="selectSopTab('chat')" aria-label="Ouvrir le chat familial" title="Chat familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
+</nav><button type="button" id="sopChatShortcut" class="sop-chat-shortcut" onclick="toggleFamilySalonWindow()" aria-label="Ouvrir le salon familial" aria-expanded="false" aria-controls="sopChat" title="Salon familial"><span aria-hidden="true">💬</span><span>Chat familial</span></button><main id="sopMain">
 <section id="sopMemberGate" class="sop-member-gate" hidden>
 <div class="sop-gate-card"><h2 id="sopMemberGateTitle">Accéder à la rubrique familiale</h2>
 <form id="sopMemberGateForm"><label for="sopAccessSearch">Rechercher votre fiche familiale</label><input id="sopAccessSearch" type="search" autocomplete="off" maxlength="120" placeholder="Commencez à écrire votre nom…" aria-controls="sopAccessSuggestions" aria-autocomplete="list">
@@ -1981,8 +2029,9 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
  </section>
 </div>
 </section>
-<section class="sop-page" id="sopChat" data-sop-page="chat" hidden>
-<header class="sop-section-heading"><span>NOTRE ESPACE DE DISCUSSION</span><h1>Salon familial</h1><p>Les conversations qui nous rapprochent.</p></header>
+<section class="sop-page" id="sopChat" data-sop-page="chat" aria-label="Fenêtre du Salon familial" hidden>
+<button type="button" id="familySalonClose" class="family-salon-close" onclick="closeFamilySalonWindow()" aria-label="Fermer le salon familial">✕</button>
+<header class="sop-section-heading"><span>DISCUSSIONS • JEUX • AGENDA</span><h1>Salon familial</h1></header>
 <div class="chat-family-shell">
 <div id="sopChatGate" class="chat-family-login">
  <h2>Entrer dans le salon</h2>
@@ -2812,15 +2861,57 @@ renderFamilyEvents();
 /* Onglets et arbre vivant — lecture publique seulement, sans modifier les fiches Supabase. */
 let currentSopPage='home',livingRenderSerial=0;
 let sopTreeFirstOpen=false;
+let familySalonUnderlyingPage='home';
 function openSopTree(){selectSopTab('tree')}
 const SOP_PRIVATE_TABS=['news','caisse','projects','memories','chat'];
 let sopFamilyVisit=null;
 function sopHasAccess(){return !!(sopChatPerson&&!sopChatPerson.deceased&&sopChatPerson.generation<=3&&(profileAccess.get(sopChatPerson.id)||(sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id)))}
+function toggleFamilySalonWindow(){
+ if(document.body.classList.contains('family-salon-open'))closeFamilySalonWindow();
+ else selectSopTab('chat');
+}
+function closeFamilySalonWindow(){
+ if(!document.body.classList.contains('family-salon-open'))return;
+ const to=familySalonUnderlyingPage==='chat'?'home':familySalonUnderlyingPage;
+ selectSopTab(to);
+}
 function selectSopTab(page){
  // Un changement d'onglet ne doit pas déclencher une nouvelle connexion :
  // seul le délai réel d'inactivité termine la session.
  if(page!=='home'&&familyHasSession())checkFamilyInactivity();
  if(!['home','tree','caisse','projects','memories','chat','news'].includes(page))page='home';
+ if(page==='chat'){
+  if(currentSopPage!=='chat')familySalonUnderlyingPage=currentSopPage;
+  currentSopPage='chat';
+  const awaiting=!sopHasAccess();
+  document.body.classList.add('family-salon-open');
+  $('sopChatShortcut').setAttribute('aria-expanded','true');
+  $('sopMemberGate').hidden=!awaiting;
+  if(awaiting){
+   sopPendingTab='chat';
+   $('sopMemberGateTitle').textContent='Accéder au salon familial';
+   $('sopAccessError').textContent='';
+   fillSopAccessMembers();
+  }
+  const underlying=familySalonUnderlyingPage;
+  document.querySelectorAll('[data-sop-page]').forEach(el=>{
+   el.hidden=el.dataset.sopPage!=='chat'&&(el.dataset.sopPage!==underlying||(SOP_PRIVATE_TABS.includes(underlying)&&!sopHasAccess()));
+  });
+  $('sopChat').hidden=false;
+  const room=document.querySelector('#sopChat .chat-family-shell');
+  if(room)room.hidden=awaiting;
+  if(!awaiting){
+   $('sopChatGate').hidden=true;$('sopChatRoom').hidden=false;
+   $('sopChatIdentity').textContent='Profil connecté : '+familyName(sopChatPerson);
+   refreshSopChatProfileVisual();
+   refreshSopChat();
+  }
+  return;
+ }
+ document.body.classList.remove('family-salon-open');
+ $('sopChatShortcut').setAttribute('aria-expanded','false');
+ const salonRoom=document.querySelector('#sopChat .chat-family-shell');
+ if(salonRoom)salonRoom.hidden=false;
  const awaiting=SOP_PRIVATE_TABS.includes(page)&&!sopHasAccess();
  currentSopPage=page;
  document.body.classList.toggle('guest-tree-view',page==='tree'&&!isFamilyConnected());
