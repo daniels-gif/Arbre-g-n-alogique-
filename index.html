@@ -2972,7 +2972,7 @@ function renderFamilyNews24h(){
  if(!allowed){panel.hidden=true;list.replaceChildren();return}
  const now=Date.now(),day=24*60*60*1000;
  const recent=(Array.isArray(familyFeedItems)?familyFeedItems:[])
-  .filter(p=>{const t=Date.parse(p.created_at);return Number.isFinite(t)&&t<=now&&now-t<day})
+  .filter(p=>{const t=Date.parse(p.created_at);return !isFamilyStory(p)&&Number.isFinite(t)&&t<=now&&now-t<day})
   .sort((a,b)=>Date.parse(b.created_at)-Date.parse(a.created_at)).slice(0,5);
  panel.hidden=!recent.length;
  list.innerHTML=recent.map(p=>{
