@@ -1095,6 +1095,21 @@ body.family-viewer-open{overflow:hidden}
 @media(max-width:600px){#sopChat.chat-modal-open{right:8px;bottom:calc(75px + env(safe-area-inset-bottom));width:calc(100vw - 16px);height:min(75dvh,620px);max-height:calc(100dvh - 95px)}}
 @media print{#sopChat.chat-modal-open{display:none!important}}
 
+
+/* Chat réduit : rubriques secondaires accessibles par un seul menu déroulant. */
+#sopChat .family-salon-nav{display:block!important;margin:0 36px 10px 0;padding:0;border:0}
+#sopChat .salon-compact-menu{position:relative;width:100%;max-width:260px}
+#sopChat .salon-compact-menu summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid #b8cbb7;border-radius:12px;background:#f8faf3;color:#254b38;padding:10px 13px;font:700 13px system-ui,sans-serif;min-height:42px;cursor:pointer}
+#sopChat .salon-compact-menu summary::-webkit-details-marker{display:none}
+#sopChat .salon-menu-chevron{font-size:18px}
+#sopChat .salon-menu-options{position:absolute;top:calc(100% + 5px);left:0;z-index:20;width:min(280px,calc(100vw - 55px));max-height:46dvh;overflow-y:auto;display:flex;flex-direction:column;gap:3px;background:#fffefa;border:1px solid #bed0bb;border-radius:12px;box-shadow:0 10px 30px #1a3d2633;padding:6px}
+#sopChat .salon-menu-options button{width:100%;text-align:left;display:block;border:0;background:transparent;color:#244937;padding:11px 12px;border-radius:8px;font:600 13px system-ui,sans-serif;min-height:40px;cursor:pointer}
+#sopChat .salon-menu-options button[aria-selected=true]{background:#e5f0e2;color:#183f32}
+#sopChat .salon-menu-options button:disabled{opacity:.58;background:#f3f3f0!important;color:#7a837b!important;cursor:not-allowed}
+#sopChat .chat-coming-soon{display:none!important}
+#sopChat.chat-modal-open .chat-family-shell{margin-top:4px}
+#sopChat.chat-modal-open .chat-family-messages{height:min(45dvh,390px)}
+
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
@@ -1241,13 +1256,19 @@ body.family-viewer-open{overflow:hidden}
 
 </div>
 <div id="sopChatRoom" hidden>
-<nav class="family-salon-nav" aria-label="Rubriques du Salon familial" role="tablist">
- <button type="button" role="tab" aria-selected="true" data-salon="discussion">💬 Discussions</button>
- <button type="button" role="tab" aria-selected="false" data-salon="games">🎯 Jeux</button>
- <button type="button" disabled title="Bientôt disponible">☕ Causeries</button>
- <button type="button" disabled title="Bientôt disponible">📊 Sondages</button>
- <button type="button" disabled title="Bientôt disponible">👪 Groupes</button>
- <button type="button" disabled title="Bientôt disponible">🤝 Entraide</button>
+<nav class="family-salon-nav" aria-label="Rubriques du Salon familial">
+ <details class="salon-compact-menu" id="familySalonDropdown">
+  <summary aria-label="Choisir une rubrique du Salon"><span id="familySalonCurrentLabel">💬 Discussions</span><span class="salon-menu-chevron" aria-hidden="true">⌄</span></summary>
+  <div class="salon-menu-options" role="group" aria-label="Choisir une rubrique">
+   <button type="button" data-salon="discussion" aria-selected="true">💬 Discussions</button>
+   <button type="button" data-salon="games" aria-selected="false">🎯 Jeux</button>
+   <button type="button" disabled title="Bientôt disponible">📅 Agenda · bientôt</button>
+   <button type="button" disabled title="Bientôt disponible">☕ Causeries · bientôt</button>
+   <button type="button" disabled title="Bientôt disponible">📊 Sondages · bientôt</button>
+   <button type="button" disabled title="Bientôt disponible">👪 Groupes · bientôt</button>
+   <button type="button" disabled title="Bientôt disponible">🤝 Entraide · bientôt</button>
+  </div>
+ </details>
 </nav>
 <div id="familySalonDiscussion">
  <div class="chat-family-heading"><div class="chat-family-profile"><span id="sopChatProfilePhoto" class="chat-profile-avatar" aria-hidden="true">🌿</span><div><strong>Salon familial · Général</strong><small id="sopChatIdentity"></small></div></div><button type="button" class="chat-family-exit" onclick="leaveSopChat()">Changer de profil</button></div>
@@ -2451,7 +2472,7 @@ function leaveSopChat(){
  $('sopChatMember').value='';updateSopChatMemberPreview();selectSopTab('home');
 }
 async function refreshSopChat(){
- if(currentSopPage!=='chat'||!sopChatPerson||sopChatBusy)return;
+ if((currentSopPage!=='chat'&&!document.getElementById('sopChat')?.classList.contains('chat-modal-open'))||!sopChatPerson||sopChatBusy)return;
  sopChatBusy=true;
  try{
  const visitor=sopFamilyVisit&&sopFamilyVisit.id===sopChatPerson.id?sopFamilyVisit:null;
@@ -3025,6 +3046,10 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
  function section(name){
   const isGames=name==='games';games.hidden=!isGames;discussion.hidden=isGames;
   document.querySelectorAll('#sopChatRoom [data-salon]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.salon===name)));
+  const label=document.getElementById('familySalonCurrentLabel');
+  if(label)label.textContent=isGames?'🎯 Jeux':'💬 Discussions';
+  const dropdown=document.getElementById('familySalonDropdown');
+  if(dropdown)dropdown.open=false;
  }
  document.querySelectorAll('#sopChatRoom [data-salon]').forEach(b=>b.addEventListener('click',()=>section(b.dataset.salon)));
  function gameView(name){
