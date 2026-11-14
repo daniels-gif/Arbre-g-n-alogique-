@@ -1085,7 +1085,147 @@ body.family-viewer-open{overflow:hidden}
 .family-game-library article button{margin-top:10px}
 @media(max-width:600px){.family-salon-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.family-salon-nav button{padding:9px 4px;font-size:11px}.family-game-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.family-game-choice{padding:10px 4px;font-size:12px}.family-game-controls label,.family-game-controls select{width:100%}}
 @media print{#familySalonGames,.family-salon-nav{display:none!important}}
-</style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden>
+
+/* ===== THÈME HÉRITAGE PRESTIGIEUX — MAQUETTE APPLIQUÉE EN CSS, SANS FAUSSES PHOTOS ===== */
+:root{
+ --heritage-forest:#183F32;--heritage-emerald:#075A43;--heritage-sage:#8FA58D;
+ --heritage-ivory:#F5F0E5;--heritage-gold:#B79A60;--heritage-terracotta:#A66D54;
+ --heritage-cream:#FFFCF5;
+}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(135deg,#fbf7ef 0%,#f5f0e5 38%,#f0f4ed 100%);color:var(--heritage-forest)}
+button,input,select,textarea{font-family:inherit}
+button:not(:disabled){-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--heritage-gold)!important;outline-offset:2px}
+#sopMain{max-width:none!important;width:100%;padding:0 clamp(8px,1.8vw,28px) 36px}
+.compact-header{display:none!important}
+/* Barre de navigation : même identité sur les six onglets, sans les remplacer. */
+#sopTabs.sop-tabs{
+ position:sticky!important;top:0;z-index:80!important;display:flex!important;flex-wrap:wrap;
+ align-items:center;justify-content:center;gap:clamp(4px,.8vw,14px);
+ width:100%;max-width:none!important;margin:0!important;padding:10px clamp(10px,2vw,30px)!important;
+ background:linear-gradient(100deg,#10372a,#183f32 58%,#075a43)!important;
+ border-bottom:2px solid var(--heritage-gold);
+ box-shadow:0 7px 23px #102c2480;
+}
+#sopTabs[hidden]{display:none!important}
+#sopTabs .heritage-brand{display:flex;align-items:center;gap:9px;flex:1 0 210px;max-width:390px;color:#fff5d8;padding:3px 12px 3px 0;line-height:1.22;white-space:normal}
+#sopTabs .heritage-brand-symbol{color:#e9ce87;font:37px Georgia,serif;transform:rotate(-20deg)}
+#sopTabs .heritage-brand strong{font:600 clamp(13px,1.3vw,19px)/1.25 Georgia,serif}
+#sopTabs .heritage-brand strong span{display:block}
+#sopTabs .sop-tab{
+ display:inline-flex!important;flex:0 0 auto!important;width:auto!important;min-width:0!important;
+ height:auto!important;min-height:44px!important;padding:9px 13px!important;
+ align-items:center;gap:7px;justify-content:center;border-radius:11px!important;
+ border:1px solid transparent!important;background:transparent!important;
+ color:#fff8e5!important;font:650 clamp(10px,1.08vw,14px)/1.2 system-ui,sans-serif!important;
+ box-shadow:none!important;transition:background .18s,color .18s;
+}
+#sopTabs .sop-tab svg{width:18px!important;height:18px!important;flex:0 0 18px}
+#sopTabs .sop-tab::after{content:attr(aria-label);display:block;text-align:center}
+#sopTabs .sop-tab:hover{background:#ffffff1e!important}
+#sopTabs .sop-tab.active,#sopTabs .sop-tab[aria-current=page]{
+ background:linear-gradient(145deg,#ead6a0,#b79a60)!important;color:#203a2c!important;
+ border-color:#eed9a9!important;box-shadow:inset 0 0 0 1px #fff8e566,0 2px 8px #0002!important
+}
+/* Accueil large et immersif sans substitution de photos familiales. */
+#sopHome{width:100%!important;max-width:1500px!important;margin:0 auto!important;padding:0 0 28px!important;background:transparent!important}
+#sopHome .family-intro{
+ position:relative;max-width:none!important;min-height:clamp(190px,24vw,325px);
+ padding:clamp(28px,5vw,75px) clamp(18px,4vw,65px)!important;
+ text-align:center;color:#fdf5dc;
+ background:
+  radial-gradient(ellipse at 78% 24%,#dbb96838 0%,transparent 42%),
+  radial-gradient(ellipse at 12% 100%,#5e9a6b65 0%,transparent 40%),
+  linear-gradient(125deg,#103b2d,#075a43 60%,#1d4c3c);
+ border-radius:0 0 30px 30px;border:1px solid #b79a6080;border-top:0;
+ box-shadow:0 18px 33px #18402b27;overflow:hidden
+}
+#sopHome .family-intro::before,#sopHome .family-intro::after{
+ content:"";pointer-events:none;position:absolute;inset:13px auto 13px 15px;width:45px;opacity:.38;
+ border-left:1px solid #d3b778;border-top:1px solid #d3b778;border-bottom:1px solid #d3b778;border-radius:14px 0 0 14px
+}
+#sopHome .family-intro::after{left:auto;right:15px;transform:scaleX(-1)}
+#sopHome .family-intro .sop-hero-kicker{color:#f5df9e!important;letter-spacing:.16em!important;font-size:clamp(10px,1.2vw,15px)!important}
+#sopHome .family-garden-title{
+ color:#fff3d2!important;font:600 clamp(34px,5vw,65px)/1.07 Georgia,serif!important;
+ text-shadow:0 3px 18px #001e1570;letter-spacing:-.025em!important;
+ max-width:1050px;margin:10px auto 15px!important
+}
+#sopHome .family-garden-subtitle{color:#fff8e5!important;font:italic clamp(15px,2vw,23px)/1.5 Georgia,serif!important;max-width:850px;margin:auto!important}
+#sopHome .living-tree{width:100%;max-width:1400px!important;margin:20px auto 12px!important}
+#sopHome .living-garden-frame{
+ border:1px solid #c8ad75!important;border-radius:26px!important;
+ background:linear-gradient(140deg,#fffaf0,#f4f0e3)!important;
+ padding:clamp(10px,1.6vw,23px)!important;
+ box-shadow:0 12px 34px #21402a22!important
+}
+#sopHome .living-scene{width:100%;border-radius:19px!important;overflow:hidden;max-height:none!important}
+#sopHome .sop-hero-actions{gap:12px!important;max-width:100%!important;margin:15px auto!important}
+#sopHome .sop-hero-primary,#sopHome .sop-hero-secondary{
+ border-radius:999px!important;min-height:46px!important;padding:12px 21px!important;
+ box-shadow:0 4px 12px #1b493124!important;font-weight:700!important
+}
+#sopHome .sop-hero-primary{background:linear-gradient(145deg,#075a43,#183f32)!important;color:white!important;border:1px solid #c4ac78!important}
+#sopHome .sop-hero-secondary{background:linear-gradient(145deg,#faedca,#d3b476)!important;color:#183f32!important;border:1px solid #b79a60!important}
+/* Titres et panneaux des sections. Les contenus et formulaires existants restent en place. */
+.sop-section-heading{max-width:1200px;margin:20px auto 18px!important;padding:25px 14px 18px!important;border-bottom:1px solid #b79a60a3}
+.sop-section-heading span{color:#8b6b33!important;letter-spacing:.16em}
+.sop-section-heading h1,#sopTree .sop-tree-intro h1{
+ font:600 clamp(29px,4vw,46px)/1.14 Georgia,serif!important;color:#183f32!important;
+}
+.sop-section-heading h1::after,#sopTree .sop-tree-intro h1::after{content:"";display:block;width:85px;height:3px;background:linear-gradient(90deg,#b79a60,#f2dfb3);margin:15px auto 0;border-radius:10px}
+#sopTree .sop-tree-intro{max-width:1100px!important;margin:22px auto 13px!important}
+#sopTree .family-name-search-bar{border:1px solid #cdb47e!important;background:linear-gradient(155deg,#fffdf7,#f8f2e7)!important;border-radius:17px!important;box-shadow:0 6px 21px #183f3212!important}
+#sopTree .family-name-search-bar label{font-size:clamp(14px,2vw,18px)!important}
+#sopTree .family-tree{background:linear-gradient(130deg,#fffdf9,#f7f3e8)!important;border:1px solid #cbb681!important;border-radius:20px!important;box-shadow:0 8px 26px #183f3212!important}
+#sopTree .family-counters{max-width:1250px;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+#sopTree .family-counters .counter{border:1px solid #dcc89e;border-radius:12px;background:#fffaf1;color:#183f32;padding:8px 12px}
+#sopNews .sop-feed-shell,#sopEvents .family-events,#sopMemories .sop-memory-controls{max-width:1200px!important}
+#sopNews .sop-feed-post,.family-event-card,.family-branch-section,.chat-family-shell,#sopMemories .family-branch-grid{
+ border-color:#d9c7a5!important;background:#fffdf7!important;box-shadow:0 6px 22px #183f3210!important
+}
+#sopNews .sop-feed-post{border-radius:18px!important}
+#sopChat .chat-family-shell{max-width:1150px!important;background:linear-gradient(150deg,#fffdf7,#f7f3e9)!important;border:1px solid #d2bc85!important}
+#sopChat .family-salon-nav{border-color:#d7bf85!important}
+#sopChat .family-salon-nav button[aria-selected=true],#sopChat .family-game-choice[aria-pressed=true]{background:#183f32!important;color:#fff7de!important;border-color:#b79a60!important}
+#sopChat .family-game-header{border:1px solid #b79a60!important;background:linear-gradient(120deg,#183f32,#075a43)!important}
+#sopChat .chat-family-messages{background:#fcfbf7;border:1px solid #e4dac7;border-radius:13px}
+#sopChat .chat-family-message.mine{background:#e8f2e6}
+#sopChat .chat-family-compose{background:#fffdf8}
+#sopChatShortcut{background:linear-gradient(140deg,#075a43,#183f32)!important;border:2px solid #e5cd94!important;color:#fff7e1!important}
+body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f5ebd7!important;border-top:3px solid #b79a60!important;padding:25px 12px!important}
+@media(min-width:1000px){
+ #sopTabs.sop-tabs{justify-content:space-between!important}
+ #sopTabs .heritage-brand{flex:0 1 270px}
+ #sopTabs .sop-tab{padding:10px clamp(7px,.9vw,15px)!important}
+}
+@media(max-width:900px){
+ #sopTabs.sop-tabs{justify-content:center!important;padding:7px 5px!important;gap:4px!important}
+ #sopTabs .heritage-brand{flex:1 0 100%;justify-content:center;text-align:center;max-width:none;padding:2px}
+ #sopTabs .heritage-brand strong{font-size:14px}
+ #sopTabs .heritage-brand strong span{display:inline}
+ #sopTabs .heritage-brand-symbol{font-size:25px}
+ #sopTabs .sop-tab{flex:1 1 29%!important;padding:9px 4px!important;min-height:46px!important;font-size:11px!important}
+ #sopTabs .sop-tab svg{width:15px!important;height:15px!important}
+}
+@media(max-width:520px){
+ #sopMain{padding:0 7px 25px}
+ #sopTabs .sop-tab{flex:1 1 30%!important;font-size:10px!important;gap:3px;padding:7px 2px!important}
+ #sopTabs .sop-tab::after{max-width:95px;line-height:1.2}
+ #sopHome .family-intro{padding:27px 12px!important;min-height:190px}
+ #sopHome .family-intro::before,#sopHome .family-intro::after{width:10px;inset-block:8px}
+ #sopHome .family-garden-title{font-size:clamp(30px,8vw,40px)!important}
+ #sopHome .living-tree{margin-top:10px!important}
+ #sopHome .sop-hero-actions{flex-direction:column!important;align-items:stretch!important}
+ #sopHome .sop-hero-actions>button{width:100%;font-size:14px!important}
+ #sopTree .family-tree{border-radius:13px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ #sopTabs .sop-tab,#sopChatShortcut{transition:none!important}
+}
+</style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="news" aria-label="Actualités" title="Actualités"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h5v6H7zm8 0h3M15 10h3M7 16h11M7 19h11"/></svg></button>
