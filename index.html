@@ -1491,6 +1491,49 @@ body>footer{background:linear-gradient(95deg,#12372a,#075a43)!important;color:#f
 @media(min-width:601px) and (max-width:900px){
  #sopHome .living-scene{aspect-ratio:1.35!important}
 }
+
+/* Accueil épuré : arbre libre, fond continu, feuilles animées conservées. */
+#sopHome{background:#fafcf9!important}
+#sopHome .living-tree{
+ max-width:1200px!important;margin:0 auto 20px!important;
+ padding:0!important;background:transparent!important;border:0!important;
+ box-shadow:none!important
+}
+#sopHome .living-garden-frame{
+ padding:0!important;margin:0!important;background:transparent!important;
+ border:0!important;border-radius:0!important;box-shadow:none!important;
+ outline:none!important
+}
+#sopHome .living-scene{
+ margin:0!important;padding:0!important;
+ border:0!important;border-radius:0!important;
+ background:transparent!important;box-shadow:none!important;
+ overflow:hidden!important
+}
+#sopHome .living-svg>rect:first-of-type{fill:transparent!important}
+#sopHome .living-scene .living-lineage-svg{background:transparent!important}
+#sopHome .living-replay-row{padding:4px 0 10px!important}
+#sopHome .living-replay{background:transparent!important;box-shadow:none!important;border:0!important;color:#466650!important;font-weight:500!important}
+#sopHome .living-replay:hover{text-decoration:underline}
+#sopHome .living-tree .sop-hero-actions{
+ display:flex!important;flex-direction:column!important;
+ gap:9px!important;max-width:510px!important;
+ padding:0 14px!important;margin:10px auto 20px!important
+}
+#sopHome .living-tree .sop-hero-actions>button{
+ box-shadow:none!important;border-radius:999px!important;
+ min-height:46px!important;padding:10px 15px!important;
+ font-size:clamp(13px,3.4vw,15px)!important
+}
+#sopHome .living-portrait .living-person-name{
+ box-shadow:none!important;border-color:transparent!important
+}
+@media(max-width:600px){
+ #sopHome .family-intro{min-height:250px!important;padding:48px 20px 65px!important}
+ #sopHome .family-garden-title{font-size:clamp(31px,8.3vw,39px)!important}
+ #sopHome .living-scene{aspect-ratio:1.13!important;min-height:300px!important}
+ #sopHome .living-tree .sop-hero-actions{padding:0 10px!important}
+}
 </style><meta property="og:type" content="website"><meta property="og:locale" content="fr_FR"><meta property="og:image:alt" content="Arbre de vie illustré de la famille SOP Wandji"><meta property="og:url" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/"><meta property="og:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="600"><meta property="og:image:height" content="315"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://arbre-genealogique-famille-sop-wandji.vercel.app/apercu-arbre-de-vie-whatsapp.png?v=2"></head><body><header class="compact-header" aria-hidden="true"></header><nav id="sopTabs" class="sop-tabs sop-tabs-cards" aria-label="Rubriques de la famille SOP Wandji" hidden><div class="heritage-brand" aria-label="Famille SOP Wandji et Kouamo Jacqueline"><span class="heritage-brand-symbol" aria-hidden="true">♧</span><strong>Famille SOP Wandji <span>&amp; Kouamo Jacqueline</span></strong></div>
 <button type="button" class="sop-tab active" data-sop-tab="home" data-mobile-label="Accueil" aria-current="page" aria-label="Accueil" title="Accueil"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7v10h-7v-7h-4v7H3Z"/></svg></button>
 <button type="button" class="sop-tab" data-sop-tab="tree" data-mobile-label="Arbre" aria-label="Arbre généalogique" title="Arbre généalogique"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-9m0 5-5-5m5 2 5-6"/><path d="M5 15a5 5 0 0 1-.5-9.7A6 6 0 0 1 16 5a5 5 0 0 1 3 9.5"/></svg></button>
